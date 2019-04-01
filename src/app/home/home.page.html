@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+<!-- Searchbar with a placeholder -->
+  <ion-searchbar placeholder="Search"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <div>
+          <img src="assets/Cat03.jpg" alt="cat"/>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12 text-center>
+        <div class="center">
+          <ion-button (click)="go()">
+            Sell
+            <ion-icon slot="end" name="camera"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="card-background-page">
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/dog.jpg" class="card-image"/>
+          <div class="card-title">Dog</div>
+        </ion-card>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/Cat03.jpg" class="card-image"/>
+          <div class="card-title">Cat</div>
+        </ion-card>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/pigeon.jpg" class="card-image"/>
+          <div class="card-title">Bird</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row class="card-background-page">
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/reptile.jpg" class="card-image"/>
+          <div class="card-title">Reptile</div>
+        </ion-card>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/Gold-fish.jpg" class="card-image"/>
+          <div class="card-title">Fish</div>
+        </ion-card>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-card>
+          <img src="assets/accessories.jpg" class="card-image"/>
+          <div class="card-title">Other</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
