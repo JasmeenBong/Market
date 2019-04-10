@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form class="form" [formGroup]="validations_form" (ngSubmit) = "registerUser(validations_form.value)">
+
+    <ion-item>
+        <ion-icon item-left name="mail" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.email">
+        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) &&
+        (validations_form.get('email').dirty || validations_form.get('email').touched)">
+          {{ validation.message}}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
+      <ion-icon item-left name="lock" slot="start"></ion-icon>
+      <ion-input type="password" placeholder="Password" formControlName="password" class="form-control" required></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) &&
+        (validations_form.get('password').dirty || validations_form.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item *ngIf= "validations_form.controls.password.valid">
+      <ion-icon item-left name="checkmark-circle-outline" slot="start"></ion-icon>
+      <ion-input type="password" placeholder="Confirm Password" formControlName="reEnterPassword" class="form-control" required></ion-input>
+    </ion-item>
+
+    <div class="validation-errors" *ngIf= "validations_form.controls.password.valid">
+      <ng-container *ngFor="let validation of validation_messages.reEnterPassword">
+        <div class="error-message" *ngIf="validations_form.get('reEnterPassword').hasError(validation.type) &&
+        (validations_form.get('reEnterPassword').dirty || validations_form.get('reEnterPassword').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="error-message" *ngIf="(validations_form.hasError('notEqual')) && (validations_form.controls.password.valid)">
+      Your passwords do not match. Please try again.
+    </div>
+
+    <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" expand="block">Register</ion-button>
+
+    <label class="error-message">{{errorMessage}}</label>
+  </form>
+
+  <p class="go-to-login">Already have an account? <a (click)="goLoginPage()">Try to Log In.</a></p>
+
+</ion-content>

@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button fill="solid" expand="block" (click)="facebookLogin()">
+    <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    <ion-label>Sign in with Facebook</ion-label>
+  </ion-button>
+
+  <ion-button fill="solid" expand="block" (click)="googleLogin()">
+    <ion-icon name="logo-google" slot="start"></ion-icon>
+    <ion-label>Sign in with Google</ion-label>
+  </ion-button>
+
+  <form class="form" [formGroup]="validations_form" (ngSubmit) = "loginUser(validations_form.value)">
+    <ion-item>
+        <ion-icon item-left name="mail" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.email">
+        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) &&
+        (validations_form.get('email').dirty || validations_form.get('email').touched)">
+          {{ validation.message}}
+        </div>
+      </ng-container>
+    </div>
+    <ion-item>
+      <ion-icon item-left name="lock" slot="start"></ion-icon>
+      <ion-input type="password" placeholder="Password" formControlName="password" class="form-control" required></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) &&
+        (validations_form.get('password').dirty || validations_form.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" expand="block">Login</ion-button>
+
+    <label class="error-message">{{errorMessage}}</label>
+  </form>
+
+  <p class="go-to-register">
+    No account yet? <a (click)="goToRegisterPage()">Create an account.</a>
+  </p>
+</ion-content>

@@ -8,16 +8,31 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from 'src/environments/environment';
+import { AuthenticateService } from './services/authentication.service'
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import * as firebase from 'firebase';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AngularFireAuthModule,
+    ReactiveFormsModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
+    AuthenticateService,
     ImagePicker,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
