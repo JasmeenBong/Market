@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'sell', loadChildren: './sell/sell.module#SellPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
+  { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
 ];
 @NgModule({
   imports: [

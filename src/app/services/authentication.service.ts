@@ -13,8 +13,8 @@ export class AuthenticateService{
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(
-        res => resolve(res),
-        err => reject(err))
+      res => resolve(res),
+      err => reject(err))
     })
   }
 
@@ -33,8 +33,6 @@ export class AuthenticateService{
         firebase.auth().signOut()
         .then (() => {
            console.log("LOG OUT");
-           //empty sessionStorage
-           //....
            resolve();
         }).catch((error) => {
           reject();

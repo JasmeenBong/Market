@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { DatabaseService } from '../services/databases.service';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,7 @@ export class RegisterPage implements OnInit {
     private navCtrl: NavController,
     private authService: AuthenticateService,
     private formBuilder: FormBuilder,
+    private dbService : DatabaseService
   ) { }
 
   ngOnInit() {
@@ -66,8 +68,7 @@ export class RegisterPage implements OnInit {
       this.errorMessage = "";
       this.successMessage = "Your account has been created.";
       this.authService.isLoggedIn = true;
-      //add user email to sessionStorage
-      //....
+      this.addToDb();
       this.navCtrl.navigateForward('/profile');
     }, err => {
       console.log(err);
@@ -78,5 +79,14 @@ export class RegisterPage implements OnInit {
 
   goLoginPage(){
     this.navCtrl.navigateForward('/login');
+  }
+
+  addToDb(){
+    var newUser = this.authService.userDetails();
+
+    var id = newUser.uid;
+    var email = newUser.email;
+
+    this.dbService.addNewUser(id, email);
   }
 }
