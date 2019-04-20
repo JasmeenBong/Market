@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
+  { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
 ];
 @NgModule({
   imports: [

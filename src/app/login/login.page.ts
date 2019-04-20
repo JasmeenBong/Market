@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { RouterModule } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -52,8 +51,6 @@ export class LoginPage implements OnInit {
       this.errorMessage = "";
       this.authService.isLoggedIn = true;
       this.navCtrl.navigateForward('/profile');
-      //add user email to sessionStorage
-      //...
     }, err => {
       this.errorMessage = err.message;
     })

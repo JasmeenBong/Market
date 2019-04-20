@@ -9,11 +9,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
-import { AuthenticateService } from './services/authentication.service'
+import { AuthenticateService } from './services/authentication.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { DatabaseService } from './services/databases.service';
 
 import * as firebase from 'firebase';
 
@@ -38,6 +41,7 @@ firebase.initializeApp(environment.firebase);
     StatusBar,
     SplashScreen,
     AuthenticateService,
+    DatabaseService,
     ImagePicker,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
