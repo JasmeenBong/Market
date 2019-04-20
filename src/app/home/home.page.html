@@ -1,68 +1,43 @@
 <ion-header>
-  <ion-toolbar color="primary">
-<!-- Searchbar with a placeholder -->
-  <ion-searchbar placeholder="Search"></ion-searchbar>
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="getProducts($event)">
+    </ion-searchbar>
+    <!-- <ion-list *ngIf="productList">
+      <ion-item>
+        <ion-select interface='popover' *ngFor="let product of productList">
+          <ion-select-option value="product.postName">{{product.postName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list> -->
+    <ion-list *ngIf="productList">
+      <ion-item *ngFor="let product of productList">
+        <h2> {{ product.postName }} </h2>
+      </ion-item>
+    </ion-list>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- <ion-list>
+    <ion-item>
+      <ion-label>Pets</ion-label>
+      <ion-select interface='popover'>
+        <ion-select-option value="bird" selected>Bird</ion-select-option>
+        <ion-select-option value="cat">Cat</ion-select-option>
+        <ion-select-option value="dog" selected>Dog</ion-select-option>
+        <ion-select-option value="honeybadger">Honey Badger</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list> -->
+
   <ion-grid>
-    <ion-row>
-      <ion-col col-12>
-        <div>
-          <img src="assets/Cat03.jpg" alt="cat"/>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-12 text-center>
-        <div class="center">
-          <ion-button (click)="go()">
-            Sell
-            <ion-icon slot="end" name="camera"></ion-icon>
-          </ion-button>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row class="card-background-page">
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/dog.jpg" class="card-image"/>
-          <div class="card-title">Dog</div>
+    <ion-row *ngFor="let row of array" class="card-background-page">
+      <ion-col col-4 text-center *ngFor="let col of row">
+        <ion-card (click)="goCategoriesPage(col.categoryName)">
+          <img src = {{col.url}}/>
+          <ion-card-title>{{col.categoryName}}</ion-card-title>
         </ion-card>
-      </ion-col>
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/Cat03.jpg" class="card-image"/>
-          <div class="card-title">Cat</div>
-        </ion-card>
-      </ion-col>
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/pigeon.jpg" class="card-image"/>
-          <div class="card-title">Bird</div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row class="card-background-page">
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/reptile.jpg" class="card-image"/>
-          <div class="card-title">Reptile</div>
-        </ion-card>
-      </ion-col>
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/Gold-fish.jpg" class="card-image"/>
-          <div class="card-title">Fish</div>
-        </ion-card>
-      </ion-col>
-      <ion-col col-4 text-center>
-        <ion-card>
-          <img src="assets/accessories.jpg" class="card-image"/>
-          <div class="card-title">Other</div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+        </ion-col>
+     </ion-row>
   </ion-grid>
 </ion-content>

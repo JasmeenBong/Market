@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <!-- <ion-row class="row" no-padding>
+      <ion-col class="col">
+        <ion-label>LOCATION</ion-label><br><br>
+        <ion-label>MALAYSIA</ion-label>
+      </ion-col>
+      <ion-col class="col">
+        <ion-label>CATEGORIES</ion-label><br><br>
+        <ion-label>DOG</ion-label>
+      </ion-col>
+      <ion-col class="col">
+      <ion-label>FILTER</ion-label>
+      </ion-col>
+    </ion-row> -->
+    <ion-row *ngFor="let row of array" class="card-background-page">
+      <ion-col col-4 text-center *ngFor="let col of row">
+        <ion-card>
+          <img src = {{col.images.url}}/>
+          <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
+          <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
+        </ion-card>
+        </ion-col>
+     </ion-row>
+    </ion-grid>
+</ion-content>
