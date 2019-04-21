@@ -53,6 +53,24 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'tab5/login',
+        children: [
+          {
+            path: '',
+            loadChildren: '../login/login.module#LoginPageModule'
+          }
+        ]
+      },
+      {
+        path: 'tab5/register',
+        children: [
+          {
+            path: '',
+            loadChildren: '../register/register.module#RegisterPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

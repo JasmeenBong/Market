@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { Router } from '@angular/router';
+
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-profile',
@@ -11,23 +14,26 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
-    private authService: AuthenticateService
+    private authService: AuthenticateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    //temporary
-    if(this.authService.isLoggedIn === false){
-      this.navCtrl.navigateForward('/login');
-    }
-
-    //should check whether sessionStorage has user
+    //check whether user is login or logout
+    firebase.auth().onAuthStateChanged(user => {
+      if (user){
+        //...
+      }
+      else {
+        this.router.navigateByUrl('tabs/tab5/login');
+      }
+    })
   }
 
   logoutUser(){
     this.authService.logoutUser()
     .then(res => {
       console.log(res);
-      this.authService.isLoggedIn = false;
       this.navCtrl.navigateBack('');
     })
     .catch(error => {
