@@ -21,7 +21,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../product/product.module#ProductPageModule'
+            loadChildren: '../my-product/my-product.module#MyProductPageModule'
           }
         ]
       },

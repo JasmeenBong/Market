@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { NavigationExtras } from '@angular/router'
+import { DatabaseService } from '../services/databases.service';
 
 @Component({
   selector: 'app-home',
@@ -17,35 +16,27 @@ export class HomePage implements OnInit {
   array = [[],[]];
   val;
 
-  constructor(public afd: AngularFireDatabase, public router: Router) {
+  constructor(public router: Router,   private dbService : DatabaseService) {
   this.getCategoriesFromFireBase()
-  this.getProductsFromFireBase()
   }
 
   getCategoriesFromFireBase(){
-    this.afd.list('/categories/').valueChanges().subscribe(
-      data=>{
-        this.categories = data;
-        var count = 0;
-          for(var row = 0; row < (this.categories.length /3); row++){
-            for(var col = 0; col < 3; col++){
-                this.array[row][col] = this.categories[count];
-                count++;
-            }
-          }
+   Promise.resolve(this.dbService.getCategoryIcon()).then(value=> {
+      this.categories = Object.values(value[0]);
+      var count = 0;
+      for(var row=0; row<(this.categories.length/3); row++){
+        for(var col=0; col<3; col++){
+          this.array[row][col] = this.categories[count];
+          count++;
+        }
       }
-    );
-  }
+    });
+ }
 
-  getProductsFromFireBase(){
-    this.afd.list('/posts/').valueChanges().subscribe(
-      data=>{
-        this.products = data;
-      }
-    )
-  }
-
-  getProducts(ev){
+  getProductsBasedonSearchBar(ev){
+    Promise.resolve(this.dbService.getAllProducts()).then(value=> {
+       this.products = Object.values(value[0]);
+     });
     this.val = ev.target.value;
     if(this.val && this.val.trim() !== ''){
     this.productList = this.products.filter(product =>{
@@ -54,8 +45,9 @@ export class HomePage implements OnInit {
   }
   else{
     this.productList = '';
+    }
   }
-  }
+
 
 
   goCategoriesPage(categoryName) {

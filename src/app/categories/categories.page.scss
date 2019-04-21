@@ -1,3 +1,33 @@
+.card-background-page {
+
+  ion-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+  }
+
+  ion-card .card-footer {
+    margin-top: auto;
+  }
+
+  .card-image{
+    height: inherit !important;
+  }
+  // .col-4{
+  //   display: flex;
+  // }
+
+  .card-title {
+    font-size: 1.5em;
+    width: 100%;
+    font-weight: bold;
+  }
+
+}
+
 .col{
   border-right: 1px;
   border-right-style: ridge;

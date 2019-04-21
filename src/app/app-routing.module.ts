@@ -3,7 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
-  { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
   { path: 'inbox', loadChildren: './inbox/inbox.module#InboxPageModule' },
   { path: 'favourite', loadChildren: './favourite/favourite.module#FavouritePageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
@@ -11,7 +10,9 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
-  { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
+  { path: 'my-product', loadChildren: './my-product/my-product.module#MyProductPageModule' },
+  { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
+  // { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
 ];
 @NgModule({
   imports: [

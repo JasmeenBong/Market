@@ -1,14 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar (ionInput)="getProducts($event)">
+    <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
     </ion-searchbar>
-    <!-- <ion-list *ngIf="productList">
-      <ion-item>
-        <ion-select interface='popover' *ngFor="let product of productList">
-          <ion-select-option value="product.postName">{{product.postName}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-list> -->
     <ion-list *ngIf="productList">
       <ion-item *ngFor="let product of productList">
         <h2> {{ product.postName }} </h2>
@@ -18,18 +11,6 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-list>
-    <ion-item>
-      <ion-label>Pets</ion-label>
-      <ion-select interface='popover'>
-        <ion-select-option value="bird" selected>Bird</ion-select-option>
-        <ion-select-option value="cat">Cat</ion-select-option>
-        <ion-select-option value="dog" selected>Dog</ion-select-option>
-        <ion-select-option value="honeybadger">Honey Badger</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list> -->
-
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">

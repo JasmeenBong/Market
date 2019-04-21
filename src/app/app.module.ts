@@ -14,8 +14,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
-import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { DatabaseService } from './services/databases.service';
 
 import * as firebase from 'firebase';

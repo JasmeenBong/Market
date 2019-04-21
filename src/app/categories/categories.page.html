@@ -25,10 +25,11 @@
     </ion-row> -->
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
-        <ion-card>
+        <ion-card (click) = "goToProductPage(col.pid)">
           <img src = {{col.images.url}}/>
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
           <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
+          <ion-card-subtitle class="price">{{col.child}}</ion-card-subtitle>
         </ion-card>
         </ion-col>
      </ion-row>

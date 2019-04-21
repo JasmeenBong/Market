@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { DatabaseService } from '../services/databases.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,6 +9,8 @@ import { AuthenticateService } from '../services/authentication.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+
+  users;
 
   constructor(
     private navCtrl: NavController,
@@ -19,6 +22,7 @@ export class ProfilePage implements OnInit {
     if(this.authService.isLoggedIn === false){
       this.navCtrl.navigateForward('/login');
     }
+
 
     //should check whether sessionStorage has user
   }
