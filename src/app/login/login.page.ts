@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { RouterModule } from '@angular/router';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -49,14 +52,35 @@ export class LoginPage implements OnInit {
     .then(res => {
       console.log(res);
       this.errorMessage = "";
-      this.authService.isLoggedIn = true;
       this.navCtrl.navigateForward('/profile');
     }, err => {
       this.errorMessage = err.message;
     })
   }
 
+  LoginWithGoogle(){
+    this.authService.googleLogin()
+    .then(res => {
+        console.log(res);
+        this.errorMessage = "";
+        this.navCtrl.navigateForward('/profile');
+    }, err => {
+          this.errorMessage = err.message;
+    });
+  }
+
+  LoginWithFacebook(){
+    this.authService.facebookLogin()
+    .then(res => {
+        console.log(res);
+        this.errorMessage = "";
+        this.navCtrl.navigateForward('/profile');
+    }, err => {
+          this.errorMessage = err.message;
+    });
+  }
+
   goToRegisterPage(){
-    this.navCtrl.navigateForward('/register');
+    this.navCtrl.navigateForward('/tabs/tab5/register');
   }
 }

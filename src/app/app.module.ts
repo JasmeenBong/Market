@@ -20,6 +20,10 @@ import * as firebase from 'firebase';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
+import { Facebook } from '@ionic-native/facebook/ngx';
+
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
@@ -41,6 +45,8 @@ firebase.initializeApp(environment.firebase);
     AuthenticateService,
     DatabaseService,
     ImagePicker,
+    GooglePlus,
+    Facebook,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
