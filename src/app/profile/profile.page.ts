@@ -23,13 +23,6 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    //temporary
-    if(this.authService.isLoggedIn === false){
-      this.navCtrl.navigateForward('/login');
-    }
-
-
-    //should check whether sessionStorage has user
     //check whether user is login or logout
     firebase.auth().onAuthStateChanged(user => {
       if (user){

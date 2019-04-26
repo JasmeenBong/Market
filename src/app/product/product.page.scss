@@ -3,9 +3,6 @@
   padding-left: 10px;
 }
 
-.productImage{
-  width: 100vw;
-}
 .price{
   color:red;
   font-weight: bold;
@@ -22,4 +19,22 @@
 
 .icon{
   padding-right: 16px;
+}
+
+.productImage{
+  width: 100vw;
+}
+
+/* On screens that are 992px wide or less, the background color is blue */
+@media screen and (max-width: 1920px) {
+  .productImage{
+    height: 800px;
+  }
+}
+
+/* On screens that are 600px wide or less, the background color is olive */
+@media screen and (max-width: 800px) {
+  .productImage{
+    height: 300px;
+  }
 }
