@@ -70,7 +70,7 @@ export class RegisterPage implements OnInit {
       this.errorMessage = "";
       this.successMessage = "Your account has been created.";
       this.addToDb();
-      this.navCtrl.navigateForward('/profile');
+      this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
@@ -79,7 +79,7 @@ export class RegisterPage implements OnInit {
   }
 
   goLoginPage(){
-    this.navCtrl.navigateForward('/login');
+    this.navCtrl.navigateForward('/tabs/tab5/login');
   }
 
   addToDb(){

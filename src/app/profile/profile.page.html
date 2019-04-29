@@ -1,11 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Profile</ion-title>
+    <ion-title class="header-style">Your Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h1>Hello</h1>
 
-  <ion-button (click)="logoutUser()">Logout</ion-button>
+  <form class="profile-page">
+    <img src="https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71" class="profile-pic-profile">
+    <input type="text" placeholder="Full Name..." class="form-content">
+    <input type="tel" placeholder="Phone Number..." class="form-content" maxlength="10">
+    <br><label>Birthday:</label><br>
+    <input type="date" class="form-dropdown">
+    <br><label>Location:</label><br>
+    <select class="form-dropdown">
+
+    </select>
+    <br><label>Gender:</label><br>
+    <select class="form-dropdown">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select><br>
+    <ion-button type="submit" class="profile-button">Edit Profile</ion-button>
+  </form>
+  <div class="profile-page">
+  <ion-button (click)="logoutUser()" class="profile-button">Logout</ion-button>
+</div>
 </ion-content>

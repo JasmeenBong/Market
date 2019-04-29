@@ -14,31 +14,38 @@ import * as firebase from 'firebase/app';
 })
 export class ProfilePage implements OnInit {
 
-  users;
+  uid: any
 
   constructor(
     private navCtrl: NavController,
     private authService: AuthenticateService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    //check whether user is login or logout
+  }
+
+  ionViewWillEnter(){
+    this.checkUser();
+  }
+
+  checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
-        //...
+        this.uid = user.uid;
+        console.log(this.uid);
       }
       else {
         this.router.navigateByUrl('tabs/tab5/login');
       }
-    })
+    });
   }
 
   logoutUser(){
     this.authService.logoutUser()
     .then(res => {
       console.log(res);
-      this.navCtrl.navigateBack('');
+      this.navCtrl.navigateBack('tabs/tab1');
     })
     .catch(error => {
       console.log(error);

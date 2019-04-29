@@ -15,11 +15,9 @@ export class DatabaseService{
     this.db.ref("users/").child(id).set({
                 url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71',
                 name: '',
-                email: email,
                 location: '',
                 gender: '',
                 birthday:''
-
     }).catch(function(error){
       console.error(error);
     });
@@ -43,6 +41,10 @@ export class DatabaseService{
 
   getProductById(pid){
     return this.db.ref("posts/" + pid).once('value').then(snapshot=>snapshot.val()).then(value=>[value]);
+  }
+
+  getProductByOwner(uid){
+    return this.db.ref("posts/").orderByChild('dateTime').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
   getSellerImages(owner){

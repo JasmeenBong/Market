@@ -35,6 +35,9 @@ export class ProductPage implements OnInit {
     })
   }
 
+  goToChatBox(){
+    
+  }
 
   getProductDetailsById(pid){
     Promise.resolve(this.dbService.getProductById(pid)).then(value=> {

@@ -5,14 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { SellPage } from './sell.page';
+import { ChatboxPage } from './chatbox.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SellPage
+    component: ChatboxPage
   }
 ];
 
@@ -21,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SellPage]
+  declarations: [ChatboxPage]
 })
-export class SellPageModule {}
+export class ChatboxPageModule {}
