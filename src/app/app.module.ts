@@ -50,14 +50,10 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
-<<<<<<< HEAD
     Area,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-=======
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SocialSharing,
     AppAvailability
->>>>>>> fe6c4d04be40376be8a7b9f2039bc3b53086b9aa
   ],
   bootstrap: [AppComponent]
 })

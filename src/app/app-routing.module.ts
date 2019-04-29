@@ -12,14 +12,7 @@ const routes: Routes = [
   { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
   { path: 'my-product', loadChildren: './my-product/my-product.module#MyProductPageModule' },
   { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
-<<<<<<< HEAD
   { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
-=======
-  // { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
-  // // { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  // // { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  // { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
->>>>>>> fe6c4d04be40376be8a7b9f2039bc3b53086b9aa
 ];
 @NgModule({
   imports: [
