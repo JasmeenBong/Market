@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
 import { NavigationExtras } from '@angular/router';
+import { ModalController, AlertController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-categories',
@@ -14,9 +16,11 @@ export class CategoriesPage implements OnInit {
   productList;
   products;
   array = [[],[]]
+  names;
 
-  constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService) {
+  constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController, private alertController: AlertController) {
     this.getCategoriesFromHomePage()
+    this.names = [ 'john', 'dixy', 'tom', 'jared'];
   }
 
   getCategoriesFromHomePage(){
@@ -52,6 +56,34 @@ export class CategoriesPage implements OnInit {
     }
     this.router.navigate(['product'],navigationExtras);
   }
+
+  async openModal() {
+  const modal = await this.modalController.create({
+    component: ModalPage,
+    cssClass: 'my-custom-modal-css'
+  });
+  return await modal.present();
+}
+
+async openAlert(){
+  // const alert = await this.alertController.create();
+  //  alert.setTitle('Lightsaber color');
+  //
+  //  alert.addInput({
+  //    type: 'radio',
+  //    label: 'Blue',
+  //    value: 'blue',
+  //    checked: true
+  //  });
+  //
+  //  alert.addButton('Cancel');
+  //  alert.addButton({
+  //    text: 'OK',
+  //    handler: data => {
+  //    }
+  //  });
+  //  return await alert.present();
+ }
 
   ngOnInit() {
   }

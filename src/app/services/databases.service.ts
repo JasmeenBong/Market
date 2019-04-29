@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 export class DatabaseService{
 
   private db = firebase.database();
+  private storage = firebase.storage();
+
 
   constructor(){}
 
@@ -27,7 +29,7 @@ export class DatabaseService{
     return this.db.ref("users/" + id).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
-  getCategoryIcon(){
+  getCategory(){
       return this.db.ref("categories/").once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
@@ -44,7 +46,11 @@ export class DatabaseService{
   }
 
   getSellerImages(owner){
-    return this.db.ref("users/").orderByChild('email').equalTo(owner).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
+    return this.db.ref("users/").orderByChild('name').equalTo(owner).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
+  }
+
+  getTownList(){
+    return this.storage.ref().child('json/my.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
   }
 
 }

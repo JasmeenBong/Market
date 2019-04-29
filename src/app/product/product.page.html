@@ -78,15 +78,15 @@
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="CALL">
+        <ion-tab-button (click)="callSeller()" tab="CALL">
           <ion-label>CALL</ion-label>
           <ion-icon name="call"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button tab="SMS">
+        <ion-tab-button (click)="smsSeller()" tab="SMS">
           <ion-label>SMS</ion-label>
           <ion-icon name="chatbubbles"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button tab="Email">
+        <ion-tab-button (click)="sendEmail()" tab="Email">
           <ion-label>Email</ion-label>
           <ion-icon name="mail"></ion-icon>
         </ion-tab-button>

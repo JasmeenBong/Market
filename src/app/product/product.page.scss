@@ -29,6 +29,7 @@
 @media screen and (max-width: 1920px) {
   .productImage{
     height: 800px;
+    width: 100vw;
   }
 }
 
@@ -36,5 +37,6 @@
 @media screen and (max-width: 800px) {
   .productImage{
     height: 300px;
+    width: 100vw;
   }
 }

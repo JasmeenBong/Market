@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
   }
 
   getCategoriesFromFireBase(){
-   Promise.resolve(this.dbService.getCategoryIcon()).then(value=> {
+   Promise.resolve(this.dbService.getCategory()).then(value=> {
       this.categories = Object.values(value[0]);
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){

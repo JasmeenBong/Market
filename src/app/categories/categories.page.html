@@ -6,11 +6,11 @@
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
   <ion-tab-bar class="tabbar">
-    <ion-tab-button class="tabbutton" tab="Location">
+    <ion-tab-button class="tabbutton" tab="Location" (click)="openModal()">
       <ion-label>Location</ion-label>
       <ion-label class="tablabel">Malaysia</ion-label>
     </ion-tab-button>
-    <ion-tab-button class="tabbutton" tab="Categories">
+    <ion-tab-button class="tabbutton" tab="Categories" (click)="openAlert()">
       <ion-label>Categories</ion-label>
       <ion-label class="tablabel">All</ion-label>
     </ion-tab-button>
