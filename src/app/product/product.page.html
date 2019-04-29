@@ -6,12 +6,15 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content scroll="true">
+<ion-content>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <img class="productImage" src={{product.images.url}}/>
+        <ion-slides pager="true">
+          <ion-slide *ngFor="let image of images">
+              <ion-img class="productImage" [src]=image></ion-img>
+          </ion-slide>
+        </ion-slides>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -62,19 +65,43 @@
         <ion-list>
           <ion-item class="share">
             <ion-label>Share this ad: </ion-label>
-            <ion-icon class="icon" name="logo-facebook"></ion-icon>
-            <ion-icon class="icon" name="logo-whatsapp"></ion-icon>
-            <ion-icon class="icon" name="logo-instagram"></ion-icon>
+            <ion-icon (click)="shareFacebook()" class="icon" name="logo-facebook"></ion-icon>
+            <ion-icon (click)="shareWhatsApp()" class="icon" name="logo-whatsapp"></ion-icon>
+            <ion-icon (click)="shareInstagram()" class="icon" name="logo-instagram"></ion-icon>
           </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-tabs>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="CALL">
+          <ion-label>CALL</ion-label>
+          <ion-icon name="call"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button tab="SMS">
+          <ion-label>SMS</ion-label>
+          <ion-icon name="chatbubbles"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button tab="Email">
+          <ion-label>Email</ion-label>
+          <ion-icon name="mail"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button tab="Chat">
+          <ion-label>Chat</ion-label>
+          <ion-icon name="chatboxes"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+</ion-toolbar>
+</ion-footer>
+<!-- <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="CALL">
-      <ion-label>CALL</ion-label>
+      <ion-label>CALnL</ion-label>
       <ion-icon name="call"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="SMS">
@@ -90,4 +117,4 @@
       <ion-icon name="chatboxes"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
-</ion-tabs>
+</ion-tabs> -->

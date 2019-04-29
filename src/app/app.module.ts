@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { DatabaseService } from './services/databases.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { AppAvailability } from '@ionic-native/app-availability/ngx';
 
 import * as firebase from 'firebase';
 
@@ -48,8 +50,14 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
+<<<<<<< HEAD
     Area,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+=======
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SocialSharing,
+    AppAvailability
+>>>>>>> fe6c4d04be40376be8a7b9f2039bc3b53086b9aa
   ],
   bootstrap: [AppComponent]
 })
