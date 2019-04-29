@@ -21,8 +21,9 @@ import * as firebase from 'firebase';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-
 import { Facebook } from '@ionic-native/facebook/ngx';
+
+import { Area } from './sell/area';
 
 firebase.initializeApp(environment.firebase);
 
@@ -47,6 +48,7 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
+    Area,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
