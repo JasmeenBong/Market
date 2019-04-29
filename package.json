@@ -31,7 +31,6 @@
     "angularfire2": "^5.1.2",
     "bootstrap": "^4.3.1",
     "cordova-android": "8.0.0",
-
     "cordova-browser": "6.0.0",
     "cordova-ios": "5.0.0",
     "cordova-plugin-device": "^2.0.2",
@@ -96,7 +95,6 @@
     },
     "platforms": [
       "android",
-      "ios"
       "ios",
       "browser"
     ]

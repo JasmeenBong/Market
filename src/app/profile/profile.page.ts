@@ -24,9 +24,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     //temporary
-    if(this.authService.isLoggedIn === false){
-      this.navCtrl.navigateForward('/login');
-    }
+    
 
 
     //should check whether sessionStorage has user
