@@ -15,14 +15,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { DatabaseService } from './services/databases.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { AppAvailability } from '@ionic-native/app-availability/ngx';
 
 import * as firebase from 'firebase';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-
 import { Facebook } from '@ionic-native/facebook/ngx';
+
+import { Area } from './sell/area';
 
 firebase.initializeApp(environment.firebase);
 
@@ -47,7 +50,10 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Area,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SocialSharing,
+    AppAvailability
   ],
   bootstrap: [AppComponent]
 })

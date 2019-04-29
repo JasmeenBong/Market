@@ -1,7 +1,7 @@
 //services for register, login, logout, and get user details
 import { Injectable } from '@angular/core';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import * as firebase from 'firebase/app';
 

@@ -7,16 +7,13 @@ const routes: Routes = [
   { path: 'favourite', loadChildren: './favourite/favourite.module#FavouritePageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'sell', loadChildren: './sell/sell.module#SellPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
-  { path: 'my-product', loadChildren: './my-product/my-product.module#MyProductPageModule' },
-  { path: 'product', loadChildren: './product/product.module#ProductPageModule' },  { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
-
-  // { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
   // { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   // { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  //{ path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
+  { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
+  { path: 'my-product', loadChildren: './my-product/my-product.module#MyProductPageModule' },
+  { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
+  { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
+  { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
 ];
 @NgModule({
   imports: [

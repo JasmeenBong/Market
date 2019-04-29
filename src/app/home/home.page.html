@@ -15,7 +15,7 @@
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card (click)="goCategoriesPage(col.categoryName)">
-          <img src = {{col.url}}/>
+          <ion-img [src] = "col.url"></ion-img>
           <ion-card-title>{{col.categoryName}}</ion-card-title>
         </ion-card>
         </ion-col>
