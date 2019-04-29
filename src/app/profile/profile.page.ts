@@ -23,17 +23,9 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
-
-  ionViewWillEnter(){
-    this.checkUser();
-  }
-
-  checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
         this.uid = user.uid;
-        console.log(this.uid);
       }
       else {
         this.router.navigateByUrl('tabs/tab5/login');

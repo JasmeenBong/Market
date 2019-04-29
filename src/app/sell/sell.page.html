@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="goback()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        Back
       </ion-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
@@ -18,7 +19,7 @@
 <ion-content>
   <label for="uploaded-photos" [(ngModel)]="counter" ngModel id="counterLabel">Uploaded photos({{counter}}/3)</label>
   <form class="form" [formGroup]="validatePost">
-    <ion-item lines="full">
+    <ion-item>
       <div class="uploaded-photos">
         <br />
         <ion-thumbnail slot="start">
@@ -32,28 +33,27 @@
         </ion-thumbnail>
         <br/>
       </div>
-
-      <br />
-      <div class="validataion-errors" *ngIf="noImage == true">
-        <p>Please insert an image.</p>
-      </div>
     </ion-item>
 
-    <ion-item lines="full">
+    <div class="validataion-errors" *ngIf="noImage == true" padding>
+      <span>Please insert an image.</span>
+    </div>
+
+    <ion-item>
       <label class="input-label">Post Title</label>
       <input type="text" name="title" placeholder="Give a title for your advertisement" formControlName="title">
-
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of ad_validation_messages.details">
-          <div class="error-message" *ngIf="validatePost.get('title').hasError(validation.type) &&
-          (validatePost.get('title').dirty || validatePost.get('title').touched)">
-            {{validation.message}}
-          </div>
-        </ng-container>
-      </div>
     </ion-item>
 
-    <ion-item lines="full">
+    <div class="validation-errors" padding>
+      <ng-container *ngFor="let validation of ad_validation_messages.details">
+        <div class="error-message" *ngIf="validatePost.get('title').hasError(validation.type) &&
+        (validatePost.get('title').dirty || validatePost.get('title').touched)">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
         <label class="input-label" for="selectedCategory">Categories</label>
         <select class="select" name="selectedCategory" (change)="onCategoryChange($event)" #selectedCategory>
           <option value="none" selected="true" disabled="disabled">Select a category</option>
@@ -64,57 +64,56 @@
           <option value="bird">Bird</option>
           <option value="others">Others</option>
         </select>
-
-        <br />
-        <div class="validataion-errors" *ngIf="(noCategory == true)">
-          <p>Please select a category.</p>
-        </div>
     </ion-item>
 
-    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)" lines="full">
+    <div class="validataion-errors" *ngIf="(noCategory == true)" padding>
+      <span>Please select a category.</span>
+    </div>
+
+    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)">
       <label class="input-label">Breed</label>
       <input type="text" name="breed" placeholder="breed is optional" formControlName="breed">
     </ion-item>
 
-    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)" lines="full">
+    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)">
       <label class="input-label">Age (Weeks)</label>
       <input type="number" min="1" name="age" placeholder="age is optional" formControlName="age">
     </ion-item>
 
-    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)" lines="full">
+    <ion-item *ngIf="(selectedCategory.selectedIndex != 0) && (selectedCategory.selectedIndex != 6)">
       <label class="input-label">Weight (Kg)</label>
       <input type="text" name="weight" placeholder="weight is optional" formControlName="weight">
     </ion-item>
 
-    <ion-item lines="full">
+    <ion-item>
       <label class="input-label">Ad Details</label>
       <input type="text" name="details" placeholder="What are you selling?" formControlName="details">
-
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of ad_validation_messages.details">
-          <div class="error-message" *ngIf="validatePost.get('details').hasError(validation.type) &&
-          (validatePost.get('details').dirty || validatePost.get('details').touched)">
-            {{validation.message}}
-          </div>
-        </ng-container>
-      </div>
     </ion-item>
 
-    <ion-item lines="full">
+    <div class="validation-errors" padding>
+      <ng-container *ngFor="let validation of ad_validation_messages.details">
+        <div class="error-message" *ngIf="validatePost.get('details').hasError(validation.type) &&
+        (validatePost.get('details').dirty || validatePost.get('details').touched)">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
       <label class="input-label">Price (RM)</label>
       <input type="text" name="price" placeholder="How much is it?" formControlName="price">
-
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of ad_validation_messages.price">
-          <div class="error-message" *ngIf="validatePost.get('price').hasError(validation.type) &&
-          (validatePost.get('price').dirty || validatePost.get('price').touched)">
-            {{validation.message}}
-          </div>
-        </ng-container>
-      </div>
     </ion-item>
 
-    <ion-item lines="full">
+    <div class="validation-errors" padding>
+      <ng-container *ngFor="let validation of ad_validation_messages.price">
+        <div class="error-message" *ngIf="validatePost.get('price').hasError(validation.type) &&
+        (validatePost.get('price').dirty || validatePost.get('price').touched)">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
       <label class="input-label" for="selectedRegion">Region</label>
       <select class="select" name="selectedRegion" (change)="onRegionChange($event)">
         <option value="none" selected="true" disabled="disabled">Select your region</option>
@@ -135,14 +134,13 @@
         <option value="Sarawak">Sarawak</option>
         <option value="Terengganu">Terengganu</option>
       </select>
-
-      <br />
-      <div class="validataion-errors" *ngIf="(noRegion == true)">
-        <p>Please select your region.</p>
-      </div>
     </ion-item>
 
-    <ion-item lines="full">
+    <div class="validataion-errors" *ngIf="(noRegion == true)" padding>
+      <span>Please select your region.</span>
+    </div>
+
+    <ion-item>
       <label class="input-label" for="selectedArea">Area</label>
       <select class="select" name="selectedArea" (change)="onAreaChange($event)">
         <option value="none" selected="true" disabled="disabled">Select your area</option>
@@ -150,11 +148,11 @@
           {{option}}
         </option>
       </select>
-
-      <div class="validataion-errors" *ngIf="(noArea == true)">
-        <p>Please select your area.</p>
-      </div>
     </ion-item>
+
+    <div class="validataion-errors" *ngIf="(noArea == true)" padding>
+      <span>Please select your area.</span>
+    </div>
 
   </form>
 </ion-content>
