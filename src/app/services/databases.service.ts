@@ -16,6 +16,7 @@ export class DatabaseService{
                 url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71',
                 name: '',
                 location: '',
+                email: email,
                 gender: '',
                 birthday:''
     }).catch(function(error){

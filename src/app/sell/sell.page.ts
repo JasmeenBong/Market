@@ -182,7 +182,7 @@ export class SellPage implements OnInit {
   //deleteUploadedImg
 
   goback(){
-    this.navCtrl.navigateBack("");
+    this.navCtrl.navigateBack("/tabs/tab2");
   }
 
 }

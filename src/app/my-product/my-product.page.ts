@@ -30,7 +30,7 @@ export class MyProductPage implements OnInit{
   ionViewWillEnter(){
     this.checkUser();
   }
-  
+
   checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
@@ -56,6 +56,9 @@ export class MyProductPage implements OnInit{
 
   viewProduct(pid){
 
+  }
+
+  deletePost(pid){
   }
 
 }

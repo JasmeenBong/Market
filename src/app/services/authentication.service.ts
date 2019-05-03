@@ -11,7 +11,7 @@ export class AuthenticateService{
   constructor(
     private googlePlus : GooglePlus,
     private platform: Platform,
-    private facebook: Facebook
+    private facebook: Facebook,
   ){}
 
   registerUser(value){
