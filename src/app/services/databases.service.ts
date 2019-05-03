@@ -24,6 +24,43 @@ export class DatabaseService{
     });
   }
 
+  addNewAd(images, title, category, breed, age, weight, details, price, region, area, dateTime, uid){
+    this.db.ref("posts/").set({
+                age: age,
+                area: area,
+                breed: breed,
+                dateTime: dateTime,
+                description: details,
+                images: images,
+                postCategory: category,
+                postName: title,
+                price: price,
+                region: region,
+                status: "unsold",
+                uid: uid,
+                weight: weight
+    }).catch(function(error){
+      console.error(error);
+    });
+  }
+
+  updateAd(images, title, category, breed, age, weight, details, price, region, area, pid){
+    this.db.ref("posts/").child(pid).update({
+                age: age,
+                area: area,
+                breed: breed,
+                description: details,
+                images: images,
+                postCategory: category,
+                postName: title,
+                price: price,
+                region: region,
+                weight: weight
+    }).catch(function(error){
+      console.error(error);
+    });
+  }
+
   getCurrentUser(id){
     return this.db.ref("users/" + id).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
@@ -45,7 +82,7 @@ export class DatabaseService{
   }
 
   getProductByOwner(uid){
-    return this.db.ref("posts/").orderByChild('dateTime').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
+    return this.db.ref("posts/").orderByChild('uid').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
   getSellerImages(owner){
@@ -53,7 +90,14 @@ export class DatabaseService{
   }
 
   getTownList(){
-    return this.storage.ref().child('json/my.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
+    return this.storage.ref().child('json/malaysiaArea.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
+  }
+
+  deleteAd(pid){
+    this.db.ref("posts/").child(pid).remove()
+    .catch(function(error){
+        console.error(error);
+    });
   }
 
 }

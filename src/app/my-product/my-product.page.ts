@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
 import { NavigationExtras } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 import * as firebase from 'firebase/app';
 
@@ -14,21 +15,28 @@ import * as firebase from 'firebase/app';
 })
 export class MyProductPage implements OnInit{
 
-  myAds = [];
-  uid : any;
+  productList;
+  products;
+  array = [[],[]];
+  uid : string = "";
+  noProduct = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dbService : DatabaseService
+    private dbService : DatabaseService,
+    private alertController : AlertController
   ) { }
 
   ngOnInit() {
-      // this.myAds = [{images: "https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/postPhotos%2FCat03.jpg?alt=media&token=6d278ef3-e383-4b47-838b-5332cd563411",
-      // postName: "CAT FOR SALE", description: "Anggora cat", price: "1200"}];
   }
 
   ionViewWillEnter(){
-    this.checkUser();
+    if(this.uid == ""){
+      this.checkUser();
+    }
+    else {
+      this.getMyPostedAds(this.uid);
+    }
   }
 
   checkUser(){
@@ -36,6 +44,7 @@ export class MyProductPage implements OnInit{
       if (user){
         this.uid = user.uid;
         console.log(this.uid);
+        this.getMyPostedAds(this.uid);
       }
       else {
         this.router.navigateByUrl('tabs/tab5/login');
@@ -43,7 +52,26 @@ export class MyProductPage implements OnInit{
     });
   }
 
-  getMyPostedAds(){}
+  getMyPostedAds(uid){
+    Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
+      if(value != null){
+        this.products = Object.entries(value[0]);
+        console.log(value);
+        var count = 0;
+        for(var row =0; row < (this.products.length/2); row++)
+        {
+          for(var col=0; col<2; col++){
+            this.array[row][col] = this.products[count][1];
+            this.array[row][col].pid = this.products[count][0];
+            count++;
+          }
+        }
+      }
+      else{
+        this.noProduct = true;
+      }
+    });
+  }
 
   postNewAd(){
     let navigationExtras: NavigationExtras = {
@@ -55,10 +83,40 @@ export class MyProductPage implements OnInit{
   }
 
   viewProduct(pid){
+    let navigationExtras: NavigationExtras = {
+      queryParams:{
+        pid: pid
+      }
+    }
+    this.router.navigate(['product'],navigationExtras);
+  }
 
+  editPost(pid){
+    let navigationExtras: NavigationExtras = {
+      queryParams:{
+        action : "edit",
+        pid: pid
+      }
+    }
+    this.router.navigate(['sell'],navigationExtras);
+  }
+
+  refreshPage(){
+    this.ionViewWillEnter();
+    console.log("refreshed");
   }
 
   deletePost(pid){
+    this.dbService.deleteAd(pid);
+    this.presentAlert("Successfully deleted! Please refresh the page.");
   }
 
+  async presentAlert(msg) {
+    const alert = await this.alertController.create({
+      header: 'Success',
+      message: msg,
+      buttons: ['OK']
+    });
+    return await alert.present();
+  }
 }

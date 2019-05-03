@@ -2,6 +2,34 @@
   padding-left: 16px;
 }
 
-.validataion-errors{
+#add-imgbtn{
+  padding-left: 16px;
+}
+
+.uploaded-photo{
+  margin-left: 10px;
+}
+
+.thumbnail{
+  border: 10px;
+  border-color: red;
+}
+
+.input-text {
+  text-align: right;
+}
+
+.validataion-errors, .error-message{
   color: red;
+  padding-left: 16px;
+}
+
+ion-item{
+  height: 100% !important;
+}
+
+.icon-close{
+  position: relative;
+  float: right;
+  z-index: 1;
 }
