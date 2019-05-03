@@ -89,7 +89,7 @@ export class DatabaseService{
     return this.db.ref("users/").orderByChild('name').equalTo(owner).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
-  getTownList(){
+  getMalaysiaAreaList(){
     return this.storage.ref().child('json/malaysiaArea.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
   }
 
@@ -98,6 +98,5 @@ export class DatabaseService{
     .catch(function(error){
         console.error(error);
     });
-  }
 
 }

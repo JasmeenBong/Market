@@ -20,8 +20,8 @@ export class HomePage implements OnInit {
   this.getCategoriesFromFireBase()
   }
 
-  getCategoriesFromFireBase(){
-   Promise.resolve(this.dbService.getCategory()).then(value=> {
+  async getCategoriesFromFireBase(){
+  await Promise.resolve(this.dbService.getCategory()).then(value=> {
       this.categories = Object.values(value[0]);
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){
@@ -33,8 +33,8 @@ export class HomePage implements OnInit {
     });
  }
 
-  getProductsBasedonSearchBar(ev){
-    Promise.resolve(this.dbService.getAllProducts()).then(value=> {
+  async getProductsBasedonSearchBar(ev){
+    await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
        this.products = Object.values(value[0]);
      });
     this.val = ev.target.value;

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
 import { NavigationExtras } from '@angular/router';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
+import { FilterModalPage } from '../filter-modal/filter-modal.page';
 
 @Component({
   selector: 'app-categories',
@@ -13,14 +14,14 @@ import { ModalPage } from '../modal/modal.page';
 export class CategoriesPage implements OnInit {
 
   category;
-  productList;
+  categories;
   products;
   array = [[],[]]
   names;
 
-  constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController, private alertController: AlertController) {
+  constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
+    private alertController: AlertController, private navController: NavController) {
     this.getCategoriesFromHomePage()
-    this.names = [ 'john', 'dixy', 'tom', 'jared'];
   }
 
   getCategoriesFromHomePage(){
@@ -32,18 +33,19 @@ export class CategoriesPage implements OnInit {
      })
   }
 
-  getProductListFromFireBase(category){
-  Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
-    this.products = Object.entries(value[0]);
-    var count = 0;
-    for(var row =0; row < (this.products.length/2); row++)
-    {
-      for(var col=0; col<2; col++){
-        this.array[row][col] = this.products[count][1];
-        this.array[row][col].pid = this.products[count][0];
-        count++;
+  async getProductListFromFireBase(category){
+  await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
+      this.products = Object.entries(value[0]);
+      var count = 0;
+      for(var row =0; row < (this.products.length/2); row++)
+      {
+        this.array[row] = [];
+        for(var col=0; col<2; col++){
+          this.array[row][col] = this.products[count][1];
+          this.array[row][col].pid = this.products[count][0];
+          count++;
+        }
       }
-    }
   });
   }
 
@@ -57,33 +59,65 @@ export class CategoriesPage implements OnInit {
     this.router.navigate(['product'],navigationExtras);
   }
 
-  async openModal() {
+  async openLocationModal() {
   const modal = await this.modalController.create({
     component: ModalPage,
     cssClass: 'my-custom-modal-css'
   });
-  return await modal.present();
+  modal.onDidDismiss().then(data => {
+
+  });
+  await modal.present();
 }
 
+  async openFilterModal() {
+    const modal = await this.modalController.create({
+      component: FilterModalPage,
+      cssClass: 'my-custom-modal-css'
+    });
+    await modal.present();
+  }
+
 async openAlert(){
-  // const alert = await this.alertController.create();
-  //  alert.setTitle('Lightsaber color');
-  //
-  //  alert.addInput({
-  //    type: 'radio',
-  //    label: 'Blue',
-  //    value: 'blue',
-  //    checked: true
-  //  });
-  //
-  //  alert.addButton('Cancel');
-  //  alert.addButton({
-  //    text: 'OK',
-  //    handler: data => {
-  //    }
-  //  });
-  //  return await alert.present();
- }
+    var inputs = [];
+
+  await Promise.resolve(this.dbService.getCategory()).then(value=> {
+      this.categories = Object.values(value[0]);
+    });
+
+  for(var i=0; i < this.categories.length;i++){
+    inputs.push({name: this.categories[i].categoryName, type:'radio', label: this.categories[i].categoryName, value: this.categories[i].categoryName});
+  }
+
+  const alert = await this.alertController.create({
+        header: 'Please select a category',
+        inputs: inputs,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Ok',
+            handler: (data) => {
+              this.category = data;
+              this.array = [[],[]];
+              this.getProductListFromFireBase(this.category);
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+
+  }
+
+  goToHomePage(){
+    this.navController.navigateBack('tabs/tab1');
+  }
 
   ngOnInit() {
   }
