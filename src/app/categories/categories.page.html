@@ -1,20 +1,22 @@
 <ion-header>
   <ion-toolbar no-border-bottom color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+        <ion-button (click)="goToHomePage()">
+            <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
     </ion-buttons>
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
   <ion-tab-bar class="tabbar">
-    <ion-tab-button class="tabbutton" tab="Location" (click)="openModal()">
+    <ion-tab-button class="tabbutton" tab="Location" (click)="openLocationModal()">
       <ion-label>Location</ion-label>
       <ion-label class="tablabel">Malaysia</ion-label>
     </ion-tab-button>
     <ion-tab-button class="tabbutton" tab="Categories" (click)="openAlert()">
       <ion-label>Categories</ion-label>
-      <ion-label class="tablabel">All</ion-label>
+      <ion-label class="tablabel">{{this.category}}</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="Filter">
+    <ion-tab-button tab="Filter" (click)="openFilterModal()">
       <ion-label>Filter</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
@@ -25,7 +27,7 @@
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card (click) = "goToProductPage(col.pid)">
-          <ion-img [src] = "col.images.url"></ion-img>
+          <ion-img [src] = "col.images[0]"></ion-img>
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
           <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
           <ion-card-subtitle class="price">{{col.child}}</ion-card-subtitle>

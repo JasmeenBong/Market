@@ -25,6 +25,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalPageModule } from './modal/modal.module';
+import { FilterModalPageModule } from './filter-modal/filter-modal.module';
 
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
@@ -46,6 +47,7 @@ firebase.initializeApp(environment.firebase);
     ReactiveFormsModule,
     AngularFireModule,
     HttpClientModule,
+    FilterModalPageModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
@@ -56,11 +58,12 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
+    Area,
     SocialSharing,
     SMS,
     CallNumber,
     EmailComposer,
-    AppAvailability
+    AppAvailability,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

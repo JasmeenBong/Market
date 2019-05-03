@@ -36,19 +36,19 @@ export class ProductPage implements OnInit {
   }
 
   goToChatBox(){
-    
+
   }
 
-  getProductDetailsById(pid){
-    Promise.resolve(this.dbService.getProductById(pid)).then(value=> {
+  async getProductDetailsById(pid){
+    await Promise.resolve(this.dbService.getProductById(pid)).then(value=> {
        this.product = value[0];
        this.images = Object.values(this.product.images);
         this.getImagesforAvatar(this.product.owner);
      });
   }
 
-  getImagesforAvatar(owner){
-    Promise.resolve(this.dbService.getSellerImages(owner)).then(value=> {
+  async getImagesforAvatar(owner){
+    await Promise.resolve(this.dbService.getSellerImages(owner)).then(value=> {
        this.seller = Object.values(value[0]);
      });
   }

@@ -51,8 +51,8 @@ export class DatabaseService{
     return this.db.ref("users/").orderByChild('name').equalTo(owner).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
-  getTownList(){
-    return this.storage.ref().child('json/my.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
+  getMalaysiaAreaList(){
+    return this.storage.ref().child('json/malaysiaArea.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
   }
 
 }
