@@ -98,5 +98,5 @@ export class DatabaseService{
     .catch(function(error){
         console.error(error);
     });
-
+  }
 }

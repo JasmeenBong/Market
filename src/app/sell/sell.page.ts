@@ -25,7 +25,7 @@ export class SellPage implements OnInit {
   counter: number = 0;
   //option for Area
   areaOptions = [];
-  areaArray = [];
+  // areaArray = [];
   //action (post Ad/Edit Ad)
   action: any = "";
   //store edited product id
@@ -69,7 +69,7 @@ export class SellPage implements OnInit {
     private router: Router,
     private dbService : DatabaseService,
     private navCtrl : NavController,
-    private alertController : AlertController
+    private alertController : AlertController,
     private http : HttpClient
   ) { }
 
@@ -89,7 +89,7 @@ export class SellPage implements OnInit {
     );
 
     this.initializeElement();
-    this.getAreaArray();
+    // this.getAreaArray();
   }
 
   ionViewWillEnter(){
@@ -138,19 +138,13 @@ export class SellPage implements OnInit {
     this.postArea = (<HTMLSelectElement>document.getElementById("selectedArea"));
   }
 
-  // getAreaArray(){
-  //   Promise.resolve(this.dbService.getTownList()).then(value=> {
-  //     this.url = value[0];
-  //     console.log(this.url);
-  //     this.extractJson();
+  // async getAreaArray(){
+  //   await Promise.resolve(this.dbService.getMalaysiaAreaList()).then(value=> {
+  //     this.http.get(value[0]).subscribe((response) => {
+  //       this.areaArray = Object.values(response);
+  //       console.log(this.areaArray);
+  //     })
   //   });
-  // }
-  //
-  // extractJson(){
-  //   this.http.get(this.url).subscribe((res : any[])=> {
-  //     console.log(res);
-  //     this.areaArray = res;
-  //   })
   // }
 
   checkUser(){
@@ -277,7 +271,7 @@ export class SellPage implements OnInit {
         this.router.navigateByUrl("/tabs/tab2");
     }
     else {
-      let currDate = new Date().toISOString();
+      let currDate = new Date().toLocaleString();
 
       this.dbService.addNewAd(this.images, this.postTitle.value, this.postCategory.value,
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
