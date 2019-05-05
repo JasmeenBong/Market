@@ -56,11 +56,12 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     GooglePlus,
     Facebook,
+    Area,
     SocialSharing,
     SMS,
     CallNumber,
     EmailComposer,
-    AppAvailability
+    AppAvailability,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

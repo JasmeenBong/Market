@@ -93,25 +93,26 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "859739031584-4r9a13qpthrecf7g28lr64alckkd7363.apps.googleusercontent.com",
-        "WEB_APPLICATION_CLIENT_ID": "859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com"
+        "WEB_APPLICATION_CLIENT_ID": "859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com",
+        "PLAY_SERVICES_VERSION": "11.8.0"
       },
       "cordova-plugin-facebook4": {
         "APP_ID": "1233477970144707",
-        "APP_NAME": "“MarketApp”"
+        "APP_NAME": "“MarketApp”",
+        "FACEBOOK_HYBRID_APP_EVENTS": "false",
+        "FACEBOOK_ANDROID_SDK_VERSION": "4.40.0"
       },
-      "cordova-plugin-x-socialsharing": {
-        "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
-      },
+      "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-appavailability": {},
       "mx.ferreyra.callnumber": {},
       "cordova-sms-plugin": {},
-      "cordova-plugin-email-composer": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      "cordova-plugin-email-composer": {}
     },
     "platforms": [
       "android",

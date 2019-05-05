@@ -5,6 +5,7 @@ import { DatabaseService } from '../services/databases.service';
 import { Router } from '@angular/router';
 
 import * as firebase from 'firebase/app';
+import { reference } from '@angular/core/src/render3';
 
 
 @Component({
@@ -29,11 +30,33 @@ export class ProfilePage implements OnInit {
     this.checkUser();
   }
 
+
+  
   checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
         this.uid = user.uid;
-        console.log(this.uid);
+        var userId = firebase.auth().currentUser.uid;
+
+        return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+          var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
+          var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
+          var birthday = (snapshot.val() && snapshot.val().birthday) || null;
+         // var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
+          var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
+          var url = (snapshot.val() && snapshot.val().url) || null;
+          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+
+          (<HTMLInputElement>document.getElementById('uname')).value = username;
+          (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
+          (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
+          (<HTMLInputElement>document.getElementById('gender')).value = gender;
+         // (<HTMLInputElement>document.getElementById('uname')).value = username;
+
+   
+          
+        });
+       
       }
       else {
         this.router.navigateByUrl('tabs/tab5/login');
@@ -41,10 +64,33 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  uploadPicture(){
+    let file = <HTMLElement>document.getElementById("file");
+    file.addEventListener("change", () => {
+     // console.log((<HTMLInputElement>document.getElementById('file')).value)
+      //console.log((<HTMLInputElement>document.getElementById('uploadfile')).innerHTML);
+      (<HTMLInputElement>document.getElementById('uploadfile')).innerHTML = "Image Selected: "+(<HTMLInputElement>document.getElementById('file')).value;
+     });
+
+  }
+  
+editProfile(){
+  var userId = firebase.auth().currentUser.uid;
+  var usersRef = firebase.database().ref().child('users/' + userId);
+  usersRef.update({
+    name: (<HTMLInputElement>document.getElementById('uname')).value,
+    phoneNumber:(<HTMLInputElement>document.getElementById('phoneNumber')).value,
+    birthday:(<HTMLInputElement>document.getElementById('birthDay')).value,
+    gender:(<HTMLInputElement>document.getElementById('gender')).value,
+    url:(<HTMLInputElement>document.getElementById('profilePicture')).getAttribute('src')
+  });
+
+}
+
   logoutUser(){
     this.authService.logoutUser()
     .then(res => {
-      console.log(res);
+     // console.log(res);
       this.navCtrl.navigateBack('tabs/tab1');
     })
     .catch(error => {

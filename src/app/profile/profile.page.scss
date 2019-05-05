@@ -19,6 +19,24 @@ width: 50%;
     margin-bottom: 20px;
 } 
 
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    word-wrap: break-word;
+    background-color: dodgerblue;
+    color: white;
+    padding:7px;
+    cursor: pointer;
+    display: inline-block;
+}
+
 .profile-button{
     width:100%;
 }
