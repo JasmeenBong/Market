@@ -18,7 +18,6 @@ import * as firebase from 'firebase/app';
 })
 export class SellPage implements OnInit {
 
-  imageResponse: any;
   //options for upload image on Android
   options: any;
   //count how many image uploaded
@@ -205,7 +204,7 @@ export class SellPage implements OnInit {
       this.noArea = false;
     }
   }
-
+  
   uploadImage() {
     this.options = {
       // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
@@ -229,15 +228,14 @@ export class SellPage implements OnInit {
       // window.imagePicker.OutputType.BASE64_STRING (1)
       outputType: 1
     };
-    this.imageResponse = [];
     this.imagePicker.getPictures(this.options).then((results) => {
       for (var i = 0; i < results.length; i++) {
-        this.imageResponse.push('data:image/jpeg;base64,' + results[i]);
+        console.log(results[i]);
+        this.images.push('data:image/jpeg;base64,' + results[i]);
+        this.counter ++;
       }
-      this.images.push(this.imageResponse);
-      this.counter += 1;
     }, (err) => {
-      alert(err);
+      console.log(err);
     });
   }
 
