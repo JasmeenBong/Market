@@ -7,12 +7,12 @@
 <ion-content>
 
   <form class="profile-page">
-
-    <img class="profile-pic-profile" id="profilePicture">
-
+<div class="container">
     <input type="file" name="file" id="file" class="inputfile"/>
-    <label for="file" id="uploadfile" (click)="uploadPicture()">Choose a file</label>
-    <br><br>
+    <label for="file" id="uploadfile" (click)="uploadPicture()">
+        <img class="profile-pic-profile" id="profilePicture">
+    </label>
+</div>
     <input type="text" placeholder="Full Name..." class="form-content" id="uname" >
     <input type="tel" placeholder="Phone Number..." class="form-content" maxlength="10" id="phoneNumber">
     <br><label>Birthday:</label><br>
@@ -26,7 +26,7 @@
       <option value="Male">Male</option>
       <option value="Female">Female</option>
     </select><br>
-    <ion-button type="submit" (click)="editProfile()" class="profile-button">Edit Profile</ion-button>
+    <ion-button type="submit" (click)="editProfile()" class="profile-button">Save Details</ion-button>
   </form>
   <div class="profile-page">
   <ion-button (click)="logoutUser()" class="profile-button">Logout</ion-button>

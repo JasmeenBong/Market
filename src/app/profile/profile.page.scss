@@ -12,7 +12,7 @@ width: 50%;
 }
 
 .profile-pic-profile{
-    max-width: 100px;
+    max-width: 50%;
     display: block;
     margin: auto;
     margin-top: 40px;
@@ -28,14 +28,15 @@ width: 50%;
 	position: absolute;
 	z-index: -1;
 }
-.inputfile + label {
-    word-wrap: break-word;
-    background-color: dodgerblue;
-    color: white;
-    padding:7px;
-    cursor: pointer;
-    display: inline-block;
+#camera{
+  bottom: 1px;
+  right: 10px;
 }
+.container {
+    position: relative;
+    text-align: center;
+  }
+  
 
 .profile-button{
     width:100%;
