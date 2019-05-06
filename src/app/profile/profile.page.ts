@@ -68,7 +68,9 @@ export class ProfilePage implements OnInit {
     let file = <HTMLElement>document.getElementById("file");
     file.addEventListener("change", () => {
      
-      (<HTMLInputElement>document.getElementById('uploadfile')).innerHTML = "Image Selected: "+(<HTMLInputElement>document.getElementById('file')).value;
+      (<HTMLInputElement>document.getElementById('fileUploaded')).innerHTML = "Image Selected: "+(<HTMLInputElement>document.getElementById('file')).value;
+    // (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',(<HTMLInputElement>document.getElementById('file')).value);
+
      });
 
   }
