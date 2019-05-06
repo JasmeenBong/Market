@@ -1,41 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Location</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()">Close</ion-button>
-    </ion-buttons>
+  <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon name="arrow-back"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+       <ion-title>Location</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-  <ion-list-header>Please select the location</ion-list-header>
-
-  <ion-item>
-    <ion-label>Region</ion-label>
-    <ion-select cancelText="Cancel" okText="Ok">
-      <ion-select-option value="bacon">Bacon</ion-select-option>
-      <ion-select-option value="olives">Black Olives</ion-select-option>
-      <ion-select-option value="xcheese">Extra Cheese</ion-select-option>
-      <ion-select-option value="peppers">Green Peppers</ion-select-option>
-      <ion-select-option value="mushrooms">Mushrooms</ion-select-option>
-      <ion-select-option value="onions">Onions</ion-select-option>
-      <ion-select-option value="pepperoni">Pepperoni</ion-select-option>
-      <ion-select-option value="pineapple">Pineapple</ion-select-option>
-      <ion-select-option value="sausage">Sausage</ion-select-option>
-      <ion-select-option value="Spinach">Spinach</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>Subregion</ion-label>
-    <ion-select cancelText="Cancel" okText="Ok">
-      <ion-select-option value="bird" selected>Bird</ion-select-option>
-      <ion-select-option value="cat">Cat</ion-select-option>
-      <ion-select-option value="dog">Dog</ion-select-option>
-      <ion-select-option value="honeybadger">Honey Badger</ion-select-option>
-    </ion-select>
-  </ion-item>
-</ion-list>
-
-
+   <ion-list>
+      <ion-list-header>Please select the location</ion-list-header>
+      <ion-item>
+         <ion-label>Region</ion-label>
+         <ion-select placeholder="Select One" cancelText="Cancel" okText="Ok" [(ngModel)]="selectedRegion" (ionChange)="getAreaList(selectedRegion)">
+            <ion-select-option *ngFor="let region of regionList" [value]="region">{{region}}</ion-select-option>
+         </ion-select>
+      </ion-item>
+      <ion-item>
+         <ion-label>Area</ion-label>
+         <ion-select placeholder="Select One" cancelText="Cancel" okText="Ok" [(ngModel)]="selectedArea" [disabled]="areaList.length == 0">
+            <ion-select-option *ngFor="let area of areaList" [value]="area">{{area}}</ion-select-option>
+         </ion-select>
+      </ion-item>
+   </ion-list>
 </ion-content>
+<ion-footer align="center" no-border>
+  <ion-button expand="block" (click)="passDataBack(selectedRegion,selectedArea)">Ok</ion-button>
+</ion-footer>

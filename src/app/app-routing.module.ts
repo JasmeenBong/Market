@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'swiped-tab', loadChildren: './swiped-tab/swiped-tab.module#SwipedTabPageModule' },
   { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
   { path: 'modal', loadChildren: './modal/modal.module#ModalPageModule' },
+  { path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule' },
 ];
 @NgModule({
   imports: [

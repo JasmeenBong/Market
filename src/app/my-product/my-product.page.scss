@@ -1,0 +1,45 @@
+.card-background-page {
+
+  ion-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+  }
+
+  ion-card .card-footer {
+    margin-top: auto;
+  }
+
+  .card-image{
+    height: inherit !important;
+  }
+
+  ion-card-title {
+    font-size: 15px;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .icon{
+    font-size: 20px;
+    float: right;
+    clear: left;
+  }
+
+  .postname, .dateTime{
+    text-align: left;
+  }
+
+  .price{
+    text-align: left;
+    color: red;
+  }
+
+}
+
+#noProduct{
+  font-size: 20px;
+}
