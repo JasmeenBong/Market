@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DatabaseService } from '../services/databases.service';
 import { HttpClient } from '@angular/common/http';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-modal',
@@ -13,8 +14,10 @@ export class ModalPage implements OnInit {
   regionList = [];
   MalaysiaAreaList = [];
   areaList = [];
+  url;
 
-  constructor(private modalController: ModalController, private dbService: DatabaseService, private http: HttpClient) {
+  constructor(private modalController: ModalController, private dbService: DatabaseService, private http: HttpClient,
+  private spinnerDialog: SpinnerDialog) {
     this.getMalaysiaAreaListFromFirebase();
 }
 
@@ -23,9 +26,11 @@ export class ModalPage implements OnInit {
   }
 
   async getMalaysiaAreaListFromFirebase(){
+    // this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getMalaysiaAreaList()).then(value=> {
       this.http.get(value[0]).subscribe((response) => {
         this.MalaysiaAreaList = Object.values(response);
+        // this.spinnerDialog.hide();
         for(var i = 0; i < this.MalaysiaAreaList.length; i ++){
           this.regionList[i] = this.MalaysiaAreaList[i].region;
       }
@@ -41,8 +46,8 @@ export class ModalPage implements OnInit {
   }
   }
 
-  passDataBack(region,area){
-    this.modalController.dismiss({region: region, area: area});
+  passDataBack(area){
+    this.modalController.dismiss({area: area});
   }
 
   ngOnInit() {

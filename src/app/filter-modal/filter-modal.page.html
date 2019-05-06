@@ -10,27 +10,25 @@
 </ion-header>
 <ion-content>
   <ion-list>
-  <ion-list-header>Single Selection</ion-list-header>
+  <ion-list-header>Filter by</ion-list-header>
 
   <ion-item>
-    <ion-label>Gender</ion-label>
-    <ion-select placeholder="Select One">
-      <ion-select-option value="f">Female</ion-select-option>
-      <ion-select-option value="m">Male</ion-select-option>
+    <ion-label>Price</ion-label>
+    <ion-select placeholder="Select One" [(ngModel)]="selectedPrice" okText="Okay" cancelText="Dismiss">
+      <ion-select-option value="Highest to Lowest">Highest to Lowest</ion-select-option>
+      <ion-select-option value="Lowest to Highest">Lowest to Highest</ion-select-option>
     </ion-select>
   </ion-item>
 
   <ion-item>
-    <ion-label>Hair Color</ion-label>
-    <ion-select value="brown" okText="Okay" cancelText="Dismiss">
-      <ion-select-option value="brown">Brown</ion-select-option>
-      <ion-select-option value="blonde">Blonde</ion-select-option>
-      <ion-select-option value="black">Black</ion-select-option>
-      <ion-select-option value="red">Red</ion-select-option>
+    <ion-label>Post Time</ion-label>
+    <ion-select okText="Okay" cancelText="Dismiss" placeholder="Select One" [(ngModel)]="selectedPostTime">
+      <ion-select-option value="Newest to Oldest">Newest to Oldest</ion-select-option>
+      <ion-select-option value="Oldest to Newest">Oldest to Newest</ion-select-option>
     </ion-select>
   </ion-item>
 </ion-list>
 </ion-content>
 <ion-footer align="center" no-border>
- <!-- <ion-button expand="block" (click)="passDataBack(selectedRegion,selectedArea)">Ok</ion-button> -->
+ <ion-button expand="block" (click)="passDataBack(selectedPrice,selectedPostTime)">Ok</ion-button>
 </ion-footer>

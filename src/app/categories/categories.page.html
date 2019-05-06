@@ -10,11 +10,11 @@
   <ion-tab-bar class="tabbar">
     <ion-tab-button class="tabbutton" tab="Location" (click)="openLocationModal()">
       <ion-label>Location</ion-label>
-      <ion-label class="tablabel">Malaysia</ion-label>
+      <ion-label class="tablabel">{{location}}</ion-label>
     </ion-tab-button>
     <ion-tab-button class="tabbutton" tab="Categories" (click)="openAlert()">
       <ion-label>Categories</ion-label>
-      <ion-label class="tablabel">{{this.category}}</ion-label>
+      <ion-label class="tablabel">{{category}}</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="Filter" (click)="openFilterModal()">
       <ion-label>Filter</ion-label>
@@ -28,9 +28,11 @@
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card (click) = "goToProductPage(col.pid)">
           <ion-img [src] = "col.images[0]"></ion-img>
+          <ion-card-content>
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
           <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
-          <ion-card-subtitle class="price">{{col.child}}</ion-card-subtitle>
+          <ion-card-subtitle class="dateTime">{{col.dateTime}}</ion-card-subtitle>
+          </ion-card-content>
         </ion-card>
         </ion-col>
      </ion-row>

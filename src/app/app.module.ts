@@ -26,10 +26,12 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalPageModule } from './modal/modal.module';
 import { FilterModalPageModule } from './filter-modal/filter-modal.module';
+import { ReportPageModule } from './report/report.module';
 
+import {SpinnerDialog} from "@ionic-native/spinner-dialog/ngx";
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { SMS } from '@ionic-native/sms/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 import { Area } from './sell/area';
 
@@ -48,6 +50,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireModule,
     HttpClientModule,
     FilterModalPageModule,
+    ReportPageModule ,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
@@ -59,8 +62,9 @@ firebase.initializeApp(environment.firebase);
     GooglePlus,
     Facebook,
     Area,
+    SpinnerDialog,
     SocialSharing,
-    SMS,
+    AndroidPermissions,
     CallNumber,
     EmailComposer,
     AppAvailability,
