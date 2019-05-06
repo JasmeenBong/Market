@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
   { path: 'modal', loadChildren: './modal/modal.module#ModalPageModule' },
   { path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule' },
+  { path: 'report', loadChildren: './report/report.module#ReportPageModule' }
 ];
 @NgModule({
   imports: [

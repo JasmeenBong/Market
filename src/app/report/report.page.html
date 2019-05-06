@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon name="arrow-back"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+       <ion-title>Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+      <ion-row class="Reportowner">
+        <ion-col>
+          <ion-label>Report {{ownerName}}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label>About <strong>{{postName}}</strong></ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+</ion-content>

@@ -14,6 +14,10 @@ export class FilterModalPage implements OnInit {
     this.modalController.dismiss();
   }
 
+  passDataBack(price,postTime){
+    this.modalController.dismiss({price: price, postTime: postTime});
+  }
+
 
   ngOnInit() {
   }

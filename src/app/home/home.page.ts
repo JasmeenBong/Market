@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationExtras } from '@angular/router'
 import { DatabaseService } from '../services/databases.service';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-home',
@@ -16,13 +17,15 @@ export class HomePage implements OnInit {
   array = [[],[]];
   val;
 
-  constructor(public router: Router,   private dbService : DatabaseService) {
+  constructor(public router: Router,   private dbService : DatabaseService, private spinnerDialog: SpinnerDialog) {
   this.getCategoriesFromFireBase()
   }
 
   async getCategoriesFromFireBase(){
+  // this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getCategory()).then(value=> {
       this.categories = Object.values(value[0]);
+      // this.spinnerDialog.hide();
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){
         for(var col=0; col<3; col++){
