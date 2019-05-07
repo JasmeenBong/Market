@@ -6,30 +6,50 @@
 
 <ion-content>
 
-  <form class="profile-page">
 <div class="container">
-    <input type="file" name="file" id="file" class="inputfile"/>
-    <label for="file" id="uploadfile" (click)="uploadPicture()">
-        <img class="profile-pic-profile" id="profilePicture">
-        <p id="fileUploaded"></p>
-    </label>
+        <ion-img class="profile-pic-profile" id="profilePicture"></ion-img>
+        <ion-button (click)="uploadPhoto()">Change Picture</ion-button>
 </div>
-    <input type="text" placeholder="Full Name..." class="form-content" id="uname" >
-    <input type="tel" placeholder="Phone Number..." class="form-content" maxlength="10" id="phoneNumber">
-    <br><label>Birthday:</label><br>
-    <input type="date" class="form-dropdown" id="birthDay">
-    <br><label>Location:</label><br>
-    <select class="form-dropdown">
 
-    </select>
-    <br><label>Gender:</label><br>
-    <select class="form-dropdown" id="gender">
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select><br>
+<ion-item>
+  <ion-label class="label">Full Name:</ion-label>
+  <ion-input type="text" id="uname"></ion-input>
+</ion-item>
+
+<ion-item>
+    <ion-label class="label">Phone Number:</ion-label>
+    <ion-input type="tel" maxlength="10" id="phoneNumber"></ion-input>
+</ion-item>
+
+<ion-item>
+    <ion-label class="label">Birthday:</ion-label>
+    <ion-datetime type="date" id="birthDay"></ion-datetime>
+</ion-item>
+
+<ion-item>
+    <ion-label class="label">Region:</ion-label>
+    <ion-select id="region">
+    </ion-select>
+</ion-item>
+
+<ion-item>
+    <ion-label class="label">Area</ion-label>
+    <ion-select id="area">
+    </ion-select>
+  </ion-item>
+
+<ion-item>
+    <ion-label class="label">Gender:</ion-label>
+    <ion-select id="gender">
+      <ion-select-option value="Male">Male</ion-select-option>
+      <ion-select-option value="Female">Female</ion-select-option>
+    </ion-select>
+</ion-item>
+
+<ion-item>
     <ion-button type="submit" (click)="editProfile()" class="profile-button">Save Details</ion-button>
-  </form>
-  <div class="profile-page">
-  <ion-button (click)="logoutUser()" class="profile-button">Logout</ion-button>
-</div>
+</ion-item>
+<ion-item>
+    <ion-button (click)="logoutUser()" class="profile-button">Logout</ion-button>
+</ion-item>
 </ion-content>

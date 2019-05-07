@@ -169,7 +169,9 @@ export class ProductPage implements OnInit {
     }
     this.emailComposer.open(email);
   }
-
+smsSeller(){
+    
+}
   backtoCategoriesPage(){
     this.router.navigate(['/categories']);
   }
