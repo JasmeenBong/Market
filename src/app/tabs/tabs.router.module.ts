@@ -48,7 +48,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../profile/profile.module#ProfilePageModule'
+            loadChildren: '../view-profile/view-profile.module#ViewProfilePageModule'
           }
         ]
       },
@@ -67,6 +67,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../register/register.module#RegisterPageModule'
+          }
+        ]
+      },
+      {
+        path: 'profile',
+        children: [
+          {
+            path: '',
+            loadChildren: '../profile/profile.module#ProfilePageModule'
           }
         ]
       },

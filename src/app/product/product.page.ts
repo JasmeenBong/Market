@@ -59,10 +59,6 @@ export class ProductPage implements OnInit {
         })
     }
 
-    goToChatBox() {
-
-    }
-
     async getProductDetailsById(pid) {
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             this.product = value[0];
@@ -177,6 +173,9 @@ smsSeller(){
   }
 
   ngOnInit() {
+  }
+  chat(){
+      
   }
 
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { UserArea } from './profile/area';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -65,6 +65,7 @@ firebase.initializeApp(environment.firebase);
     GooglePlus,
     Facebook,
     Area,
+    UserArea,
     SpinnerDialog,
     SocialSharing,
     AndroidPermissions,

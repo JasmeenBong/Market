@@ -11,5 +11,7 @@ export class ChatboxPage implements OnInit {
 
   ngOnInit() {
   }
-
+sendMessage(){
+  
+}
 }
