@@ -90,7 +90,7 @@ export class DatabaseService{
   }
 
   getMalaysiaAreaList(){
-    return this.storage.ref().child('json/malaysiaArea.json').getDownloadURL().then(downloadURL => downloadURL).then(value =>[value]);
+    return this.db.ref("location/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
 
   deleteAd(pid){

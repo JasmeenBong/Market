@@ -26,15 +26,13 @@ export class ModalPage implements OnInit {
   }
 
   async getMalaysiaAreaListFromFirebase(){
-    // this.spinnerDialog.show();
+    this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getMalaysiaAreaList()).then(value=> {
-      this.http.get(value[0]).subscribe((response) => {
-        this.MalaysiaAreaList = Object.values(response);
-        // this.spinnerDialog.hide();
+        this.MalaysiaAreaList = Object.values(value[0]);
+        this.spinnerDialog.hide();
         for(var i = 0; i < this.MalaysiaAreaList.length; i ++){
           this.regionList[i] = this.MalaysiaAreaList[i].region;
-      }
-    });
+        }
     });
   }
 
