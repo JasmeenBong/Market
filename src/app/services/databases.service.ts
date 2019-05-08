@@ -18,7 +18,8 @@ export class DatabaseService{
                 location: '',
                 email: email,
                 gender: '',
-                birthday:''
+                birthday:'',
+                area:''
     }).catch(function(error){
       console.error(error);
     });

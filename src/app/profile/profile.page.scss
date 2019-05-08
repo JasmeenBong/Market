@@ -1,24 +1,14 @@
-.profile-page{
-margin: auto;
-width: 50%;
-}
-#form-bg{
-    background-color: lightblue;
-}
-.form-content{
-    margin-bottom: 10px;
-    width:100%;
-    padding:5px 5px 5px 5px;
-}
-
 .profile-pic-profile{
-    max-width: 50%;
-    display: block;
+    position: relative;
+    width:  150px;
+    height: 150px;
     margin: auto;
-    margin-top: 40px;
-    margin-bottom: 20px;
-} 
+    margin-top: 5%;
 
+} 
+#changePicture{
+    margin-top: 5%;
+}
 
 .inputfile {
 	width: 0.1px;
@@ -28,10 +18,14 @@ width: 50%;
 	position: absolute;
 	z-index: -1;
 }
-#camera{
-  bottom: 1px;
-  right: 10px;
+.label{
+font-weight: bolder;
 }
+
+#uname, #phoneNumber{ 
+text-align: right;
+}
+
 .container {
     position: relative;
     text-align: center;
@@ -40,10 +34,5 @@ width: 50%;
 
 .profile-button{
     width:100%;
-}
 
-.form-dropdown{
-    margin-bottom: 10px;
-    width:100%;
-    padding:5px 5px 5px 5px;
 }

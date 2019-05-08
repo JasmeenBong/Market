@@ -60,10 +60,6 @@ export class ProductPage implements OnInit {
         })
     }
 
-    goToChatBox() {
-
-    }
-
     async getProductDetailsById(pid) {
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
@@ -174,12 +170,17 @@ export class ProductPage implements OnInit {
     }
     this.emailComposer.open(email);
   }
-
+smsSeller(){
+    
+}
   backtoCategoriesPage(){
     this.router.navigate(['/categories']);
   }
 
   ngOnInit() {
+  }
+  chat(){
+      
   }
 
 }
