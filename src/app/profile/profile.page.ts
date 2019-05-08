@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController, AlertController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+
 import { Router } from '@angular/router';
 import {UserArea} from '../profile/area';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -24,6 +26,7 @@ export class ProfilePage implements OnInit {
   noRegion: any = true;
   noArea : any = true;
   userArea : any;
+  enabled : any = false;
 
   constructor(
     private navCtrl: NavController,
@@ -32,19 +35,30 @@ export class ProfilePage implements OnInit {
     private area: UserArea,
     private camera: Camera,
     private AlertController:AlertController,
-    private ToastController: ToastController
-  
+    private ToastController: ToastController,  
+    private formBuilder: FormBuilder
 
       ) { }
 
-
+      validation_messages = {
+        'email': [
+          {type: 'required', message: 'Email is required.'},
+          {type: 'pattern', message: 'Please enter a valid email.'}
+        ],
+        'password' : [
+          {type: 'required', message: 'Password is required.'},
+          {type: 'minLength', message: 'Password must be at least 8 characters long.'}
+        ]
+      };
+    
   ngOnInit() {
-    this.fetchUser();
   }
 
   ionViewWillEnter(){
     this.fetchUser();
+
   }
+  
   fetchUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
@@ -65,6 +79,7 @@ export class ProfilePage implements OnInit {
           (<HTMLInputElement>document.getElementById('uname')).value = username;
           (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
           (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
+          
           (<HTMLInputElement>document.getElementById('gender')).value = gender;
           (<HTMLInputElement>document.getElementById('region')).value = location;
           (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
@@ -85,13 +100,14 @@ export class ProfilePage implements OnInit {
   }
 
   uploadPhoto(){
-    const options = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((img)=>{
+  
+   
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+      destinationType: this.camera.DestinationType.DATA_URL
+  
+     }).then((img) => {
+
       if(img!=""){
         var reviewImage = 'data:image/jpeg;base64,' + img;
         (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
@@ -102,9 +118,12 @@ export class ProfilePage implements OnInit {
           (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
           });
         }
-    });
+          }, (err) => {
+  
+       console.log(err);
+  
+     });
   }
-
 
   onRegionChange(event: any){
     if(event.target.value != "none"){
@@ -113,6 +132,7 @@ export class ProfilePage implements OnInit {
 
     this.areaOptions = this.area.getArea(event.target.value);
     this.userArea.value = "none";
+
   }
 
   onAreaChange(event: any){
@@ -125,6 +145,7 @@ export class ProfilePage implements OnInit {
   
   
   async editProfile(){
+
     const alert = await this.AlertController.create({
     header: 'Edit Profile',
     message: 'Are you sure you want to update your details?',
@@ -147,10 +168,13 @@ export class ProfilePage implements OnInit {
       url: (<HTMLInputElement>document.getElementById('profilePicture')).getAttribute('src')
     });
     this.presentToast();
+    this.enabled = false;
+
         }
       }
     ]
   });
+  
   await alert.present();
   }
   async presentToast() {
@@ -163,6 +187,16 @@ export class ProfilePage implements OnInit {
 changePassword(){
   this.router.navigateByUrl('change-password');
 }
- 
+logoutUser(){
+  this.authService.logoutUser()
+  .then(res => {
+   // console.log(res);
+    this.navCtrl.navigateBack('tabs/tab1');
+  })
+  .catch(error => {
+    console.log(error);
+  })
+}
+
 
 }
