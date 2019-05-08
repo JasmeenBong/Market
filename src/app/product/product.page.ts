@@ -186,4 +186,11 @@ export class ProductPage implements OnInit {
 
     }
 
+  ngOnInit() {
+  }
+  
+  chat(){
+      this.router.navigate(['/chatbox']);
+  }
+
 }
