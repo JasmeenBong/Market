@@ -175,7 +175,7 @@ smsSeller(){
   ngOnInit() {
   }
   chat(){
-      
+      this.router.navigate(['/chatbox']);
   }
 
 }
