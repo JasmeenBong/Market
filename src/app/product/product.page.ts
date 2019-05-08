@@ -65,15 +65,14 @@ export class ProductPage implements OnInit {
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             this.product = value[0];
             this.spinnerDialog.hide();
-            console.log(this.product.postCategory);
             this.images = Object.values(this.product.images);
-            this.getImagesforAvatar(this.product.owner);
+            this.getImagesforAvatar(this.product.uid);
         });
     }
 
-    async getImagesforAvatar(owner) {
-        await Promise.resolve(this.dbService.getSellerImages(owner)).then(value => {
-            this.seller = Object.values(value[0]);
+    async getImagesforAvatar(uid) {
+        await Promise.resolve(this.dbService.getSellerImages(uid)).then(value => {
+            this.seller = value[0];
         });
     }
 
@@ -128,9 +127,8 @@ export class ProductPage implements OnInit {
         const modal = await this.modalController.create({
           component: ReportPage,
           cssClass: 'my-custom-modal-css',
-          componentProps: { postName : this.product.postName},
+          componentProps: { postName : this.product.postName, ownerEmail: this.seller.email},
       });
-      // ownerName: this.product.owner
       await modal.present();
   }
 
@@ -171,7 +169,7 @@ export class ProductPage implements OnInit {
     this.emailComposer.open(email);
   }
 smsSeller(){
-    
+
 }
   backtoCategoriesPage(){
     this.router.navigate(['/categories']);
@@ -180,7 +178,7 @@ smsSeller(){
   ngOnInit() {
   }
   chat(){
-      
+
   }
 
 }
