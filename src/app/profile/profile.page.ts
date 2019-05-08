@@ -99,31 +99,58 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  uploadPhoto(){
-  
-   
+  AccessGallery(){
     this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
-      destinationType: this.camera.DestinationType.DATA_URL
-  
-     }).then((img) => {
+       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+       destinationType: this.camera.DestinationType.DATA_URL
+      }).then((img) => {
+        
+        if(img!=""){
+          var reviewImage = 'data:image/jpeg;base64,' + img;
+          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
+          }else{
+            var userId = firebase.auth().currentUser.uid;
+            return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+              var url = (snapshot.val() && snapshot.val().url);
+            (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+            });
+          }
+           }, (err) => {
+        console.log(err);
+      });
+   }
+   AccessCamera(){
+    this.camera.getPicture({
+    targetWidth:512,
+    targetHeight:512,
+    correctOrientation:true,
+    sourceType: this.camera.PictureSourceType.CAMERA,
+    destinationType: this.camera.DestinationType.DATA_URL
+      }).then((img) => {
+        if(img!=""){
+          var reviewImage = 'data:image/jpeg;base64,' + img;
+          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
+          }else{
+            var userId = firebase.auth().currentUser.uid;
+            return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+              var url = (snapshot.val() && snapshot.val().url);
+            (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+            });
+          }
+            }, (err) => {
+        console.log(err);
+      });
+   }
+   
+   
 
-      if(img!=""){
-        var reviewImage = 'data:image/jpeg;base64,' + img;
-        (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
-        }else{
-          var userId = firebase.auth().currentUser.uid;
-          return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-            var url = (snapshot.val() && snapshot.val().url);
-          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
-          });
-        }
-          }, (err) => {
-  
-       console.log(err);
-  
-     });
-  }
+
+
+
+
+
+
+
 
   onRegionChange(event: any){
     if(event.target.value != "none"){

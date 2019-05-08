@@ -1,7 +1,7 @@
 .profile-pic-profile{
     position: relative;
-    width:  150px;
-    height: 150px;
+    width:  250px;
+    height: 250px;
     margin: auto;
     margin-top: 5%;
 
@@ -9,7 +9,12 @@
 #changePicture{
     margin-top: 5%;
 }
-
+#UploadMethod{
+    display:inline;
+}
+#uploadImage{
+    width: 75%;
+}
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;
