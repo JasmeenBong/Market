@@ -30,6 +30,7 @@ import {
 } from '@ionic-native/android-permissions/ngx';
 import { ReportPage } from "../report/report.page";
 import { ModalController, AlertController, NavController } from '@ionic/angular';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class ProductPage implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
-      private alertController: AlertController, private modalController: ModalController){
+      private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog){
         this.getIdFromCategoriesPage()
     }
 
@@ -64,8 +65,11 @@ export class ProductPage implements OnInit {
     }
 
     async getProductDetailsById(pid) {
+        this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             this.product = value[0];
+            this.spinnerDialog.hide();
+            console.log(this.product.postCategory);
             this.images = Object.values(this.product.images);
             this.getImagesforAvatar(this.product.owner);
         });
@@ -128,8 +132,9 @@ export class ProductPage implements OnInit {
         const modal = await this.modalController.create({
           component: ReportPage,
           cssClass: 'my-custom-modal-css',
-          componentProps: { postName : this.product.postName, ownerName: this.product.owner},
+          componentProps: { postName : this.product.postName},
       });
+      // ownerName: this.product.owner
       await modal.present();
   }
 
