@@ -12,7 +12,7 @@
     <ion-grid>
       <ion-row class="Reportowner">
         <ion-col>
-          <ion-label>Report {{ownerName}}</ion-label>
+          <ion-label>Report {{ownerEmail}}</ion-label>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -22,5 +22,47 @@
       </ion-row>
     </ion-grid>
 
-
+    <form [formGroup]="reportForm" (ngSubmit)="logForm()">
+      <ion-item>
+        <ion-label class="input-label">*Name</ion-label>
+        <ion-input type="input-text" id="name" placeholder="Please enter your name" formControlName="name"></ion-input>
+      </ion-item>
+      <div class="validation-errors" *ngFor="let validation of report_validation_messages.name">
+        <span class="error-message" *ngIf=" reportForm.get('name').hasError(validation.type) &&
+        (reportForm.get('name').dirty || reportForm.get('name').touched)">
+            {{validation.message}}
+        </span>
+      </div>
+      <ion-item>
+          <ion-label class="input-label">*Email</ion-label>
+          <ion-input type="input-text" id="email" placeholder="Please enter your email" formControlName="email"></ion-input>
+      </ion-item>
+      <div class="validation-errors" *ngFor="let validation of report_validation_messages.email">
+        <span class="error-message" *ngIf=" reportForm.get('email').hasError(validation.type) &&
+        (reportForm.get('email').dirty || reportForm.get('email').touched)">
+            {{validation.message}}
+        </span>
+      </div>
+      <ion-item>
+          <ion-label class="input-label">Phone Number(optional)</ion-label>
+          <ion-input type="input-text" id="phonenumber" placeholder="Please enter your Phone Number" formControlName="phonenumber"></ion-input>
+      </ion-item>
+      <div class="validation-errors" *ngFor="let validation of report_validation_messages.phonenumber">
+        <span class="error-message" *ngIf=" reportForm.get('phonenumber').hasError(validation.type) &&
+        (reportForm.get('phonenumber').dirty || reportForm.get('phonenumber').touched)">
+            {{validation.message}}
+        </span>
+      </div>
+      <ion-item>
+        <ion-label class="input-label">*What is wrong with this ads?</ion-label>
+        <ion-textarea class="input-text" id="description" formControlName="description"></ion-textarea>
+      </ion-item>
+      <div class="validation-errors" *ngFor="let validation of report_validation_messages.description">
+        <span class="error-message" *ngIf=" reportForm.get('description').hasError(validation.type) &&
+        (reportForm.get('description').dirty || reportForm.get('description').touched)">
+            {{validation.message}}
+        </span>
+      </div>
+      <ion-button type="submit" [disabled]="!reportForm.valid" fill="solid" expand="block">Submit</ion-button>
+    </form>
 </ion-content>

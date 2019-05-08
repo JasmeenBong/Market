@@ -86,12 +86,25 @@ export class DatabaseService{
     return this.db.ref("posts/").orderByChild('uid').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
-  getSellerImages(owner){
-    return this.db.ref("users/").orderByChild('name').equalTo(owner).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
+  getSellerImages(uid){
+    return this.db.ref("users/" + uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
   getMalaysiaAreaList(){
     return this.db.ref("location/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
+  }
+
+  addReporttoFirebase(report,owner,post,time){
+    this.db.ref("reports/").push().set({
+      timeStamp: time.toString(),
+      buyerEmail: report.email,
+      buyerPhoneNumber: report.phonenumber,
+      reportedEmail: owner,
+      reportedPost: post,
+      reportmsg: report.description
+    }).catch(function(error){
+      console.error(error);
+    });
   }
 
   deleteAd(pid){

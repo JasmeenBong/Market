@@ -2,6 +2,16 @@
   background-color: grey;
 }
 
-ion-item {
-        border: 1px solid #ffffff;
+ion-item{
+  height: 100% !important;
+}
+
+.input-text {
+  text-align: right;
+}
+
+
+.validataion-errors, .error-message{
+  color: red;
+  padding-left: 16px;
 }

@@ -22,10 +22,10 @@ export class HomePage implements OnInit {
   }
 
   async getCategoriesFromFireBase(){
-  // this.spinnerDialog.show();
+  this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getCategory()).then(value=> {
       this.categories = Object.values(value[0]);
-      // this.spinnerDialog.hide();
+      this.spinnerDialog.hide();
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){
         for(var col=0; col<3; col++){

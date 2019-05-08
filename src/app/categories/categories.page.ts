@@ -5,6 +5,7 @@ import { NavigationExtras } from '@angular/router';
 import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 import { FilterModalPage } from '../filter-modal/filter-modal.page';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-categories',
@@ -21,7 +22,7 @@ export class CategoriesPage implements OnInit {
   location : any = "Malaysia";
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
-    private alertController: AlertController, private navController: NavController) {
+    private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog) {
     this.getCategoriesFromHomePage()
   }
 
@@ -35,8 +36,10 @@ export class CategoriesPage implements OnInit {
   }
 
   async getProductListFromFireBase(category,location,price, time){
+    this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
       this.products = Object.entries(value[0]);
+      this.spinnerDialog.hide();
       if(price == "Lowest to Highest"){
         this.products.sort(function(a, b) {
           return parseFloat(a[1].price) - parseFloat(b[1].price);

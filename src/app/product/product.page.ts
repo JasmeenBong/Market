@@ -30,6 +30,7 @@ import {
 } from '@ionic-native/android-permissions/ngx';
 import { ReportPage } from "../report/report.page";
 import { ModalController, AlertController, NavController } from '@ionic/angular';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class ProductPage implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
-      private alertController: AlertController, private modalController: ModalController){
+      private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog){
         this.getIdFromCategoriesPage()
     }
 
@@ -60,16 +61,18 @@ export class ProductPage implements OnInit {
     }
 
     async getProductDetailsById(pid) {
+        this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             this.product = value[0];
+            this.spinnerDialog.hide();
             this.images = Object.values(this.product.images);
-            this.getImagesforAvatar(this.product.owner);
+            this.getImagesforAvatar(this.product.uid);
         });
     }
 
-    async getImagesforAvatar(owner) {
-        await Promise.resolve(this.dbService.getSellerImages(owner)).then(value => {
-            this.seller = Object.values(value[0]);
+    async getImagesforAvatar(uid) {
+        await Promise.resolve(this.dbService.getSellerImages(uid)).then(value => {
+            this.seller = value[0];
         });
     }
 
@@ -124,7 +127,7 @@ export class ProductPage implements OnInit {
         const modal = await this.modalController.create({
           component: ReportPage,
           cssClass: 'my-custom-modal-css',
-          componentProps: { postName : this.product.postName, ownerName: this.product.owner},
+          componentProps: { postName : this.product.postName, ownerEmail: this.seller.email},
       });
       await modal.present();
   }
@@ -166,7 +169,7 @@ export class ProductPage implements OnInit {
     this.emailComposer.open(email);
   }
 smsSeller(){
-    
+
 }
   backtoCategoriesPage(){
     this.router.navigate(['/categories']);
