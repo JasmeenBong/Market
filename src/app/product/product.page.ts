@@ -1,4 +1,3 @@
-declare var SMS: any;
 import {
     Component,
     OnInit
@@ -28,9 +27,20 @@ import {
 import {
     AndroidPermissions
 } from '@ionic-native/android-permissions/ngx';
-import { ReportPage } from "../report/report.page";
-import { ModalController, AlertController, NavController } from '@ionic/angular';
-import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
+import {
+    ReportPage
+} from "../report/report.page";
+import {
+    ModalController,
+    AlertController,
+    NavController
+} from '@ionic/angular';
+import {
+    SpinnerDialog
+} from '@ionic-native/spinner-dialog/ngx';
+import {
+  SMS
+} from '@ionic-native/sms/ngx';
 
 
 @Component({
@@ -47,7 +57,7 @@ export class ProductPage implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
-      private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog){
+        private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog, private sms: SMS) {
         this.getIdFromCategoriesPage()
     }
 
@@ -101,84 +111,79 @@ export class ProductPage implements OnInit {
     }
 
     callSeller() {
-        this.callNumber.callNumber(this.seller[0].phoneNumber, false);
+        this.callNumber.callNumber(this.seller.phoneNumber, false);
     }
 
-    async alertReport(){
-      const alert = await this.alertController.create({
-      header: 'Report',
-      message: 'Do you want to make a report for this product sold by this seller?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-        }, {
-          text: 'Yes',
-          handler: () => {
-          this.gotoReportPage();
-          }
-        }
-      ]
-    });
-    await alert.present();
+    async alertReport() {
+        const alert = await this.alertController.create({
+            header: 'Report',
+            message: 'Do you want to make a report for this product sold by this seller?',
+            buttons: [{
+                text: 'No',
+                role: 'cancel',
+            }, {
+                text: 'Yes',
+                handler: () => {
+                    this.gotoReportPage();
+                }
+            }]
+        });
+        await alert.present();
     }
 
-    async gotoReportPage(){
+    async gotoReportPage() {
         const modal = await this.modalController.create({
-          component: ReportPage,
-          cssClass: 'my-custom-modal-css',
-          componentProps: { postName : this.product.postName, ownerEmail: this.seller.email},
-      });
-      await modal.present();
-  }
-
-  //   smsSeller() {
-  //           this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
-  //               success => {
-  //                   if (!success.hasPermission) {
-  //                       this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS).
-  //                       then((success) => {
-  //                               this.ReadSMSList(options);
-  //                           },
-  //                           (err) => {
-  //                               console.error(err);
-  //                           });
-  //                   }
-  //               },
-  //               err => {
-  //                   this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS).
-  //                   then((success) => {
-  //                           console.log(succes)
-  //                       },
-  //                       (err) => {
-  //                           console.error(err);
-  //                       });
-  //               });
-  //
-  // }
-
-  sendEmail(){
-    let email = {
-      to: 'max@mustermann.de',
-      cc: 'erika@mustermann.de',
-      bcc: ['john@doe.com', 'jane@doe.com'],
-      subject: 'Cordova Icons',
-      body: 'How are you? Nice greetings from Leipzig',
-      isHtml: true
+            component: ReportPage,
+            cssClass: 'my-custom-modal-css',
+            componentProps: {
+                postName: this.product.postName,
+                ownerEmail: this.seller.email
+            },
+        });
+        await modal.present();
     }
-    this.emailComposer.open(email);
-  }
-smsSeller(){
 
-}
-  backtoCategoriesPage(){
-    this.router.navigate(['/categories']);
-  }
+    async smsSeller() {
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
+          result => console.log('Has permission?'+result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS )
+        );
 
-  ngOnInit() {
-  }
-  chat(){
+          // var options = {
+          //   replaceLineBreaks: true, // true to replace \n by a new line, false by default
+          //   android: {
+          //     //intent: 'INTENT'  // send SMS with the native android SMS messaging
+          //     intent: '' // send SMS without opening any other app
+          //   }
+          // };
 
-  }
+          try{
+            await this.sms.send(this.seller.phoneNumber,"hello");
+            console.log("sent");
+          }
+          catch(e){
+            console.log(JSON.stringify(e));
+            console.log(e);
+          }
+    }
+
+    sendEmail() {
+        let email = {
+            to: this.seller.email,
+            subject: this.product.postName,
+            body: 'Can I ask for more information about this product?',
+            isHtml: true
+        }
+        this.emailComposer.open(email);
+    }
+
+    backtoCategoriesPage() {
+        this.router.navigate(['/categories']);
+    }
+
+    ngOnInit() {}
+    chat() {
+
+    }
 
 }

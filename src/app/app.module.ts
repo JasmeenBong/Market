@@ -35,6 +35,9 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
 import { Area } from './sell/area';
+import {
+  SMS
+} from '@ionic-native/sms/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -65,6 +68,7 @@ firebase.initializeApp(environment.firebase);
     GooglePlus,
     Facebook,
     Area,
+    SMS,
     UserArea,
     SpinnerDialog,
     SocialSharing,
