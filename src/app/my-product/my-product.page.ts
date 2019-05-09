@@ -40,16 +40,14 @@ export class MyProductPage implements OnInit{
   }
 
   checkUser(){
-    firebase.auth().onAuthStateChanged(user => {
-      if (user){
-        this.uid = user.uid;
-        console.log(this.uid);
-        this.getMyPostedAds(this.uid);
-      }
-      else {
-        this.router.navigateByUrl('tabs/tab5/login');
-      }
-    });
+    let user = firebase.auth().currentUser;
+    if(!user){
+      this.router.navigateByUrl('tabs/tab5/login');
+    }
+    else {
+      this.uid = user.uid;
+      this.getMyPostedAds(this.uid);
+    }
   }
 
   getMyPostedAds(uid){

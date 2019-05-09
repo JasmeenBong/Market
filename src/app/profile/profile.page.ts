@@ -35,7 +35,7 @@ export class ProfilePage implements OnInit {
     private area: UserArea,
     private camera: Camera,
     private AlertController:AlertController,
-    private ToastController: ToastController,  
+    private ToastController: ToastController,
     private formBuilder: FormBuilder
 
       ) { }
@@ -50,15 +50,14 @@ export class ProfilePage implements OnInit {
           {type: 'minLength', message: 'Password must be at least 8 characters long.'}
         ]
       };
-    
+
   ngOnInit() {
   }
 
   ionViewWillEnter(){
     this.fetchUser();
-
   }
-  
+
   fetchUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
@@ -79,7 +78,7 @@ export class ProfilePage implements OnInit {
           (<HTMLInputElement>document.getElementById('uname')).value = username;
           (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
           (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
-          
+
           (<HTMLInputElement>document.getElementById('gender')).value = gender;
           (<HTMLInputElement>document.getElementById('region')).value = location;
           (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
@@ -94,7 +93,9 @@ export class ProfilePage implements OnInit {
           })
 
         });
-      
+
+    }else{
+      this.router.navigateByUrl('tabs/tab5/login');
     }
     });
   }
@@ -104,7 +105,7 @@ export class ProfilePage implements OnInit {
        sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
        destinationType: this.camera.DestinationType.DATA_URL
       }).then((img) => {
-        
+
         if(img!=""){
           var reviewImage = 'data:image/jpeg;base64,' + img;
           (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
@@ -141,8 +142,8 @@ export class ProfilePage implements OnInit {
         console.log(err);
       });
    }
-   
-   
+
+
 
 
 
@@ -169,8 +170,8 @@ export class ProfilePage implements OnInit {
   }
 
 
-  
-  
+
+
   async editProfile(){
 
     const alert = await this.AlertController.create({
@@ -191,7 +192,7 @@ export class ProfilePage implements OnInit {
       birthday:(<HTMLInputElement>document.getElementById('birthDay')).value,
       gender:(<HTMLInputElement>document.getElementById('gender')).value,
       location:(<HTMLInputElement>document.getElementById('region')).value,
-      area:(<HTMLInputElement>document.getElementById('selectedArea')).value,  
+      area:(<HTMLInputElement>document.getElementById('selectedArea')).value,
       url: (<HTMLInputElement>document.getElementById('profilePicture')).getAttribute('src')
     });
     this.presentToast();
@@ -201,7 +202,7 @@ export class ProfilePage implements OnInit {
       }
     ]
   });
-  
+
   await alert.present();
   }
   async presentToast() {

@@ -181,8 +181,6 @@ export class ProductPage implements OnInit {
         this.router.navigate(['/categories']);
     }
 
-    ngOnInit() {}
-
   ngOnInit() {
   }
 

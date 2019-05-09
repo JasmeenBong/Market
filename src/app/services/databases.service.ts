@@ -26,7 +26,7 @@ export class DatabaseService{
   }
 
   addNewAd(images, title, category, breed, age, weight, details, price, region, area, dateTime, uid){
-    this.db.ref("posts/").set({
+    this.db.ref("posts/").push().set({
                 age: age,
                 area: area,
                 breed: breed,

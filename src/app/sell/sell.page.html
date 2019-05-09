@@ -23,10 +23,10 @@
     <ion-item>
       <div *ngIf="images != []">
         <br />
-          <div class="uploaded-photo" *ngFor="let image of images; let i = index">
+          <div class="uploaded-photo" *ngFor="let image of images">
             <ion-thumbnail class="thumbnail" slot="start">
               <ion-icon class="icon-close" name="close" (click)="cancelImage($index)"></ion-icon>
-              <ion-img id=i [src]=image (click)="uploadImage()"></ion-img>
+              <ion-img [src]=image (click)="uploadImage()"></ion-img>
             </ion-thumbnail>
           </div>
         <br/>
