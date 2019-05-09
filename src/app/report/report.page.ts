@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, AlertController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DatabaseService } from '../services/databases.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ReportPage implements OnInit {
   private reportForm : FormGroup;
 
   constructor(private modalController : ModalController, private navParams: NavParams, private formBuilder : FormBuilder,
-  private dbService : DatabaseService, private alertController: AlertController) {
+  private dbService : DatabaseService, private alertController: AlertController, private datePipe : DatePipe) {
     this.postName = this.navParams.get('postName');
     this.ownerEmail = this.navParams.get('ownerEmail');
     this.reportForm = this.formBuilder.group({
@@ -33,7 +34,7 @@ export class ReportPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
       phonenumber : new FormControl('', Validators.compose([
-        Validators.pattern('^([0])([1])([1,2,3,4,6,7,8,9])([0-9][0-9][0-9][0-9][0-9][0-9][0-9])')
+        Validators.pattern('^[0-9]{10}$')
       ])),
       description: new FormControl('', Validators.compose([
         Validators.required
@@ -47,9 +48,8 @@ export class ReportPage implements OnInit {
     }
 
   logForm(){
-    console.log(this.getCurrentDate());
-    // this.dbService.addReporttoFirebase(this.reportForm.value, this.ownerEmail, this.postName,new Date());
-    // this.presentAlert("Your report is submitted!");
+     this.dbService.addReporttoFirebase(this.reportForm.value, this.ownerEmail, this.postName,this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss'));
+     this.presentAlert("Your report is submitted!");
   }
 
   async presentAlert(msg) {
@@ -67,19 +67,6 @@ export class ReportPage implements OnInit {
     });
     return await alert.present();
   }
-
-  getCurrentDate() {
-    var now = new Date();
-    var year = "" + now.getFullYear();
-    var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
-    var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
-    var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
-    var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
-    var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
-    return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
-  }
-
-
 
   ngOnInit() {
 
