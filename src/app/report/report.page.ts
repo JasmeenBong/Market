@@ -33,7 +33,7 @@ export class ReportPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
       phonenumber : new FormControl('', Validators.compose([
-        Validators.pattern('\d{10}')
+        Validators.pattern('^([0])([1])([1,2,3,4,6,7,8,9])([0-9][0-9][0-9][0-9][0-9][0-9][0-9])')
       ])),
       description: new FormControl('', Validators.compose([
         Validators.required

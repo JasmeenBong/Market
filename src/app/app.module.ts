@@ -34,7 +34,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { SMS } from '@ionic-native/sms/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -64,6 +65,7 @@ firebase.initializeApp(environment.firebase);
     Camera,
     GooglePlus,
     Facebook,
+    SMS,
     UserArea,
     SpinnerDialog,
     SocialSharing,
