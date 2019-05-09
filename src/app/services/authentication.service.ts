@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
 @Injectable()
@@ -12,6 +13,7 @@ export class AuthenticateService{
     private googlePlus : GooglePlus,
     private platform: Platform,
     private facebook: Facebook,
+    private router : Router
   ){}
 
   registerUser(value){
@@ -23,12 +25,30 @@ export class AuthenticateService{
     })
   }
 
+  async sendVerificationMail(){
+   return await firebase.auth().currentUser.sendEmailVerification()
+    .then(() => {
+      console.log("Verification email has been sent.")
+      this.router.navigate(['verify-email']);
+    })
+  }
+
   loginUser(value){
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then (
         res => resolve(res),
         err => reject(err))
+    })
+  }
+
+  async forgotPassword(passwordResetEmail) {
+    return await firebase.auth().sendPasswordResetEmail(passwordResetEmail)
+    .then(() => {
+      window.alert('Password reset email sent, check your inbox.');
+      this.router.navigateByUrl("/tabs/tab5/login");
+    }).catch((error) => {
+      window.alert(error)
     })
   }
 
@@ -115,8 +135,4 @@ export class AuthenticateService{
         }
       })
     }
-
-  userDetails(){
-    return firebase.auth().currentUser;
-  };
 }

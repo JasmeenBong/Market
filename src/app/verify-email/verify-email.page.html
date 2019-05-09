@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Verify Email</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p class="text-center">We have sent a confirmation email to <strong>{{email}}</strong>.</p>
+  <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+
+  <ion-button type="button" fill="solid" expand="block" (click)="authService.sendVerificationMail()">Resend Verification Email</ion-button>
+  <ion-button type="button" fill="solid" expand="block" (click)="goBackToLogin()">Redirect to Login</ion-button>
+</ion-content>
