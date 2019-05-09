@@ -41,7 +41,7 @@ export class ModalPage implements OnInit {
       if(this.MalaysiaAreaList[i].region == region){
         this.areaList = this.MalaysiaAreaList[i].area;
       }
-  }
+    }
   }
 
   passDataBack(area){

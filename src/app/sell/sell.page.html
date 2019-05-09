@@ -109,22 +109,9 @@
       <ion-label class="input-label" for="selectedRegion">Region</ion-label>
       <ion-select class="select" id="selectedRegion" (ionChange)="onRegionChange($event)">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your region</ion-select-option>
-        <ion-select-option value="Johor">Johor</ion-select-option>
-        <ion-select-option value="Kedah">Kedah</ion-select-option>
-        <ion-select-option value="Kelantan">Kelantan</ion-select-option>
-        <ion-select-option value="Kuala Lumpur">Kuala Lumpur</ion-select-option>
-        <ion-select-option value="Labuan">Labuan</ion-select-option>
-        <ion-select-option value="Melaka">Melaka</ion-select-option>
-        <ion-select-option value="Negeri Sembilan">Negeri Sembilan</ion-select-option>
-        <ion-select-option value="Pahang">Pahang</ion-select-option>
-        <ion-select-option value="Penang">Penang</ion-select-option>
-        <ion-select-option value="Perak">Perak</ion-select-option>
-        <ion-select-option value="Perlis">Perlis</ion-select-option>
-        <ion-select-option value="Putrajaya">Putrajaya</ion-select-option>
-        <ion-select-option value="Selangor">Selangor</ion-select-option>
-        <ion-select-option value="Sabah">Sabah</ion-select-option>
-        <ion-select-option value="Sarawak">Sarawak</ion-select-option>
-        <ion-select-option value="Terengganu">Terengganu</ion-select-option>
+        <ion-select-option *ngFor="let region of regionList" [value]=region >
+          {{region}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -136,8 +123,8 @@
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
       <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange($event)">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
-        <ion-select-option *ngFor="let option of areaOptions" [value]=option >
-          {{option}}
+        <ion-select-option *ngFor="let area of areaList" [value]=area >
+          {{area}}
         </ion-select-option>
       </ion-select>
     </ion-item>

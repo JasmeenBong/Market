@@ -34,10 +34,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
-import { Area } from './sell/area';
-import {
-  SMS
-} from '@ionic-native/sms/ngx';
+import { DatePipe } from '@angular/common';
+import { SMS } from '@ionic-native/sms/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -67,7 +65,6 @@ firebase.initializeApp(environment.firebase);
     Camera,
     GooglePlus,
     Facebook,
-    Area,
     SMS,
     UserArea,
     SpinnerDialog,
@@ -76,6 +73,7 @@ firebase.initializeApp(environment.firebase);
     CallNumber,
     EmailComposer,
     AppAvailability,
+    DatePipe,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
