@@ -86,7 +86,7 @@ export class DatabaseService{
     return this.db.ref("posts/").orderByChild('uid').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
-  getSellerImages(uid){
+  getSellerInformation(uid){
     return this.db.ref("users/" + uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
@@ -96,7 +96,7 @@ export class DatabaseService{
 
   addReporttoFirebase(report,owner,post,time){
     this.db.ref("reports/").push().set({
-      timeStamp: time.toString(),
+      timeStamp: time,
       buyerEmail: report.email,
       buyerPhoneNumber: report.phonenumber,
       reportedEmail: owner,
