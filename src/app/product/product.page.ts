@@ -81,7 +81,7 @@ export class ProductPage implements OnInit {
     }
 
     async getImagesforAvatar(uid) {
-        await Promise.resolve(this.dbService.getSellerImages(uid)).then(value => {
+        await Promise.resolve(this.dbService.getSellerInformation(uid)).then(value => {
             this.seller = value[0];
         });
     }

@@ -6,6 +6,7 @@ import { ModalController, AlertController, NavController } from '@ionic/angular'
 import { ModalPage } from '../modal/modal.page';
 import { FilterModalPage } from '../filter-modal/filter-modal.page';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-categories',
@@ -20,6 +21,8 @@ export class CategoriesPage implements OnInit {
   array = [[],[]]
   names;
   location : any = "Malaysia";
+  buttonColor;
+  uid;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
     private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog) {
@@ -39,7 +42,9 @@ export class CategoriesPage implements OnInit {
     this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
       this.products = Object.entries(value[0]);
-      this.spinnerDialog.hide();
+      setTimeout(() => {
+        this.spinnerDialog.hide();
+      }, 5000);
       if(price == "Lowest to Highest"){
         this.products.sort(function(a, b) {
           return parseFloat(a[1].price) - parseFloat(b[1].price);
@@ -171,6 +176,46 @@ async openAlert(){
 
       await alert.present();
 
+  }
+
+  someAction(){
+    // this.buttonColor = "danger";
+    let user = firebase.auth().currentUser;
+    if(!user){
+      this.askusertoLogin();
+    }
+    else {
+      this.uid = user.uid;
+    }
+
+    if(this.uid){
+      console.log(this.uid);
+    }
+    else{
+      console.log('no uid');
+    }
+  }
+
+  async askusertoLogin(){
+      const alert = await this.alertController.create({
+        header: 'Fantastic, you found something you like',
+        message: 'Please log-in, for the best experience.',
+        buttons: [
+          {
+            text: 'Ok',
+            handler: () => {
+              this.router.navigateByUrl('tabs/tab5/login');
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+          }
+        }
+        ]
+      });
+      return await alert.present();
   }
 
   goToHomePage(){

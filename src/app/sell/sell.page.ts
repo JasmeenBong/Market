@@ -66,7 +66,8 @@ export class SellPage implements OnInit {
     private dbService : DatabaseService,
     private navCtrl : NavController,
     private alertController : AlertController,
-    private datePipe : DatePipe
+    private datePipe : DatePipe,
+    private camera : Camera
   ) { }
 
   ngOnInit() {
