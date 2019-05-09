@@ -299,7 +299,7 @@ export class SellPage implements OnInit {
 
       this.dbService.addNewAd(this.images, this.postTitle.value, this.postCategory.value,
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
-        this.postPrice.value, this.postRegion.value, this.postArea.value, currDate, this.uid);
+        this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
 
         this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
         this.router.navigateByUrl("/tabs/tab2");

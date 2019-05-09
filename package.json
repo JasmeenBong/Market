@@ -128,7 +128,8 @@
       "cordova-plugin-native-spinner": {},
       "cordova-plugin-datepicker": {},
       "cordova-plugin-crop": {},
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "cordova-plugin-android-permissions": {}
     },
     "platforms": [
       "ios",
