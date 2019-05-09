@@ -19,7 +19,12 @@
 <ion-content>
   <label for="uploaded-photos" [(ngModel)]="counter" ngModel id="counterLabel">Uploaded photos({{counter}}/3)</label>
   <form class="form" [formGroup]="validatePost">
-    <ion-button size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">Upload Image</ion-button>
+    <ion-button size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
+      <ion-icon slot="icon-only" name="images"></ion-icon>
+      Upload Image</ion-button>
+    <ion-button size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
+      <ion-icon slot="icon-only" name="camera"></ion-icon>
+      Take Image</ion-button>
     <ion-item>
       <div *ngIf="images != []">
         <br />
@@ -78,7 +83,7 @@
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Weight (Kg)</ion-label>
-      <ion-input class="input-text" type="text" id="weight" placeholder="weight is optional"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -95,7 +100,7 @@
 
     <ion-item>
       <ion-label class="input-label">Price (RM)</ion-label>
-      <ion-input class="input-text" type="text" id="price" placeholder="How much is it?" formControlName="price"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="price" placeholder="How much is it?" formControlName="price"></ion-input>
     </ion-item>
 
     <div class="validation-errors" *ngFor="let validation of ad_validation_messages.price">

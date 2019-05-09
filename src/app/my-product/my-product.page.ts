@@ -50,9 +50,12 @@ export class MyProductPage implements OnInit{
     }
   }
 
-  getMyPostedAds(uid){
-    Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
-      if(value != null){
+  async getMyPostedAds(uid){
+    await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
+      if(value[0] == null || value[0] == undefined){
+        this.noProduct = true;
+      }
+      else{
         this.products = Object.entries(value[0]);
         console.log(value);
         var count = 0;
@@ -64,9 +67,6 @@ export class MyProductPage implements OnInit{
             count++;
           }
         }
-      }
-      else{
-        this.noProduct = true;
       }
     });
   }
@@ -100,7 +100,7 @@ export class MyProductPage implements OnInit{
   }
 
   refreshPage(){
-    this.ionViewWillEnter();
+    this.getMyPostedAds(this.uid);
     console.log("refreshed");
   }
 

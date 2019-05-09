@@ -96,7 +96,7 @@ export class DatabaseService{
 
   addReporttoFirebase(report,owner,post,time){
     this.db.ref("reports/").push().set({
-      timeStamp: time.toString(),
+      timeStamp: time,
       buyerEmail: report.email,
       buyerPhoneNumber: report.phonenumber,
       reportedEmail: owner,
