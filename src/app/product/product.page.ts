@@ -41,6 +41,7 @@ import {
 import {
   SMS
 } from '@ionic-native/sms/ngx';
+import * as firebase from 'firebase/app';
 
 
 @Component({
@@ -181,10 +182,12 @@ export class ProductPage implements OnInit {
         this.router.navigate(['/categories']);
     }
 
-  ngOnInit() {}
+    ngOnInit() {
+      
+      }
 
   chat(){
-      this.router.navigate(['/chatbox']);
-  }
+   this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);   
+}
 
 }

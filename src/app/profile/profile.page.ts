@@ -59,45 +59,41 @@ export class ProfilePage implements OnInit {
   }
 
   fetchUser(){
-    firebase.auth().onAuthStateChanged(user => {
-      if (user){
+    var user = firebase.auth().currentUser;
+    if(user){
+      this.uid = user.uid;
 
-        this.uid = user.uid;
-        var userId = firebase.auth().currentUser.uid;
+      return firebase.database().ref('/users/' + this.uid).once('value').then(function(snapshot) {
+        var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
+        var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
+        var birthday = (snapshot.val() && snapshot.val().birthday) || null;
+        var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
+        var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
+        var url = (snapshot.val() && snapshot.val().url) || null;
+        var area = (snapshot.val() && snapshot.val().area) || null;
 
-        return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-          var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
-          var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
-          var birthday = (snapshot.val() && snapshot.val().birthday) || null;
-          var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
-          var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
-          var url = (snapshot.val() && snapshot.val().url) || null;
-          var area = (snapshot.val() && snapshot.val().area) || null;
+        (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+        (<HTMLInputElement>document.getElementById('uname')).value = username;
+        (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
+        (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
 
-          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
-          (<HTMLInputElement>document.getElementById('uname')).value = username;
-          (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
-          (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
+        (<HTMLInputElement>document.getElementById('gender')).value = gender;
+        (<HTMLInputElement>document.getElementById('region')).value = location;
+        (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
 
-          (<HTMLInputElement>document.getElementById('gender')).value = gender;
-          (<HTMLInputElement>document.getElementById('region')).value = location;
-          (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
-
-          return firebase.database().ref('location').once('value').then(function(snapshot){
-            snapshot.forEach(function(childSnapshot) {
-              var regions = document.createElement('ion-select-option');
-              var regionval = document.createTextNode(childSnapshot.val().region);
-              regions.appendChild(regionval);
-              (<HTMLInputElement>document.getElementById('region')).appendChild(regions);
-          });
-          })
-
+        return firebase.database().ref('location').once('value').then(function(snapshot){
+          snapshot.forEach(function(childSnapshot) {
+            var regions = document.createElement('ion-select-option');
+            var regionval = document.createTextNode(childSnapshot.val().region);
+            regions.appendChild(regionval);
+            (<HTMLInputElement>document.getElementById('region')).appendChild(regions);
         });
-
-    }else{
-      this.router.navigateByUrl('tabs/tab5/login');
+        })
+      });
     }
-    });
+    else {
+      this.router.navigateByUrl("tabs/tab5/login");
+    }
   }
 
   AccessGallery(){
@@ -142,16 +138,6 @@ export class ProfilePage implements OnInit {
         console.log(err);
       });
    }
-
-
-
-
-
-
-
-
-
-
 
   onRegionChange(event: any){
     if(event.target.value != "none"){
@@ -219,6 +205,7 @@ logoutUser(){
   this.authService.logoutUser()
   .then(res => {
    // console.log(res);
+    this.uid = "";
     this.navCtrl.navigateBack('tabs/tab1');
   })
   .catch(error => {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import * as firebase from 'firebase/app';
@@ -20,7 +20,8 @@ export class LoginPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private authService: AuthenticateService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -50,9 +51,15 @@ export class LoginPage implements OnInit {
   loginUser(value){
     this.authService.loginUser(value)
     .then(res => {
-      console.log(res);
-      this.errorMessage = "";
-      this.navCtrl.navigateForward('tabs/tab1');
+      if(res.user.emailVerified == false){
+        this.errorMessage = "Please verify your email."
+        this.authService.sendVerificationMail();
+      }
+      else {
+        console.log(res);
+        this.errorMessage = "";
+        this.navCtrl.navigateForward('tabs/tab1');
+      }
     }, err => {
       this.errorMessage = err.message;
     })
@@ -82,5 +89,9 @@ export class LoginPage implements OnInit {
 
   goToRegisterPage(){
     this.navCtrl.navigateForward('/tabs/tab5/register');
+  }
+
+  forgotPassword(){
+    this.router.navigate(['forgot-password']);
   }
 }

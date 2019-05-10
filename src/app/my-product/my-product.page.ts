@@ -50,9 +50,9 @@ export class MyProductPage implements OnInit{
     }
   }
 
-  getMyPostedAds(uid){
-    Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
-      if(!value){
+  async getMyPostedAds(uid){
+    await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
+      if(value[0] == null || value[0] == undefined){
         this.noProduct = true;
       }
       else{

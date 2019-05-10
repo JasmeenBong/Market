@@ -262,6 +262,23 @@ export class SellPage implements OnInit {
      });
   }
 
+  takePicture(){
+     this.camera.getPicture({
+     targetWidth:512,
+     targetHeight:512,
+     correctOrientation:true,
+     sourceType: this.camera.PictureSourceType.CAMERA,
+     destinationType: this.camera.DestinationType.DATA_URL
+       }).then((img) => {
+         if(img!=""){
+           this.images.push('data:image/jpeg;base64,' + img);
+           this.counter ++;
+         }
+      }, (err) => {
+        console.log(err);
+      });
+  }
+
   cancelImage(index){
     this.images.splice(index, 1);
     this.counter = this.counter - 1;
@@ -269,15 +286,15 @@ export class SellPage implements OnInit {
   }
 
   savePost(){
-    if(this.postBreed.value == null){
+    if(this.postBreed.value == ""){
       this.postBreed.value = "not set";
     }
 
-    if(this.postAge.value == null){
+    if(this.postAge.value == ""){
       this.postAge.value = "not set";
     }
 
-    if(this.postWeight.value == null){
+    if(this.postWeight.value == ""){
       this.postWeight.value = "not set";
     }
 
@@ -288,10 +305,6 @@ export class SellPage implements OnInit {
 
         this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
         this.router.navigateByUrl("/tabs/tab2");
-
-        let currDate = new Date();
-        let formatedDate = this.datePipe.transform(currDate, 'yyyy-MM-dd hh:mm');
-        console.log(formatedDate);
     }
     else {
       let currDate = new Date();

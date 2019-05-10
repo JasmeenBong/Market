@@ -5,6 +5,8 @@ import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { Router } from '@angular/router';
 
+import * as firebase from 'firebase/app';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -70,7 +72,8 @@ export class RegisterPage implements OnInit {
       this.errorMessage = "";
       this.successMessage = "Your account has been created.";
       this.addToDb();
-      this.navCtrl.navigateForward('/tabs/tab1');
+      this.authService.sendVerificationMail();
+      // this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
@@ -83,7 +86,7 @@ export class RegisterPage implements OnInit {
   }
 
   addToDb(){
-    var newUser = this.authService.userDetails();
+    var newUser = firebase.auth().currentUser;
 
     var id = newUser.uid;
     var email = newUser.email;
