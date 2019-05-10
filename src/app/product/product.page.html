@@ -47,12 +47,12 @@
         <ion-label>Category: {{this.product.postCategory}}</ion-label>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="product.age">
       <ion-col>
         <ion-label>Age: {{product.age}} Years Old</ion-label>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="product.weight">
       <ion-col>
         <ion-label>weight: {{product.weight}} KG</ion-label>
       </ion-col>
@@ -100,23 +100,3 @@
     </ion-tabs>
 </ion-toolbar>
 </ion-footer>
-<!-- <ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="CALL">
-      <ion-label>CALnL</ion-label>
-      <ion-icon name="call"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="SMS">
-      <ion-label>SMS</ion-label>
-      <ion-icon name="chatbubbles"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="Email">
-      <ion-label>Email</ion-label>
-      <ion-icon name="mail"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="Chat" (click)="goToChatBox()">
-      <ion-label>Chat</ion-label>
-      <ion-icon name="chatboxes"></ion-icon>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs> -->

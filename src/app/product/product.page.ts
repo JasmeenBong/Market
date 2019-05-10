@@ -149,13 +149,13 @@ export class ProductPage implements OnInit {
           err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS )
         );
 
-          // var options = {
-          //   replaceLineBreaks: true, // true to replace \n by a new line, false by default
-          //   android: {
-          //     //intent: 'INTENT'  // send SMS with the native android SMS messaging
-          //     intent: '' // send SMS without opening any other app
-          //   }
-          // };
+          var options = {
+            replaceLineBreaks: true, // true to replace \n by a new line, false by default
+            android: {
+              //intent: 'INTENT'  // send SMS with the native android SMS messaging
+              intent: '' // send SMS without opening any other app
+            }
+          };
 
           try{
             await this.sms.send(this.seller.phoneNumber,"hello");
