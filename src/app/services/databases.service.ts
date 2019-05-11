@@ -12,6 +12,7 @@ export class DatabaseService{
   constructor(){}
 
   addNewUser(id, email){
+    var array = [];
     this.db.ref("users/").child(id).set({
                 url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71',
                 name: '',
@@ -19,7 +20,8 @@ export class DatabaseService{
                 email: email,
                 gender: '',
                 birthday:'',
-                area:''
+                area:'',
+                likedProduct:''
     }).catch(function(error){
       console.error(error);
     });
@@ -60,6 +62,23 @@ export class DatabaseService{
     }).catch(function(error){
       console.error(error);
     });
+  }
+
+
+  addToCurrentUserLikedProduct(uid,likedProductarray){
+    if(likedProductarray.length){
+      this.db.ref("users/").child(uid).update({
+          likedProduct : likedProductarray
+        }).catch(function(error){
+          console.error(error);
+        });
+    }else{
+      this.db.ref("users/").child(uid).update({
+          likedProduct : ''
+        }).catch(function(error){
+          console.error(error);
+        });
+    }
   }
 
   getCurrentUser(id){
