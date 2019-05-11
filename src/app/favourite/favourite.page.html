@@ -1,9 +1,25 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Favourite</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid>
+    <ion-row *ngFor="let row of array" class="card-background-page">
+      <ion-col col-4 text-center *ngFor="let col of row">
+        <ion-card>
+          <ion-img [src] = "col.images[0]" (click) = "goToProductPage(col.pid)"></ion-img>
+          <ion-fab vertical="top" horizontal="end" slot="fixed">
+              <ion-icon name="heart" style="zoom:2.0;" [color]="col.buttonColor" (click)="addtoLikedProduct(col.pid, col)"></ion-icon>
+          </ion-fab>
+          <ion-card-content>
+          <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
+          <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
+          <ion-card-subtitle class="dateTime">{{col.dateTime}}</ion-card-subtitle>
+          </ion-card-content>
+        </ion-card>
+        </ion-col>
+     </ion-row>
+    </ion-grid>
 </ion-content>
