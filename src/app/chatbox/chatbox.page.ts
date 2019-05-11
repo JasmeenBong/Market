@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
+import { threadId } from 'worker_threads';
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.page.html',
@@ -32,17 +33,19 @@ export class ChatboxPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.reciever = this.route.snapshot.paramMap.get('reciever');
     this.sender = this.route.snapshot.paramMap.get('sender');
     this.retMsg = firebase.database().ref('messages');
- 
     this.retMsg.on("value",(snapshot)=>{
+      this.getMsgs = [];
+
        snapshot.forEach((childSnapshot)=> {
          this.getMsgs.push(childSnapshot.val().message);
         });
     })
    }
+
+
   
 }       
 export const snapshotToArray = snapshot => {
