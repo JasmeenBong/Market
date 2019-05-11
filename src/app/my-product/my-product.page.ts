@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
+import { AuthenticateService } from '../services/authentication.service';
 import { NavigationExtras } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
@@ -21,31 +22,22 @@ export class MyProductPage implements OnInit{
   uid : string = "";
   noProduct = false;
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private dbService : DatabaseService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private navCtrl : NavController,
+    private authService : AuthenticateService
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-    if(this.uid == ""){
-      this.checkUser();
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
     }
     else {
-      this.getMyPostedAds(this.uid);
-    }
-  }
-
-  checkUser(){
-    let user = firebase.auth().currentUser;
-    if(!user){
-      this.router.navigateByUrl('tabs/tab5/login');
-    }
-    else {
-      this.uid = user.uid;
+      this.uid = this.authService.user.uid;
       this.getMyPostedAds(this.uid);
     }
   }
@@ -86,7 +78,8 @@ export class MyProductPage implements OnInit{
         pid: pid
       }
     }
-    this.router.navigate(['product'],navigationExtras);
+    // this.router.navigate(['product'],navigationExtras);
+    this.navCtrl.navigateForward(['product'], navigationExtras);
   }
 
   editPost(pid){
