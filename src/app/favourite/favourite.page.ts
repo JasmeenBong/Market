@@ -17,92 +17,9 @@ export class FavouritePage implements OnInit {
   likedProductIDarray;
   likedProductarray = new Array();
   array = [[],[]];
-  products;
+  // products;
   private db = firebase.database();
 
-  checkUser(){
-    firebase.auth().onAuthStateChanged(user => {
-      if (user){
-        this.uid = user.uid;
-         this.getLikedPostsDetails();
-      }
-      else {
-        this.router.navigateByUrl('tabs/tab5/login');
-      }
-    });
-  }
-
-  getLikedPostsDetails(){
-      this.likedProductarray = new Array()
-      this.getListOfLikedProduct().then(data => {
-      data.forEach(product => {
-        this.db.ref("posts/" + product).once('value').then((snapshot) => {
-          console.log(snapshot.val());
-          this.likedProductarray.push((snapshot.val()));
-        }).catch((err) => {
-           console.log(err);
-        });
-      });
-      console.log(this.likedProductarray);
-      console.log(this.likedProductarray.length);
-    }).catch(err =>{
-      console.log(err);
-    });
-  }
-
-
-  getListOfLikedProduct(){
-    let items: any = [];
-    var mList = [];
-    return this.db.ref("users/" + this.uid + "/likedProduct").once('value').then((snapshot) => {
-      snapshot.forEach(user => {
-        mList.push(user.val());
-      });
-      return items = mList;
-    }).catch((err) => {
-      return err;
-    });
-  }
-
-  // printOutProductList(){
-  //   console.log(this.likedProductarray);
-  //   // console.log(Objecthis.likedProductarray[0]);
-  //   // console.log(this.likedProductarray.length);
-  //   // var count = 0;
-  //   // for(var row =0; row < (this.likedProductarray.length/2); row++)
-  //   // {
-  //   //   this.array[row] = [];
-  //   //   for(var col=0; col<2; col++){
-  //   //     console.log(this.likedProductarray[count]);
-  //   //     console.log(count);
-  //   //     count++;
-  //   //       // this.array[row][col] = this.products[count];
-  //   //       // this.array[row][col].pid = this.products[count].id;
-  //   //       // count++;
-  //   //   }
-  //   // }
-  // }
-
-  // async getMyLikedAds(){
-  //   await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
-  //     this.likedProductIDarray = Object.values(value[0].likedProduct);
-  //     for(var i=0; i<this.likedProductIDarray.length; i++){
-  //       this.getProductDetails(this.likedProductIDarray[i]);
-  //     }
-  //   });
-  //   this.printOutProductList();
-  // }
-  //
-  //
-  // async getProductDetails(pid){
-  //   this.likedProductarray = [];
-  //   await Promise.resolve(this.dbService.getProductById(pid)).then(value=>{
-  //       this.products = value[0];
-  //       this.products.id = pid;
-  //       this.likedProductarray.push(this.products);
-  //   });
-  // }
-  
   ngOnInit()
   {
 
@@ -113,8 +30,69 @@ export class FavouritePage implements OnInit {
       this.checkUser();
     }
     else {
-       this.getLikedPostsDetails();
+       this.getLikedProduct();
     }
+  }
+
+  checkUser(){
+    firebase.auth().onAuthStateChanged(user => {
+      if (user){
+        this.uid = user.uid;
+         this.getLikedProduct();
+      }
+      else {
+        this.router.navigateByUrl('tabs/tab5/login');
+      }
+    });
+  }
+
+  async getLikedProduct(){
+    await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
+      this.likedProductIDarray = Object.values(value[0].likedProduct);
+      this.likedProductIDarray.forEach((id)=>{
+        console.log("get product");
+        this.getProductDetails(id);
+      });
+      console.log("done");
+    });
+  }
+
+  getProductDetails(id){
+    this.likedProductarray = new Array();
+    Promise.resolve(this.dbService.getProductById(id)).then(value=>{
+      value[0].id = id;
+      this.likedProductarray.push(value[0]);
+      console.log("product added");
+      console.log(this.likedProductarray.length);
+    });
+    // if(this.likedProductarray.length == this.likedProductIDarray.length){
+      this.showProduct();
+    // }
+  }
+
+  showProduct(){
+    console.log("show product");
+    var count = 0;
+    for(var row =0; row < (this.likedProductarray.length/2); row++)
+      {
+        console.log(this.likedProductarray.length/2);
+        this.array[row] = [];
+        for(var col=0; col<2; col++){
+          this.array[row][col] = this.likedProductarray[count];
+          this.array[row][col].pid = this.likedProductarray[count].id;
+          count++;
+
+        //     if(!this.likedProductarray.length){
+      //       this.array[row][col] = this.products[count][1];
+      //       this.array[row][col].pid = this.products[count][0];
+      //       this.array[row][col].buttonColor = '';
+      //       console.log(this.array);
+      //       count++;
+
+
+      }
+    }
+    console.log(this.array);
   }
 
   goToProductPage(pid)

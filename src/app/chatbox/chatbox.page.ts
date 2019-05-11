@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
-import { threadId } from 'worker_threads';
+
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.page.html',
@@ -18,8 +18,8 @@ export class ChatboxPage implements OnInit {
   msg;
   msgRef;
   getMsgs = [];
-  
- 
+
+
   send(){
     this.msg = firebase.database().ref('messages');
     this.msgRef = this.msg.child('/').push();
@@ -46,8 +46,8 @@ export class ChatboxPage implements OnInit {
    }
 
 
-  
-}       
+
+}
 export const snapshotToArray = snapshot => {
   let returnArr = [];
 
