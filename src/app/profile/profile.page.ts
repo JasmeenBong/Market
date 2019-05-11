@@ -155,9 +155,6 @@ export class ProfilePage implements OnInit {
     }
   }
 
-
-
-
   async editProfile(){
 
     const alert = await this.AlertController.create({
@@ -204,7 +201,6 @@ changePassword(){
 logoutUser(){
   this.authService.logoutUser()
   .then(res => {
-   // console.log(res);
     this.uid = "";
     this.navCtrl.navigateBack('tabs/tab1');
   })

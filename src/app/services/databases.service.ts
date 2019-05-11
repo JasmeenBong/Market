@@ -25,6 +25,20 @@ export class DatabaseService{
     });
   }
 
+  addFacebookUser(id, name, email, image){
+    this.db.ref("users/").child(id).set({
+                url: image,
+                name: name,
+                location: '',
+                email: email,
+                gender: '',
+                birthday:'',
+                area:''
+    }).catch(function(error){
+      console.error(error);
+    });
+  }
+
   addNewAd(images, title, category, breed, age, weight, details, price, region, area, dateTime, uid){
     this.db.ref("posts/").push().set({
                 age: age,
