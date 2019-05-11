@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { Facebook } from '@ionic-native/facebook/ngx';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
@@ -53,21 +53,6 @@ export class AuthenticateService{
   }
 
   googleLogin(){
-  //   const provider = new firebase.auth.GoogleAuthProvider();
-  //
-  //   firebase.auth().signInWithRedirect(provider).then( () => {
-  //     firebase.auth().getRedirectResult().then( result => {
-  //     // This gives you a Google Access Token.
-  //     // You can use it to access the Google API.
-  //     var token = result.credential.accessToken;
-  //     // The signed-in user info.
-  //     var user = result.user;
-  //     console.log(token, user);
-  //   }).catch(function(error) {
-  //     // Handle Errors here.
-  //     console.log(error.message);
-  //   });
-  // });
     return new Promise<any>((resolve,reject) => {
       this.googlePlus.login({
         'webClientId': '859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com',
@@ -92,33 +77,52 @@ export class AuthenticateService{
                     resolve(response)
                   });
           }
-        },
-        err => reject(err))
-    })
+        }, err => {
+        reject(err);
+      });
+    });
+
+    //   const provider = new firebase.auth.GoogleAuthProvider();
+    //
+    //   firebase.auth().signInWithRedirect(provider).then( () => {
+    //     firebase.auth().getRedirectResult().then( result => {
+    //     // This gives you a Google Access Token.
+    //     // You can use it to access the Google API.
+    //     var token = result.credential.accessToken;
+    //     // The signed-in user info.
+    //     var user = result.user;
+    //     console.log(token, user);
+    //   }).catch(function(error) {
+    //     // Handle Errors here.
+    //     console.log(error.message);
+    //   });
+    // });
   }
 
   facebookLogin(){
-    return new Promise<any>((resolve, reject) => {
-      this.facebook.login(['email'])
-        .then(
-          response => {
+    return new Promise<any>((resolve,reject) => {
+      this.facebook.login(['email', 'public_profile'])
+        .then((response : FacebookLoginResponse) => {
             const facebookCredential = firebase.auth.FacebookAuthProvider
               .credential(response.authResponse.accessToken);
 
               if(this.platform.is('ios')|| this.platform.is("android") || this.platform.is('mobileweb')){
                   firebase.auth().signInWithCredential(facebookCredential)
-                      .then(success => {
-                          console.log("Firebase successful sign in with Facebook " + JSON.stringify(success));
+                      .then(response => {
+                          console.log("Firebase successful sign in with Facebook " + JSON.stringify(response));
+                          resolve(response);
                       });
               }
               else {
                   firebase.auth().signInWithRedirect(facebookCredential)
-                      .then(success => {
-                        console.log("Firebase successful sign in with Google " + JSON.stringify(success));
+                      .then(response => {
+                        console.log("Firebase successful sign in with Google " + JSON.stringify(response));
+                        resolve(response);
                       });
               }
-            },
-          err => reject(err));
+            }, err => {
+              reject (err);
+        });
     });
   }
 

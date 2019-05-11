@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { DatabaseService } from '../services/databases.service';
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
@@ -21,7 +22,8 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private authService: AuthenticateService,
     private formBuilder: FormBuilder,
-    private router : Router
+    private router : Router,
+    private dbService : DatabaseService
   ) { }
 
   ngOnInit() {
@@ -79,12 +81,12 @@ export class LoginPage implements OnInit {
   LoginWithFacebook(){
     this.authService.facebookLogin()
     .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.navCtrl.navigateForward('/tabs/tab1');
+      console.log(res);
+      // this.errorMessage = "";
+      // this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
-          this.errorMessage = err.message;
-    });
+      this.errorMessage = err.message;
+    })
   }
 
   goToRegisterPage(){
@@ -93,5 +95,16 @@ export class LoginPage implements OnInit {
 
   forgotPassword(){
     this.router.navigate(['forgot-password']);
+  }
+
+  addToDb(){
+    var newUser = firebase.auth().currentUser;
+
+    var id = newUser.uid;
+    var name = newUser.displayName;
+    var image = newUser.photoURL;
+    var email = newUser.email;
+
+    this.dbService.addFacebookUser(id, name, email, image);
   }
 }
