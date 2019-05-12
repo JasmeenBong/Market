@@ -6,6 +6,9 @@
 
 <ion-content>
   <ion-grid>
+    <p id="noLikedProduct" *ngIf="noLikedProduct == true" padding>
+      You haven't like any product.
+    </p>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card>

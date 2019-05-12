@@ -25,7 +25,7 @@ export class CategoriesPage implements OnInit {
   uid;
   likedProductarray = new Array();
   userInfo;
-  noProductinCategories;
+  noProductinCategories = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
     private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController) {
@@ -148,6 +148,7 @@ export class CategoriesPage implements OnInit {
         this.noProductinCategories = true;
       }else
       {
+        this.noProductinCategories = false;
         this.products = Object.entries(value[0]);
         this.spinnerDialog.hide();
       }

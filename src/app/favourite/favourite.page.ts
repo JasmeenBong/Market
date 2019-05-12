@@ -22,7 +22,7 @@ export class FavouritePage implements OnInit {
   likedProductarray = [];
   array = [[],[]];
   // products;
-  private db = firebase.database();
+  noLikedProduct = false;
 
   ngOnInit()
   {
@@ -43,6 +43,7 @@ export class FavouritePage implements OnInit {
     await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
       this.likedProductIDarray = Object.values(value[0].likedProduct);
       if(this.likedProductIDarray.length){
+        this.noLikedProduct = false;
         this.likedProductIDarray.forEach((id)=>{
           this.getProductDetails(id);
         });
@@ -50,6 +51,7 @@ export class FavouritePage implements OnInit {
       else{
             this.likedProductarray = [];
             this.array = [[],[]];
+            this.noLikedProduct = true;
           }
       });
   }
