@@ -14,17 +14,18 @@ export class FavouritePage implements OnInit {
   constructor(private router: Router, private dbService : DatabaseService) { }
 
   uid : string = "";
-  likedProductIDarray;
-  likedProductarray = new Array();
   array = [[],[]];
+  users
   products;
+  getProducts;
+  likedProducts = [];
   private db = firebase.database();
 
   checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
         this.uid = user.uid;
-         this.getLikedPostsDetails();
+        this.getAllDetails();
       }
       else {
         this.router.navigateByUrl('tabs/tab5/login');
@@ -32,80 +33,22 @@ export class FavouritePage implements OnInit {
     });
   }
 
-  getLikedPostsDetails(){
-      this.likedProductarray = new Array()
-      this.getListOfLikedProduct().then(data => {
-      data.forEach(product => {
-        this.db.ref("posts/" + product).once('value').then((snapshot) => {
-          console.log(snapshot.val());
-          this.likedProductarray.push((snapshot.val()));
-        }).catch((err) => {
-           console.log(err);
-        });
-      });
-      console.log(this.likedProductarray);
-      console.log(this.likedProductarray.length);
-    }).catch(err =>{
-      console.log(err);
-    });
-  }
 
+getAllDetails(){
+  this.users = firebase.database().ref('users/' + this.uid + '/likedProduct');
+  this.users.on("value",(snapshot)=>{
+    for(var i = 0; i < Object.values(snapshot.val()).length; i++){
+      this.likedProducts.push(Object.values(snapshot.val())[i]);
+    }
+  this.getProducts = firebase.database().ref('posts/');
+  
+});
+}
 
-  getListOfLikedProduct(){
-    let items: any = [];
-    var mList = [];
-    return this.db.ref("users/" + this.uid + "/likedProduct").once('value').then((snapshot) => {
-      snapshot.forEach(user => {
-        mList.push(user.val());
-      });
-      return items = mList;
-    }).catch((err) => {
-      return err;
-    });
-  }
-
-  // printOutProductList(){
-  //   console.log(this.likedProductarray);
-  //   // console.log(Objecthis.likedProductarray[0]);
-  //   // console.log(this.likedProductarray.length);
-  //   // var count = 0;
-  //   // for(var row =0; row < (this.likedProductarray.length/2); row++)
-  //   // {
-  //   //   this.array[row] = [];
-  //   //   for(var col=0; col<2; col++){
-  //   //     console.log(this.likedProductarray[count]);
-  //   //     console.log(count);
-  //   //     count++;
-  //   //       // this.array[row][col] = this.products[count];
-  //   //       // this.array[row][col].pid = this.products[count].id;
-  //   //       // count++;
-  //   //   }
-  //   // }
-  // }
-
-  // async getMyLikedAds(){
-  //   await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
-  //     this.likedProductIDarray = Object.values(value[0].likedProduct);
-  //     for(var i=0; i<this.likedProductIDarray.length; i++){
-  //       this.getProductDetails(this.likedProductIDarray[i]);
-  //     }
-  //   });
-  //   this.printOutProductList();
-  // }
-  //
-  //
-  // async getProductDetails(pid){
-  //   this.likedProductarray = [];
-  //   await Promise.resolve(this.dbService.getProductById(pid)).then(value=>{
-  //       this.products = value[0];
-  //       this.products.id = pid;
-  //       this.likedProductarray.push(this.products);
-  //   });
-  // }
   
   ngOnInit()
   {
-
+  //this.getAllDetails();
   }
 
   ionViewWillEnter() {
@@ -113,7 +56,9 @@ export class FavouritePage implements OnInit {
       this.checkUser();
     }
     else {
-       this.getLikedPostsDetails();
+     //   this.getLikedPostsDetails();
+     this.getAllDetails();
+
     }
   }
 

@@ -8,19 +8,35 @@ var DatabaseService = /** @class */ (function () {
         this.storage = firebase.storage();
     }
     DatabaseService.prototype.addNewUser = function (id, email) {
+        var array = [];
         this.db.ref("users/").child(id).set({
             url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71',
             name: '',
             location: '',
             email: email,
             gender: '',
-            birthday: ''
+            birthday: '',
+            area: '',
+            likedProduct: ''
+        }).catch(function (error) {
+            console.error(error);
+        });
+    };
+    DatabaseService.prototype.addFacebookUser = function (id, name, email, image) {
+        this.db.ref("users/").child(id).set({
+            url: image,
+            name: name,
+            location: '',
+            email: email,
+            gender: '',
+            birthday: '',
+            area: ''
         }).catch(function (error) {
             console.error(error);
         });
     };
     DatabaseService.prototype.addNewAd = function (images, title, category, breed, age, weight, details, price, region, area, dateTime, uid) {
-        this.db.ref("posts/").set({
+        this.db.ref("posts/").push().set({
             age: age,
             area: area,
             breed: breed,
@@ -54,6 +70,22 @@ var DatabaseService = /** @class */ (function () {
             console.error(error);
         });
     };
+    DatabaseService.prototype.addToCurrentUserLikedProduct = function (uid, likedProductarray) {
+        if (likedProductarray.length) {
+            this.db.ref("users/").child(uid).update({
+                likedProduct: likedProductarray
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+        else {
+            this.db.ref("users/").child(uid).update({
+                likedProduct: ''
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    };
     DatabaseService.prototype.getCurrentUser = function (id) {
         return this.db.ref("users/" + id).once('value').then(function (snapshot) { return snapshot.val(); }).then(function (value) { return [value]; });
     };
@@ -72,11 +104,23 @@ var DatabaseService = /** @class */ (function () {
     DatabaseService.prototype.getProductByOwner = function (uid) {
         return this.db.ref("posts/").orderByChild('uid').equalTo(uid).once('value').then(function (snapshot) { return snapshot.val(); }).then(function (value) { return [value]; });
     };
-    DatabaseService.prototype.getSellerImages = function (owner) {
-        return this.db.ref("users/").orderByChild('name').equalTo(owner).once('value').then(function (snapshot) { return snapshot.val(); }).then(function (value) { return [value]; });
+    DatabaseService.prototype.getSellerInformation = function (uid) {
+        return this.db.ref("users/" + uid).once('value').then(function (snapshot) { return snapshot.val(); }).then(function (value) { return [value]; });
     };
     DatabaseService.prototype.getMalaysiaAreaList = function () {
-        return this.storage.ref().child('json/malaysiaArea.json').getDownloadURL().then(function (downloadURL) { return downloadURL; }).then(function (value) { return [value]; });
+        return this.db.ref("location/").once('value').then(function (snapshot) { return snapshot.val(); }).then(function (value) { return [value]; });
+    };
+    DatabaseService.prototype.addReporttoFirebase = function (report, owner, post, time) {
+        this.db.ref("reports/").push().set({
+            timeStamp: time,
+            buyerEmail: report.email,
+            buyerPhoneNumber: report.phonenumber,
+            reportedEmail: owner,
+            reportedPost: post,
+            reportmsg: report.description
+        }).catch(function (error) {
+            console.error(error);
+        });
     };
     DatabaseService.prototype.deleteAd = function (pid) {
         this.db.ref("posts/").child(pid).remove()

@@ -1,20 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title><p>{{reciever}}</p></ion-title>
+    <ion-title>
+      
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        Send a message!
+      </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngFor="let message of getMsgs">
-    <p>{{message}}</p>
-  </div>
+<ion-content padding>
 
-  <ion-footer>
-    <div class="sending" padding>
-       
-        <ion-input [(ngModel)]="message" name="message" class="input_message" placeholder="Type a message..."></ion-input>
-        <ion-icon  (click)="send()" class="send" name="send"></ion-icon>
+    <div id="chatMessages">
+      <div *ngFor="let message of getMsgs" [class]="message.getText ? 'message special' : 'message'">
+        <div [class]="message.sender == this.sender ? 'innerMessage messageRight' : 'innerMessage messageLeft'">
+          <div class="username">{{message.sender}}</div>
+          <div class="messageContent">{{ message.message }}</div>
+        </div>
       </div>
-
-</ion-footer>
-</ion-content>
+    </div>
+  
+  </ion-content>
+  
+  <ion-footer>
+    <ion-toolbar>
+      <div id="footer">
+        <div class="elem"><ion-input type="text" [(ngModel)]="message" placeholder="Type a message..."></ion-input></div>
+        <div class="elem"><button icon-only (click)="send()"><ion-icon name="send"></ion-icon> </button></div>
+      </div>
+    </ion-toolbar>
+  </ion-footer>

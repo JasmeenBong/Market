@@ -23,19 +23,16 @@ var ModalPage = /** @class */ (function () {
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: 
-                    // this.spinnerDialog.show();
-                    return [4 /*yield*/, Promise.resolve(this.dbService.getMalaysiaAreaList()).then(function (value) {
-                            _this.http.get(value[0]).subscribe(function (response) {
-                                _this.MalaysiaAreaList = Object.values(response);
-                                // this.spinnerDialog.hide();
+                    case 0:
+                        this.spinnerDialog.show();
+                        return [4 /*yield*/, Promise.resolve(this.dbService.getMalaysiaAreaList()).then(function (value) {
+                                _this.MalaysiaAreaList = Object.values(value[0]);
+                                _this.spinnerDialog.hide();
                                 for (var i = 0; i < _this.MalaysiaAreaList.length; i++) {
                                     _this.regionList[i] = _this.MalaysiaAreaList[i].region;
                                 }
-                            });
-                        })];
+                            })];
                     case 1:
-                        // this.spinnerDialog.show();
                         _a.sent();
                         return [2 /*return*/];
                 }

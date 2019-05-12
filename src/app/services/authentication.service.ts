@@ -106,22 +106,15 @@ export class AuthenticateService{
             const facebookCredential = firebase.auth.FacebookAuthProvider
               .credential(response.authResponse.accessToken);
 
-              if(this.platform.is('ios')|| this.platform.is("android") || this.platform.is('mobileweb')){
-                  firebase.auth().signInWithCredential(facebookCredential)
-                      .then(response => {
-                          console.log("Firebase successful sign in with Facebook " + JSON.stringify(response));
-                          resolve(response);
-                      });
-              }
-              else {
-                  firebase.auth().signInWithRedirect(facebookCredential)
-                      .then(response => {
-                        console.log("Firebase successful sign in with Google " + JSON.stringify(response));
-                        resolve(response);
-                      });
-              }
+            firebase.auth().signInWithCredential(facebookCredential)
+              .then(response => {
+                  console.log("Firebase successful sign in with Facebook " + JSON.stringify(response));
+                  resolve(response);
+              });
             }, err => {
               reject (err);
+        }).catch((error) => {
+          window.alert(error);
         });
     });
   }

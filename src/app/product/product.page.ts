@@ -55,6 +55,7 @@ export class ProductPage implements OnInit {
     product;
     seller
     images;
+    communicate = true;
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
@@ -69,7 +70,9 @@ export class ProductPage implements OnInit {
                 this.getProductDetailsById(this.pid);
             }
         })
+     
     }
+  
 
     async getProductDetailsById(pid) {
         this.spinnerDialog.show();
@@ -79,11 +82,18 @@ export class ProductPage implements OnInit {
             this.images = Object.values(this.product.images);
             this.getImagesforAvatar(this.product.uid);
         });
+   
     }
 
     async getImagesforAvatar(uid) {
         await Promise.resolve(this.dbService.getSellerInformation(uid)).then(value => {
             this.seller = value[0];
+          
+            if(this.seller.email == firebase.auth().currentUser.email){
+                this.communicate = false;
+            }else{
+                this.communicate = true;
+            }
         });
     }
 
@@ -183,11 +193,13 @@ export class ProductPage implements OnInit {
     }
 
     ngOnInit() {
+  
       
       }
 
   chat(){
-   this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);   
-}
 
+  this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);   
+
+}
 }
