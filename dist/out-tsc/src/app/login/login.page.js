@@ -3,11 +3,16 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { DatabaseService } from '../services/databases.service';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 var LoginPage = /** @class */ (function () {
-    function LoginPage(navCtrl, authService, formBuilder) {
+    function LoginPage(navCtrl, authService, formBuilder, router, dbService) {
         this.navCtrl = navCtrl;
         this.authService = authService;
         this.formBuilder = formBuilder;
+        this.router = router;
+        this.dbService = dbService;
         this.errorMessage = '';
         this.validation_messages = {
             'email': [
@@ -36,9 +41,15 @@ var LoginPage = /** @class */ (function () {
         var _this = this;
         this.authService.loginUser(value)
             .then(function (res) {
-            console.log(res);
-            _this.errorMessage = "";
-            _this.navCtrl.navigateForward('/tabs/tab1');
+            if (res.user.emailVerified == false) {
+                _this.errorMessage = "Please verify your email.";
+                _this.authService.sendVerificationMail();
+            }
+            else {
+                console.log(res);
+                _this.errorMessage = "";
+                _this.navCtrl.navigateForward('tabs/tab1');
+            }
         }, function (err) {
             _this.errorMessage = err.message;
         });
@@ -59,14 +70,25 @@ var LoginPage = /** @class */ (function () {
         this.authService.facebookLogin()
             .then(function (res) {
             console.log(res);
-            _this.errorMessage = "";
-            _this.navCtrl.navigateForward('/tabs/tab1');
+            // this.errorMessage = "";
+            // this.navCtrl.navigateForward('/tabs/tab1');
         }, function (err) {
             _this.errorMessage = err.message;
         });
     };
     LoginPage.prototype.goToRegisterPage = function () {
         this.navCtrl.navigateForward('/tabs/tab5/register');
+    };
+    LoginPage.prototype.forgotPassword = function () {
+        this.router.navigate(['forgot-password']);
+    };
+    LoginPage.prototype.addToDb = function () {
+        var newUser = firebase.auth().currentUser;
+        var id = newUser.uid;
+        var name = newUser.displayName;
+        var image = newUser.photoURL;
+        var email = newUser.email;
+        this.dbService.addFacebookUser(id, name, email, image);
     };
     LoginPage = tslib_1.__decorate([
         Component({
@@ -76,7 +98,9 @@ var LoginPage = /** @class */ (function () {
         }),
         tslib_1.__metadata("design:paramtypes", [NavController,
             AuthenticateService,
-            FormBuilder])
+            FormBuilder,
+            Router,
+            DatabaseService])
     ], LoginPage);
     return LoginPage;
 }());

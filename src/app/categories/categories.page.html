@@ -23,6 +23,9 @@
 </ion-header>
 
 <ion-content>
+  <p id="noProductinCategories" *ngIf="noProductinCategories == true" padding>
+    There is currently no product(s) in this category.
+  </p>
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
@@ -31,7 +34,7 @@
           <ion-fab vertical="top" horizontal="end" slot="fixed">
               <ion-icon name="heart" style="zoom:2.0;" [color]="col.buttonColor" (click)="addtoLikedProduct(col.pid, col)"></ion-icon>
           </ion-fab>
-          <ion-card-content>
+          <ion-card-content (click) = "goToProductPage(col.pid)">
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
           <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
           <ion-card-subtitle class="dateTime">{{col.dateTime}}</ion-card-subtitle>

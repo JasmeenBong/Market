@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
     </ion-searchbar>
-    <ion-list *ngIf="productList">
+    <ion-list *ngIf="productList.length">
       <ion-item *ngFor="let product of productList">
         <h2> {{ product.postName }} </h2>
       </ion-item>
@@ -11,6 +11,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let image of carousel">
+        <ion-img [src]=image></ion-img>
+    </ion-slide>
+  </ion-slides>
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">

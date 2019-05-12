@@ -32,6 +32,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import {DatePicker} from '@ionic-native/date-picker/ngx';
 import { DatePipe } from '@angular/common';
 import { SMS } from '@ionic-native/sms/ngx';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 
 firebase.initializeApp(environment.firebase);
@@ -51,6 +52,7 @@ firebase.initializeApp(environment.firebase);
     HttpClientModule,
     FilterModalPageModule,
     ReportPageModule ,
+    AngularFireDatabaseModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [

@@ -4,7 +4,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="communicate == true">
       <ion-button (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>
       </ion-button>
@@ -76,7 +76,7 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer>
+<ion-footer  *ngIf="communicate == true">
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">

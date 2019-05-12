@@ -25,36 +25,42 @@ var MyProductPage = /** @class */ (function () {
         }
     };
     MyProductPage.prototype.checkUser = function () {
-        var _this = this;
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                _this.uid = user.uid;
-                console.log(_this.uid);
-                _this.getMyPostedAds(_this.uid);
-            }
-            else {
-                _this.router.navigateByUrl('tabs/tab5/login');
-            }
-        });
+        var user = firebase.auth().currentUser;
+        if (!user) {
+            this.router.navigateByUrl('tabs/tab5/login');
+        }
+        else {
+            this.uid = user.uid;
+            this.getMyPostedAds(this.uid);
+        }
     };
     MyProductPage.prototype.getMyPostedAds = function (uid) {
-        var _this = this;
-        Promise.resolve(this.dbService.getProductByOwner(uid)).then(function (value) {
-            if (value != null) {
-                _this.products = Object.entries(value[0]);
-                console.log(value);
-                var count = 0;
-                for (var row = 0; row < (_this.products.length / 2); row++) {
-                    for (var col = 0; col < 2; col++) {
-                        _this.array[row][col] = _this.products[count][1];
-                        _this.array[row][col].pid = _this.products[count][0];
-                        count++;
-                    }
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.resolve(this.dbService.getProductByOwner(uid)).then(function (value) {
+                            if (value[0] == null || value[0] == undefined) {
+                                _this.noProduct = true;
+                            }
+                            else {
+                                _this.products = Object.entries(value[0]);
+                                console.log(value);
+                                var count = 0;
+                                for (var row = 0; row < (_this.products.length / 2); row++) {
+                                    for (var col = 0; col < 2; col++) {
+                                        _this.array[row][col] = _this.products[count][1];
+                                        _this.array[row][col].pid = _this.products[count][0];
+                                        count++;
+                                    }
+                                }
+                            }
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-            }
-            else {
-                _this.noProduct = true;
-            }
+            });
         });
     };
     MyProductPage.prototype.postNewAd = function () {
@@ -83,7 +89,7 @@ var MyProductPage = /** @class */ (function () {
         this.router.navigate(['sell'], navigationExtras);
     };
     MyProductPage.prototype.refreshPage = function () {
-        this.ionViewWillEnter();
+        this.getMyPostedAds(this.uid);
         console.log("refreshed");
     };
     MyProductPage.prototype.deletePost = function (pid) {

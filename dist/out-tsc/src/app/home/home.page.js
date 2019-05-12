@@ -16,21 +16,20 @@ var HomePage = /** @class */ (function () {
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: 
-                    // this.spinnerDialog.show();
-                    return [4 /*yield*/, Promise.resolve(this.dbService.getCategory()).then(function (value) {
-                            _this.categories = Object.values(value[0]);
-                            // this.spinnerDialog.hide();
-                            var count = 0;
-                            for (var row = 0; row < (_this.categories.length / 3); row++) {
-                                for (var col = 0; col < 3; col++) {
-                                    _this.array[row][col] = _this.categories[count];
-                                    count++;
+                    case 0:
+                        this.spinnerDialog.show();
+                        return [4 /*yield*/, Promise.resolve(this.dbService.getCategory()).then(function (value) {
+                                _this.categories = Object.values(value[0]);
+                                _this.spinnerDialog.hide();
+                                var count = 0;
+                                for (var row = 0; row < (_this.categories.length / 3); row++) {
+                                    for (var col = 0; col < 3; col++) {
+                                        _this.array[row][col] = _this.categories[count];
+                                        count++;
+                                    }
                                 }
-                            }
-                        })];
+                            })];
                     case 1:
-                        // this.spinnerDialog.show();
                         _a.sent();
                         return [2 /*return*/];
                 }

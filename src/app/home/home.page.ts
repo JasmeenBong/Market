@@ -13,19 +13,27 @@ export class HomePage implements OnInit {
 
   categories;
   products;
-  productList;
+  productList = [];
   array = [[],[]];
   val;
+  carousel;
 
   constructor(public router: Router,   private dbService : DatabaseService, private spinnerDialog: SpinnerDialog) {
-  this.getCategoriesFromFireBase()
+  this.getCategoriesFromFireBase();
+  this.showCarouselPhoto();
   }
 
   async getCategoriesFromFireBase(){
   this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getCategory()).then(value=> {
-      this.categories = Object.values(value[0]);
-      this.spinnerDialog.hide();
+      if(value){
+        this.categories = Object.values(value[0]);
+        this.spinnerDialog.hide();
+      }else{
+        setTimeout(() => {
+          this.spinnerDialog.hide();
+        }, 5000);
+      }
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){
         for(var col=0; col<3; col++){
@@ -47,10 +55,23 @@ export class HomePage implements OnInit {
     });
   }
   else{
-    this.productList = '';
+    this.productList = [];
     }
   }
 
+  async showCarouselPhoto(){
+    this.spinnerDialog.show();
+    await Promise.resolve(this.dbService.getCarouselImage()).then(value=> {
+       if(value){
+         this.carousel= Object.values(value[0]);
+         this.spinnerDialog.hide();
+       }else{
+         setTimeout(() => {
+           this.spinnerDialog.hide();
+         }, 5000);
+       }
+     });
+  }
 
 
   goCategoriesPage(categoryName) {

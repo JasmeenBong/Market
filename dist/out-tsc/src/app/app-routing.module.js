@@ -16,7 +16,12 @@ var routes = [
     { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
     { path: 'modal', loadChildren: './modal/modal.module#ModalPageModule' },
     { path: 'filter-modal', loadChildren: './filter-modal/filter-modal.module#FilterModalPageModule' },
-    { path: 'report', loadChildren: './report/report.module#ReportPageModule' }
+    { path: 'report', loadChildren: './report/report.module#ReportPageModule' },
+    { path: 'change-password', loadChildren: './change-password/change-password.module#ChangePasswordPageModule' },
+    { path: 'verify-email', loadChildren: './verify-email/verify-email.module#VerifyEmailPageModule' },
+    { path: 'forgot-password', loadChildren: './forgot-password/forgot-password.module#ForgotPasswordPageModule' },
+    { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
+    { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {

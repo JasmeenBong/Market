@@ -2,6 +2,7 @@ import * as tslib_1 from "tslib";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { UserArea } from './profile/area';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -10,13 +11,15 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { AuthenticateService } from './services/authentication.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { DatabaseService } from './services/databases.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AppAvailability } from '@ionic-native/app-availability/ngx';
 import * as firebase from 'firebase';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { Crop } from '@ionic-native/crop/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,7 +30,8 @@ import { SpinnerDialog } from "@ionic-native/spinner-dialog/ngx";
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Area } from './sell/area';
+import { DatePipe } from '@angular/common';
+import { SMS } from '@ionic-native/sms/ngx';
 firebase.initializeApp(environment.firebase);
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -43,6 +47,7 @@ var AppModule = /** @class */ (function () {
                 ModalPageModule,
                 AngularFireAuthModule,
                 ReactiveFormsModule,
+                FormsModule,
                 AngularFireModule,
                 HttpClientModule,
                 FilterModalPageModule,
@@ -55,15 +60,19 @@ var AppModule = /** @class */ (function () {
                 AuthenticateService,
                 DatabaseService,
                 ImagePicker,
+                Crop,
+                Camera,
                 GooglePlus,
                 Facebook,
-                Area,
+                SMS,
+                UserArea,
                 SpinnerDialog,
                 SocialSharing,
                 AndroidPermissions,
                 CallNumber,
                 EmailComposer,
                 AppAvailability,
+                DatePipe,
                 { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
             ],
             bootstrap: [AppComponent]

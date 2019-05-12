@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 var RegisterPage = /** @class */ (function () {
     function RegisterPage(navCtrl, authService, formBuilder, dbService, router) {
         this.navCtrl = navCtrl;
@@ -58,7 +59,8 @@ var RegisterPage = /** @class */ (function () {
             _this.errorMessage = "";
             _this.successMessage = "Your account has been created.";
             _this.addToDb();
-            _this.navCtrl.navigateForward('/tabs/tab1');
+            _this.authService.sendVerificationMail();
+            // this.navCtrl.navigateForward('/tabs/tab1');
         }, function (err) {
             console.log(err);
             _this.errorMessage = err.message;
@@ -69,7 +71,7 @@ var RegisterPage = /** @class */ (function () {
         this.navCtrl.navigateForward('/tabs/tab5/login');
     };
     RegisterPage.prototype.addToDb = function () {
-        var newUser = this.authService.userDetails();
+        var newUser = firebase.auth().currentUser;
         var id = newUser.uid;
         var email = newUser.email;
         this.dbService.addNewUser(id, email);
