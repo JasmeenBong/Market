@@ -73,7 +73,7 @@ export class LoginPage implements OnInit {
     this.authService.googleLogin()
     .then(res => {
         console.log(res);
-        this.errorMessage = "";
+        // this.errorMessage = "";
         this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
           this.errorMessage = err.message;
@@ -85,7 +85,7 @@ export class LoginPage implements OnInit {
     .then(res => {
       console.log(res);
       // this.errorMessage = "";
-      // this.navCtrl.navigateForward('/tabs/tab1');
+      this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
       this.errorMessage = err.message;
     })
