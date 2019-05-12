@@ -25,6 +25,7 @@ export class CategoriesPage implements OnInit {
   uid;
   likedProductarray = new Array();
   userInfo;
+  noProductinCategories;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
     private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController) {
@@ -142,13 +143,13 @@ export class CategoriesPage implements OnInit {
   async getProductListFromFireBase(category){
     this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
-      this.products = Object.entries(value[0]);
-      if(this.products){
+      if(value[0] == null || value[0] == undefined){
         this.spinnerDialog.hide();
-      }else{
-        setTimeout(() => {
-          this.spinnerDialog.hide();
-        }, 5000);
+        this.noProductinCategories = true;
+      }else
+      {
+        this.products = Object.entries(value[0]);
+        this.spinnerDialog.hide();
       }
       this.printOutProductList();
   });

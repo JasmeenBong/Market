@@ -26,8 +26,8 @@ export class HomePage implements OnInit {
   async getCategoriesFromFireBase(){
   this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getCategory()).then(value=> {
-      this.categories = Object.values(value[0]);
-      if(this.categories){
+      if(value){
+        this.categories = Object.values(value[0]);
         this.spinnerDialog.hide();
       }else{
         setTimeout(() => {
@@ -62,8 +62,8 @@ export class HomePage implements OnInit {
   async showCarouselPhoto(){
     this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getCarouselImage()).then(value=> {
-       this.carousel= Object.values(value[0]);
-       if(this.carousel){
+       if(value){
+         this.carousel= Object.values(value[0]);
          this.spinnerDialog.hide();
        }else{
          setTimeout(() => {

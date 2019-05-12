@@ -74,8 +74,8 @@ export class ProductPage implements OnInit {
     async getProductDetailsById(pid) {
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
-            this.product = value[0];
-            if(this.product){
+            if(value){
+              this.product = value[0];
               this.spinnerDialog.hide();
             }else{
               setTimeout(() => {
