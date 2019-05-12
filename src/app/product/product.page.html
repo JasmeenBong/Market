@@ -4,6 +4,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="addtoLikedProduct(product.id, product.buttonColor)">
+        <ion-icon name="heart" color="product.buttonColor"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-buttons slot="end" *ngIf="communicate == true">
       <ion-button (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>
@@ -80,11 +85,11 @@
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button (click)="callSeller()" tab="CALL" [disable]="!seller.phoneNumber">
+        <ion-tab-button (click)="callSeller()" tab="CALL" [disabled]="isDisabled">
           <ion-label>CALL</ion-label>
           <ion-icon name="call"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button (click)="smsSeller()" tab="SMS" [disable]="!seller.phoneNumber">
+        <ion-tab-button (click)="smsSeller()" tab="SMS" [disabled]="isDisabled">
           <ion-label>SMS</ion-label>
           <ion-icon name="chatbubbles"></ion-icon>
         </ion-tab-button>

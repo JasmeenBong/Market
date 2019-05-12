@@ -55,7 +55,11 @@ export class ProductPage implements OnInit {
     product;
     seller
     images;
+    isDisabled;
     communicate = true;
+    uid;
+    userInfo;
+    likedProductarray;
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
@@ -70,15 +74,41 @@ export class ProductPage implements OnInit {
                 this.getProductDetailsById(this.pid);
             }
         })
-     
     }
-  
+
+    async checkCurrentUserWithoutLogin(){
+      let user = firebase.auth().currentUser;
+      if(user){
+        this.uid = user.uid;
+        await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
+          this.userInfo  = value[0];
+          this.likedProductarray = Object.values(this.userInfo.likedProduct);
+        });
+      }
+    }
+
 
     async getProductDetailsById(pid) {
+        await this.checkCurrentUserWithoutLogin();
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             if(value){
-              this.product = value[0];
+              if(this.likedProductarray.length){
+                if(this.likedProductarray.includes(pid)){
+                  this.product = value[0];
+                  this.product.id = pid;
+                  this.product.buttonColor = "danger";
+                }
+                else{
+                  this.product = value[0];
+                  this.product.id = pid;
+                  this.product.buttonColor = "";
+                }
+              }else{
+                this.product = value[0];
+                this.product.id = pid;
+                this.product.buttonColor = "";
+              }
               this.spinnerDialog.hide();
             }else{
               setTimeout(() => {
@@ -88,19 +118,30 @@ export class ProductPage implements OnInit {
             this.images = Object.values(this.product.images);
             this.getImagesforAvatar(this.product.uid);
         });
-   
+
     }
 
     async getImagesforAvatar(uid) {
         await Promise.resolve(this.dbService.getSellerInformation(uid)).then(value => {
             this.seller = value[0];
-          
+            if(this.seller.phoneNumber){
+              this.isDisabled = false;
+            }
+            else{
+              this.isDisabled = true;
+            }
+
             if(this.seller.email == firebase.auth().currentUser.email){
                 this.communicate = false;
             }else{
                 this.communicate = true;
             }
         });
+    }
+
+    addtoLikedProduct(pid, color){
+      console.log(pid);
+      console.log(color);
     }
 
     async shareFacebook() {
@@ -166,22 +207,56 @@ export class ProductPage implements OnInit {
           err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS )
         );
 
-          var options = {
-            replaceLineBreaks: true, // true to replace \n by a new line, false by default
-            android: {
-              //intent: 'INTENT'  // send SMS with the native android SMS messaging
-              intent: '' // send SMS without opening any other app
-            }
-          };
+          const alert = await this.alertController.create({
+           header: 'Please enter the text you want to send to the seller',
+           inputs: [
+             {
+               name: 'msg',
+               type: 'text',
+               placeholder: 'Enter some text'
+             }
+           ],
+           buttons: [
+             {
+               text: 'Cancel',
+               role: 'cancel',
+               cssClass: 'secondary',
+               handler: () => {
+                 console.log('Confirm Cancel');
+               }
+             }, {
+               text: 'Ok',
+               handler: (data) => {
+                 var options = {
+                   replaceLineBreaks: true, // true to replace \n by a new line, false by default
+                   android: {
+                     //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                     intent: '' // send SMS without opening any other app
+                   }
+                 };
+                  try{
+                   this.sms.send(this.seller.phoneNumber,data.msg);
+                   this.presentSentAlert();
+                 }
+                 catch(e){
+                   console.log(JSON.stringify(e));
+                   console.log(e);
+                 }
+               }
+             }
+           ]
+         });
 
-          try{
-            await this.sms.send(this.seller.phoneNumber,"hello");
-            console.log("sent");
-          }
-          catch(e){
-            console.log(JSON.stringify(e));
-            console.log(e);
-          }
+        await alert.present();
+    }
+
+    async presentSentAlert(){
+      const alert = await this.alertController.create({
+        header: 'Message sent',
+        message: 'Please check your SMS inbox',
+        buttons: ['OK']
+      });
+      await alert.present();
     }
 
     sendEmail() {
@@ -199,13 +274,13 @@ export class ProductPage implements OnInit {
     }
 
     ngOnInit() {
-  
-      
+
+
       }
 
   chat(){
 
-  this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);   
+  this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);
 
 }
 }

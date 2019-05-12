@@ -18,52 +18,98 @@ export class FavouritePage implements OnInit {
   private authService : AuthenticateService, private alertController : AlertController, private spinnerDialog: SpinnerDialog) { }
 
   uid : string = "";
+  likedProductIDarray;
+  likedProductarray = [];
   array = [[],[]];
-  users
-  products;
-  getProducts;
-  likedProducts = [];
-  private db = firebase.database();
+  // products;
+  noLikedProduct = false;
 
-  checkUser(){
-    firebase.auth().onAuthStateChanged(user => {
-      if (user){
-        this.uid = user.uid;
-        this.getAllDetails();
-      }
-      else {
-        this.router.navigateByUrl('tabs/tab5/login');
-      }
-    });
-  }
-
-
-getAllDetails(){
-  this.users = firebase.database().ref('users/' + this.uid + '/likedProduct');
-  this.users.on("value",(snapshot)=>{
-    for(var i = 0; i < Object.values(snapshot.val()).length; i++){
-      this.likedProducts.push(Object.values(snapshot.val())[i]);
-    }
-  this.getProducts = firebase.database().ref('posts/');
-  
-});
-}
-
-  
   ngOnInit()
   {
-  //this.getAllDetails();
+    this.ionViewWillEnter();
   }
 
   ionViewWillEnter() {
-    if(this.uid == ""){
-      this.checkUser();
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
     }
     else {
-     //   this.getLikedPostsDetails();
-     this.getAllDetails();
-
+      this.uid = this.authService.user.uid;
+      this.getLikedProduct();
     }
+  }
+
+  async getLikedProduct(){
+    await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
+      this.likedProductIDarray = Object.values(value[0].likedProduct);
+      if(this.likedProductIDarray.length){
+        this.noLikedProduct = false;
+        this.likedProductIDarray.forEach((id)=>{
+          this.getProductDetails(id);
+        });
+      }
+      else{
+            this.likedProductarray = [];
+            this.array = [[],[]];
+            this.noLikedProduct = true;
+          }
+      });
+  }
+
+  async getProductDetails(id){
+    this.spinnerDialog.show();
+    this.likedProductarray = [];
+    this.array = [[],[]];
+    await Promise.resolve(this.dbService.getProductById(id)).then(value=>{
+      if(value){
+        this.spinnerDialog.hide();
+      }else{
+        setTimeout(() => {
+          this.spinnerDialog.hide();
+        }, 5000);
+      }
+      value[0].id = id;
+      this.likedProductarray.push(value);
+      console.log(this.likedProductarray);
+    });
+    if(this.likedProductarray.length == this.likedProductIDarray.length && this.likedProductarray.length){
+        var count = 0;
+        for(var row =0; row < (this.likedProductarray.length/2); row++)
+          {
+            this.array[row] = [];
+            for(var col=0; col<2; col++){
+              this.array[row][col] = this.likedProductarray[count][0];
+              this.array[row][col].pid = this.likedProductarray[count][0].id;
+              console.log(count);
+              console.log(this.array);
+              count++;
+            }
+          }
+      }
+      else{
+      }
+  }
+
+  async removeFromLikedProduct(pid){
+    const alert = await this.alertController.create({
+      header: 'Remove',
+      message: 'Remove the selected item from My Favourite List?',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.likedProductIDarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(this.uid, this.likedProductIDarray);
+            this.getLikedProduct();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+      }
+      ]
+    });
+    return await alert.present();
   }
 
 
@@ -74,7 +120,7 @@ getAllDetails(){
         pid: pid
       }
     }
-    this.navCtrl.navigateForward(['product'], navigationExtras);
+    this.router.navigate(['product'],navigationExtras);
   }
 
 }
