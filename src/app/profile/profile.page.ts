@@ -55,45 +55,43 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.fetchUser();
-  }
-
-  fetchUser(){
-    var user = firebase.auth().currentUser;
-    if(user){
-      this.uid = user.uid;
-
-      return firebase.database().ref('/users/' + this.uid).once('value').then(function(snapshot) {
-        var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
-        var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
-        var birthday = (snapshot.val() && snapshot.val().birthday) || null;
-        var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
-        var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
-        var url = (snapshot.val() && snapshot.val().url) || null;
-        var area = (snapshot.val() && snapshot.val().area) || null;
-
-        (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
-        (<HTMLInputElement>document.getElementById('uname')).value = username;
-        (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
-        (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
-
-        (<HTMLInputElement>document.getElementById('gender')).value = gender;
-        (<HTMLInputElement>document.getElementById('region')).value = location;
-        (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
-
-        return firebase.database().ref('location').once('value').then(function(snapshot){
-          snapshot.forEach(function(childSnapshot) {
-            var regions = document.createElement('ion-select-option');
-            var regionval = document.createTextNode(childSnapshot.val().region);
-            regions.appendChild(regionval);
-            (<HTMLInputElement>document.getElementById('region')).appendChild(regions);
-        });
-        })
-      });
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
     }
     else {
-      this.router.navigateByUrl("tabs/tab5/login");
+      this.uid = this.authService.user.uid;
+      this.getProfileDetails();
     }
+  }
+
+  getProfileDetails(){
+    return firebase.database().ref('/users/' + this.uid).once('value').then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
+      var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
+      var birthday = (snapshot.val() && snapshot.val().birthday) || null;
+      var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
+      var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
+      var url = (snapshot.val() && snapshot.val().url) || null;
+      var area = (snapshot.val() && snapshot.val().area) || null;
+
+      (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+      (<HTMLInputElement>document.getElementById('uname')).value = username;
+      (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
+      (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
+
+      (<HTMLInputElement>document.getElementById('gender')).value = gender;
+      (<HTMLInputElement>document.getElementById('region')).value = location;
+      (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
+
+      return firebase.database().ref('location').once('value').then(function(snapshot){
+        snapshot.forEach(function(childSnapshot) {
+          var regions = document.createElement('ion-select-option');
+          var regionval = document.createTextNode(childSnapshot.val().region);
+          regions.appendChild(regionval);
+          (<HTMLInputElement>document.getElementById('region')).appendChild(regions);
+      });
+      })
+    });
   }
 
   AccessGallery(){
@@ -202,6 +200,7 @@ logoutUser(){
   this.authService.logoutUser()
   .then(res => {
     this.uid = "";
+    this.authService.user = "";
     this.navCtrl.navigateBack('tabs/tab1');
   })
   .catch(error => {

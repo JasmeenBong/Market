@@ -77,8 +77,14 @@ export class ProductPage implements OnInit {
     async getProductDetailsById(pid) {
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
-            this.product = value[0];
-            this.spinnerDialog.hide();
+            if(value){
+              this.product = value[0];
+              this.spinnerDialog.hide();
+            }else{
+              setTimeout(() => {
+                this.spinnerDialog.hide();
+              }, 5000);
+            }
             this.images = Object.values(this.product.images);
             this.getImagesforAvatar(this.product.uid);
         });

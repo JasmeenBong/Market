@@ -6,12 +6,15 @@
 
 <ion-content>
   <ion-grid>
+    <p id="noLikedProduct" *ngIf="noLikedProduct == true" padding>
+      You haven't like any product.
+    </p>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card>
           <ion-img [src] = "col.images[0]" (click) = "goToProductPage(col.pid)"></ion-img>
           <ion-fab vertical="top" horizontal="end" slot="fixed">
-              <ion-icon name="heart" style="zoom:2.0;" [color]="col.buttonColor" (click)="addtoLikedProduct(col.pid, col)"></ion-icon>
+              <ion-icon name="trash" style="zoom:2.0;" [color]="col.buttonColor" (click)="removeFromLikedProduct(col.pid)"></ion-icon>
           </ion-fab>
           <ion-card-content>
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>

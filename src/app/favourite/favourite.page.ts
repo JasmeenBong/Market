@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { NavigationExtras } from '@angular/router';
+import { NavController, AlertController } from '@ionic/angular';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-favourite',
@@ -11,7 +14,8 @@ import { NavigationExtras } from '@angular/router';
 })
 export class FavouritePage implements OnInit {
 
-  constructor(private router: Router, private dbService : DatabaseService) { }
+  constructor(private router: Router, private dbService : DatabaseService, private navCtrl:NavController,
+  private authService : AuthenticateService, private alertController : AlertController, private spinnerDialog: SpinnerDialog) { }
 
   uid : string = "";
   array = [[],[]];
@@ -62,6 +66,7 @@ getAllDetails(){
     }
   }
 
+
   goToProductPage(pid)
   {
     let navigationExtras: NavigationExtras = {
@@ -69,7 +74,7 @@ getAllDetails(){
         pid: pid
       }
     }
-    this.router.navigate(['product'],navigationExtras);
+    this.navCtrl.navigateForward(['product'], navigationExtras);
   }
 
 }

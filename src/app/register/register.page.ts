@@ -71,6 +71,8 @@ export class RegisterPage implements OnInit {
       console.log(res);
       this.errorMessage = "";
       this.successMessage = "Your account has been created.";
+      this.authService.isLoggedin = true;
+      this.authService.user = firebase.auth().currentUser;
       this.addToDb();
       this.authService.sendVerificationMail();
       // this.navCtrl.navigateForward('/tabs/tab1');

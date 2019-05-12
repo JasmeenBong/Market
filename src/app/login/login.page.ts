@@ -60,7 +60,9 @@ export class LoginPage implements OnInit {
       else {
         console.log(res);
         this.errorMessage = "";
-        this.navCtrl.navigateForward('tabs/tab1');
+        this.authService.isLoggedin = true;
+        this.authService.user = firebase.auth().currentUser;
+        this.navCtrl.navigateForward('tabs/tab5');
       }
     }, err => {
       this.errorMessage = err.message;
