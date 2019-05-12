@@ -109,10 +109,7 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "859739031584-4r9a13qpthrecf7g28lr64alckkd7363.apps.googleusercontent.com",
-        "WEB_APPLICATION_CLIENT_ID": "859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com"
-      },
+      "cordova-plugin-googleplus": {},
       "cordova-plugin-facebook4": {
         "APP_ID": "1233477970144707",
         "APP_NAME": "“MarketApp”",
