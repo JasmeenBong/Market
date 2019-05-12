@@ -16,16 +16,24 @@ export class HomePage implements OnInit {
   productList;
   array = [[],[]];
   val;
+  carousel;
 
   constructor(public router: Router,   private dbService : DatabaseService, private spinnerDialog: SpinnerDialog) {
-  this.getCategoriesFromFireBase()
+  this.getCategoriesFromFireBase();
+  this.showCarouselPhoto();
   }
 
   async getCategoriesFromFireBase(){
   this.spinnerDialog.show();
   await Promise.resolve(this.dbService.getCategory()).then(value=> {
       this.categories = Object.values(value[0]);
-      this.spinnerDialog.hide();
+      if(this.categories){
+        this.spinnerDialog.hide();
+      }else{
+        setTimeout(() => {
+          this.spinnerDialog.hide();
+        }, 5000);
+      }
       var count = 0;
       for(var row=0; row<(this.categories.length/3); row++){
         for(var col=0; col<3; col++){
@@ -37,8 +45,16 @@ export class HomePage implements OnInit {
  }
 
   async getProductsBasedonSearchBar(ev){
+    this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
        this.products = Object.values(value[0]);
+       if(this.products){
+         this.spinnerDialog.hide();
+       }else{
+         setTimeout(() => {
+           this.spinnerDialog.hide();
+         }, 5000);
+       }
      });
     this.val = ev.target.value;
     if(this.val && this.val.trim() !== ''){
@@ -51,6 +67,19 @@ export class HomePage implements OnInit {
     }
   }
 
+  async showCarouselPhoto(){
+    this.spinnerDialog.show();
+    await Promise.resolve(this.dbService.getCarouselImage()).then(value=> {
+       this.carousel= Object.values(value[0]);
+       if(this.carousel){
+         this.spinnerDialog.hide();
+       }else{
+         setTimeout(() => {
+           this.spinnerDialog.hide();
+         }, 5000);
+       }
+     });
+  }
 
 
   goCategoriesPage(categoryName) {

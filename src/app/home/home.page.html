@@ -11,6 +11,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let image of carousel">
+        <ion-img [src]=image></ion-img>
+    </ion-slide>
+  </ion-slides>
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">

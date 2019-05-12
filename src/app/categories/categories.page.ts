@@ -143,9 +143,13 @@ export class CategoriesPage implements OnInit {
     this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
       this.products = Object.entries(value[0]);
-      setTimeout(() => {
+      if(this.products){
         this.spinnerDialog.hide();
-      }, 5000);
+      }else{
+        setTimeout(() => {
+          this.spinnerDialog.hide();
+        }, 5000);
+      }
       this.printOutProductList();
   });
   }

@@ -123,6 +123,10 @@ export class DatabaseService{
     return this.db.ref("users/" + uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  getCarouselImage(){
+    return this.db.ref("carousel/").once('value').then(snapshot => snapshot.val()).then(value => [value]);
+  }
+
   getMalaysiaAreaList(){
     return this.db.ref("location/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
