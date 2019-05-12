@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
 
   categories;
   products;
-  productList;
+  productList = [];
   array = [[],[]];
   val;
   carousel;
@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
     });
   }
   else{
-    this.productList = '';
+    this.productList = [];
     }
   }
 

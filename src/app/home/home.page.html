@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
     </ion-searchbar>
-    <ion-list *ngIf="productList">
+    <ion-list *ngIf="productList.length">
       <ion-item *ngFor="let product of productList">
         <h2> {{ product.postName }} </h2>
       </ion-item>
