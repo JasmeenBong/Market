@@ -4,11 +4,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button (click)="addtoLikedProduct(product.id, product.buttonColor)">
         <ion-icon name="heart" color="product.buttonColor"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-buttons slot="end" *ngIf="communicate == true">
       <ion-button (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>

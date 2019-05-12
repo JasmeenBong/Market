@@ -57,9 +57,6 @@ export class ProductPage implements OnInit {
     images;
     isDisabled;
     communicate = true;
-    uid;
-    userInfo;
-    likedProductarray;
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
@@ -74,41 +71,15 @@ export class ProductPage implements OnInit {
                 this.getProductDetailsById(this.pid);
             }
         })
-    }
 
-    async checkCurrentUserWithoutLogin(){
-      let user = firebase.auth().currentUser;
-      if(user){
-        this.uid = user.uid;
-        await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
-          this.userInfo  = value[0];
-          this.likedProductarray = Object.values(this.userInfo.likedProduct);
-        });
-      }
     }
 
 
     async getProductDetailsById(pid) {
-        await this.checkCurrentUserWithoutLogin();
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             if(value){
-              if(this.likedProductarray.length){
-                if(this.likedProductarray.includes(pid)){
-                  this.product = value[0];
-                  this.product.id = pid;
-                  this.product.buttonColor = "danger";
-                }
-                else{
-                  this.product = value[0];
-                  this.product.id = pid;
-                  this.product.buttonColor = "";
-                }
-              }else{
-                this.product = value[0];
-                this.product.id = pid;
-                this.product.buttonColor = "";
-              }
+              this.product = value[0];
               this.spinnerDialog.hide();
             }else{
               setTimeout(() => {
@@ -137,11 +108,6 @@ export class ProductPage implements OnInit {
                 this.communicate = true;
             }
         });
-    }
-
-    addtoLikedProduct(pid, color){
-      console.log(pid);
-      console.log(color);
     }
 
     async shareFacebook() {
