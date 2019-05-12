@@ -45,16 +45,8 @@ export class HomePage implements OnInit {
  }
 
   async getProductsBasedonSearchBar(ev){
-    this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
        this.products = Object.values(value[0]);
-       if(this.products){
-         this.spinnerDialog.hide();
-       }else{
-         setTimeout(() => {
-           this.spinnerDialog.hide();
-         }, 5000);
-       }
      });
     this.val = ev.target.value;
     if(this.val && this.val.trim() !== ''){
