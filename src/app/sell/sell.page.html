@@ -1,14 +1,13 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button (click)="goback()">
+  <ion-toolbar color="lightBlue">
+    <ion-buttons  slot="start">
+      <ion-button color="darkBlue" (click)="goback()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-        Back
       </ion-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button [disabled]="(!validatePost.valid) && (counter == 0) &&
+    <ion-buttons  slot="end">
+      <ion-button color="darkBlue" [disabled]="(!validatePost.valid) && (counter == 0) &&
       (noCategory == true) && (noRegion == true) && (noArea == true)" (click)="savePost()">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
@@ -19,10 +18,10 @@
 <ion-content>
   <label for="uploaded-photos" [(ngModel)]="counter" ngModel id="counterLabel">Uploaded photos({{counter}}/3)</label>
   <form class="form" [formGroup]="validatePost">
-    <ion-button size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
+    <ion-button  color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="images"></ion-icon>
       Upload Image</ion-button>
-    <ion-button size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
+    <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
       Take Image</ion-button>
     <ion-item>
@@ -38,7 +37,7 @@
       </div>
     </ion-item>
 
-    <div class="validataion-errors" *ngIf="counter == 0">
+<div class="validataion-errors" *ngIf="counter == 0">
       <span>Please insert an image.</span>
     </div>
 

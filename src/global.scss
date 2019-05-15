@@ -9,3 +9,15 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+ion-toolbar{
+    color:darkblue;
+}
+ion-button{
+    color:lightblue;
+}
+.ion-color-lightBlue{
+    --ion-color-base: lightblue	;
+  }
+  .ion-color-darkBlue{
+    --ion-color-base: darkBlue	;
+  }

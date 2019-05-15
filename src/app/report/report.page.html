@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="lightBlue">
         <ion-buttons slot="start">
-            <ion-button (click)="closeModal()">
+            <ion-button color="darkBlue" (click)="closeModal()">
                 <ion-icon name="arrow-back"></ion-icon>
               </ion-button>
         </ion-buttons>
@@ -9,22 +9,22 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-grid>
-      <ion-row class="Reportowner">
+    <ion-grid class="reporter">
+      <ion-row>
         <ion-col>
-          <ion-label>Report {{ownerEmail}}</ion-label>
+          <ion-label>Reporting : {{ownerEmail}}</ion-label>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-label>About <strong>{{postName}}</strong></ion-label>
+          <ion-label>Reported Post : <strong>{{postName}}</strong></ion-label>
         </ion-col>
       </ion-row>
     </ion-grid>
 
     <form [formGroup]="reportForm" (ngSubmit)="logForm()">
       <ion-item>
-        <ion-label class="input-label">*Name</ion-label>
+        <ion-label class="input-label">*Name:</ion-label>
         <ion-input type="input-text" id="name" placeholder="Please enter your name" formControlName="name"></ion-input>
       </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.name">
@@ -34,7 +34,7 @@
         </span>
       </div>
       <ion-item>
-          <ion-label class="input-label">*Email</ion-label>
+          <ion-label class="input-label">*Email:</ion-label>
           <ion-input type="input-text" id="email" placeholder="Please enter your email" formControlName="email"></ion-input>
       </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.email">
@@ -44,8 +44,7 @@
         </span>
       </div>
       <ion-item>
-          <ion-label class="input-label">Phone Number(optional)</ion-label>
-          <ion-input type="input-text" id="phonenumber" placeholder="Please enter your Phone Number" formControlName="phonenumber"></ion-input>
+          <ion-input type="tel" id="phonenumber" placeholder="Phone Number (optional)" formControlName="phonenumber"></ion-input>
       </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.phonenumber">
         <span class="error-message" *ngIf=" reportForm.get('phonenumber').hasError(validation.type) &&
@@ -54,15 +53,14 @@
         </span>
       </div>
       <ion-item>
-        <ion-label class="input-label">*What is wrong with this ads?</ion-label>
-        <ion-textarea class="input-text" id="description" formControlName="description"></ion-textarea>
-      </ion-item>
+          <ion-textarea rows="6" cols="20" formControlName="description" placeholder="Tell us what went wrong"></ion-textarea>
+        </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.description">
         <span class="error-message" *ngIf=" reportForm.get('description').hasError(validation.type) &&
         (reportForm.get('description').dirty || reportForm.get('description').touched)">
             {{validation.message}}
         </span>
       </div>
-      <ion-button type="submit" [disabled]="!reportForm.valid" fill="solid" expand="block">Submit</ion-button>
+      <ion-button color="darkBlue" type="submit" [disabled]="!reportForm.valid" fill="solid" expand="block">Submit</ion-button>
     </form>
 </ion-content>
