@@ -23,6 +23,10 @@ export class ChatboxPage implements OnInit {
   msgRef;
   sendEnabled = false;
 
+  ngOnInit(){
+    
+  }
+
   constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase, private datePipe :DatePipe) {
   this.showMessage();
   }
@@ -51,18 +55,6 @@ export class ChatboxPage implements OnInit {
       status: 'unread'
     })
     this.message = "";
-  }
-
-  ionViewdidLoad(){
-  }
-
-  ionViewWillEnter(){
-    if(!this.authService.user || this.authService.user == ""){
-      this.navCtrl.navigateForward('tabs/tab5/login');
-    }
-    else {
-      this.showMessage();
-    }
-  }
+  } 
 
 }
