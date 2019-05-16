@@ -52,12 +52,17 @@
         <ion-label>Category: {{this.product.postCategory}}</ion-label>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="product.age">
+    <ion-row *ngIf="product.breed != 'not set'">
+      <ion-col>
+        <ion-label>Breed: {{product.breed}}</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="product.age != 'not set'">
       <ion-col>
         <ion-label>Age: {{product.age}} Years Old</ion-label>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="product.weight">
+    <ion-row *ngIf="product.weight != 'not set'">
       <ion-col>
         <ion-label>weight: {{product.weight}} KG</ion-label>
       </ion-col>
