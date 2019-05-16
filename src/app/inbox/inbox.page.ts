@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import * as angulardb from 'angularfire2/database';
+import { NavController } from '@ionic/angular';
+import { AuthenticateService } from '../services/authentication.service';
+
 @Component({
   selector: 'app-inbox',
   templateUrl: './inbox.page.html',
@@ -13,41 +16,106 @@ export class InboxPage implements OnInit {
   subs;
   showAllMsgs = [];
   currentUser;
-  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router) { 
-    this.subs = this.db.list('/messages').valueChanges().subscribe( data=>{
-      this.listOfMessages = firebase.database().ref('messages');
-      this.listOfMessages.on("value",(snapshot)=>{
-         snapshot.forEach((childSnapshot)=> {
-          if(childSnapshot.val().reciever == firebase.auth().currentUser.email){
-            this.showAllMsgs = data;
-          }
-          });
-          
-           function remove(array, element) {
-            const index = array.indexOf(element);
-            array.splice(index, 1);
-          }
-          for(var i = 0; i < this.showAllMsgs.length - 1; i++){
-            if(this.showAllMsgs[i].sender == this.showAllMsgs[i].sender ){
-              remove(this.showAllMsgs,this.showAllMsgs[i].sender);
-             }
-          }
-          for(var i = 0; i < this.showAllMsgs.length; i++){
-            if(this.showAllMsgs[i].sender == firebase.auth().currentUser.email ){
-              remove(this.showAllMsgs,this.showAllMsgs[i].sender);
-             }
-          }
-          console.log(this.showAllMsgs);          
 
+  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router, private authService : AuthenticateService, private navCtrl: NavController) {
+  }
+
+  ionViewWillEnter(){
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
+    }
+    else{
+      this.currentUser = firebase.auth().currentUser;
+      this.getMessage();
+    }
+  }
+
+  getMessage(){
+    this.subs = firebase.database().ref('messages');
+    this.subs.on("value",(snapshot)=>{
+      snapshot.forEach((childSnapshot)=> {
+        if(childSnapshot.val().reciever == this.currentUser.email){
+          const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
+          if(!found){
+            firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().sender).on('value', (userSnapshot) =>{
+            console.log(childSnapshot.val().sender);
+            if(userSnapshot.val()){ 
+              console.log('found');
+              console.log(userSnapshot.val());
+              const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
+              if(!found){  
+              this.showAllMsgs.push({
+                   email: childSnapshot.val().sender,
+                     url: Object.values(userSnapshot.val())[0].url
+                });
+                console.log(this.showAllMsgs);
+              }
+              else{
+                console.log('found');
+              }
+            }else{
+              console.log('not found');
+              const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
+              if(!found){  
+              this.showAllMsgs.push({
+                   email: childSnapshot.val().sender,
+                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg"
+                });
+                console.log(this.showAllMsgs);
+              }
+            }
+            });
+          }
+          else{
+            console.log('found');
+          } 
+        }
+        if(childSnapshot.val().sender == this.currentUser.email){
+          const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
+          if(!found){
+            firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().reciever).on('value', (userSnapshot) =>{
+            console.log(childSnapshot.val().reciever);
+            if(userSnapshot.val()){ 
+              console.log('found');
+              console.log(userSnapshot.val());
+              const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
+              if(!found){  
+              this.showAllMsgs.push({
+                   email: childSnapshot.val().reciever,
+                     url: Object.values(userSnapshot.val())[0].url
+                });
+                console.log(this.showAllMsgs);
+              }
+              else{
+                console.log('found');
+              }
+            }else{
+              console.log('not found');
+              const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
+              if(!found){  
+              this.showAllMsgs.push({
+                   email: childSnapshot.val().reciever,
+                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg"
+                });
+                console.log(this.showAllMsgs);
+              }
+            }
+            });
+          }
+          else{
+            console.log('found');
+          } 
+        }   
+      });
     });
-
-  });
-
   }
+
   ngOnInit() {
+    this.ionViewWillEnter();
   }
+
   getChat(chat){
-    this.router.navigate(['/chatbox',{sender:firebase.auth().currentUser.email, reciever:chat}]);   
+    this.router.navigate(['/chatbox',{sender:firebase.auth().currentUser.email, reciever:chat}]);
 
   }
 

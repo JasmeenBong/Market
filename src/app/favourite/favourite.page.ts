@@ -83,6 +83,7 @@ export class FavouritePage implements OnInit {
               console.log(count);
               console.log(this.array);
               count++;
+
             }
           }
       }
@@ -120,7 +121,7 @@ export class FavouritePage implements OnInit {
         pid: pid
       }
     }
-    this.router.navigate(['product'],navigationExtras);
+    this.navCtrl.navigateForward(['product'], navigationExtras);
   }
 
 }

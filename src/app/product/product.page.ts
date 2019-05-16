@@ -226,6 +226,7 @@ export class ProductPage implements OnInit {
     }
 
     sendEmail() {
+      console.log(this.seller.email);
         let email = {
             to: this.seller.email,
             subject: this.product.postName,

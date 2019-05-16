@@ -7,6 +7,7 @@ import { ModalPage } from '../modal/modal.page';
 import { FilterModalPage } from '../filter-modal/filter-modal.page';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 import * as firebase from 'firebase/app';
+import { AuthenticateService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-categories',
@@ -28,7 +29,8 @@ export class CategoriesPage implements OnInit {
   noProductinCategories = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
-    private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController) {
+    private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController,
+    private authService : AuthenticateService) {
     this.getCategoriesFromHomePage()
   }
 
@@ -42,8 +44,9 @@ export class CategoriesPage implements OnInit {
   }
 
   async checkCurrentUserWithoutLogin(){
-    let user = firebase.auth().currentUser;
+    let user = this.authService.user;
     if(user){
+      console.log(user.email);
       this.uid = user.uid;
       await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
         this.userInfo  = value[0];
@@ -233,12 +236,11 @@ async openAlert(){
   }
 
   async checkCurrentUser(){
-    let user = firebase.auth().currentUser;
-    if(!user){
+    if(!this.authService.user || this.authService.user == ""){
       this.askusertoLogin();
     }
     else {
-      this.uid = user.uid;
+      this.uid = this.authService.user.uid;
       await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
         this.userInfo  = value[0];
       });
