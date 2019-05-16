@@ -132,5 +132,7 @@
       "browser",
       "android"
     ]
-  }
+  },
+  "appAssociation": "AUTO",
+  "rewrites": [ { "source": "/social/login/**", "dynamicLinks": true } ]
 }

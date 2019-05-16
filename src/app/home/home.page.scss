@@ -8,7 +8,33 @@
     height: 100% !important;
     margin: 0 !important;
   }
+ 
+  ion-img{
+    width: 70%;
+    height: 70%;
+    margin:auto;
+  }
+  ion-card-title{
+    color:lightblue	;
+    font-weight: bolder;
+    padding: 4px,4px,4px,4px;
+    background-color:darkblue;
+  }
+  ion-card{
+    border-radius: 0px;
+  }
 }
+.ion-color-darkBlue{
+  --ion-color-base: darkblue	;
+}
+.ion-color-lightBlue{
+  --ion-color-base: lightblue	;
+}
+
+ion-header{
+  height:55px;
+}
+
 
 .spinner {
   width: 40px;

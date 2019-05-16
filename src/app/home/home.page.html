@@ -1,26 +1,23 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
-    </ion-searchbar>
-    <ion-list *ngIf="productList.length">
-      <ion-item *ngFor="let product of productList">
-        <h2> {{ product.postName }} </h2>
-      </ion-item>
-    </ion-list>
-  </ion-toolbar>
+  <ion-toolbar color="lightBlue">
+    <ion-searchbar  (ionInput)="getProductsBasedonSearchBar($event)">
+      </ion-searchbar>
+        <ion-item *ngFor="let product of productList"> 
+          {{ product.postName }}
+        </ion-item>
+        </ion-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-content color="light">
   <ion-slides pager="true">
     <ion-slide *ngFor="let image of carousel">
-        <ion-img [src]=image></ion-img>
+        <ion-img style="width:100%;" [src]=image></ion-img>
     </ion-slide>
   </ion-slides>
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
-      <ion-col col-4 text-center *ngFor="let col of row">
-        <ion-card (click)="goCategoriesPage(col.categoryName)">
-          <ion-img [src] = "col.url"></ion-img>
+      <ion-col  col-4 text-center *ngFor="let col of row">
+        <ion-card color="lightBlue" (click)="goCategoriesPage(col.categoryName)">
+          <ion-img  [src] = "col.url"></ion-img>
           <ion-card-title>{{col.categoryName}}</ion-card-title>
         </ion-card>
         </ion-col>

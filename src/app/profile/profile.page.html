@@ -1,15 +1,15 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="lightBlue">
        <ion-title class="header-style">Your Profile</ion-title>
     </ion-toolbar>
  </ion-header>
  <ion-content>
     <div class="container">
-       <ion-img class="profile-pic-profile" id="profilePicture"></ion-img>
-       <h3>Upload From</h3>
+       <img src="{{profileImage}}" class="profile-pic-profile"/>
+       <h5>Upload From</h5>
        <ion-row id="UploadMethod">
           <ion-col>
-             <ion-button (click)="AccessGallery()" id="useGallery">
+             <ion-button color="darkBlue" (click)="AccessGallery()" id="useGallery">
                 <ion-icon name="image"></ion-icon>
                 Gallery
              </ion-button>
@@ -18,7 +18,7 @@
             or
           </ion-col>
           <ion-col>
-             <ion-button (click)="AccessCamera()" id="useCamera">
+             <ion-button color="darkBlue" (click)="AccessCamera()" id="useCamera">
                 <ion-icon name="camera"></ion-icon>
                 Camera
              </ion-button>
@@ -27,15 +27,15 @@
     </div>
     <ion-item>
        <ion-label class="label">Full Name:</ion-label>
-       <ion-input type="text" id="uname" ></ion-input>
+       <ion-input type="text" id="uname" [value]=username></ion-input>
     </ion-item>
     <ion-item>
        <ion-label class="label">Phone Number:</ion-label>
-       <ion-input type="tel" maxlength="10" id="phoneNumber" ></ion-input>
+       <ion-input type="tel" maxlength="10" id="phoneNumber" [value]=phoneNumber ></ion-input>
     </ion-item>
     <ion-item>
        <ion-label class="label">Birthday:</ion-label>
-       <ion-datetime  type="date" id="birthDay"></ion-datetime>
+       <ion-datetime  type="date" id="birthDay"[value]=birthday></ion-datetime>
     </ion-item>
     <ion-item>
        <ion-label class="label" for="region">Region</ion-label>
@@ -54,18 +54,18 @@
     </ion-item>
     <ion-item>
        <ion-label class="label">Gender:</ion-label>
-       <ion-select id="gender">
+       <ion-select id="gender" [value]=gender>
           <ion-select-option value="Male" >Male</ion-select-option>
           <ion-select-option value="Female">Female</ion-select-option>
        </ion-select>
     </ion-item>
     <ion-item>
-       <ion-button type="submit" (click)="editProfile()" class="profile-button">Save Details</ion-button>
+       <ion-button type="submit" (click)="editProfile()" color="darkBlue" class="profile-button">Save Details</ion-button>
     </ion-item>
     <ion-item>
-       <ion-button type="submit" (click)="changePassword()" class="profile-button">Change Password</ion-button>
+       <ion-button type="submit" (click)="changePassword()" color="darkBlue" class="profile-button">Change Password</ion-button>
     </ion-item>
     <ion-item>
-       <ion-button (click)="logoutUser()" class="profile-button">Logout</ion-button>
+       <ion-button (click)="logoutUser()" color="darkBlue" class="profile-button">Logout</ion-button>
     </ion-item>
  </ion-content>

@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="lightBlue">
     <ion-title>{{product.postName}}</ion-title>
-    <ion-buttons slot="start">
+    <ion-buttons color="darkBlue" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <!-- <ion-buttons slot="end">
@@ -10,7 +10,7 @@
       </ion-button>
     </ion-buttons> -->
     <ion-buttons slot="end" *ngIf="communicate == true">
-      <ion-button (click)="alertReport()">
+      <ion-button color="darkBlue" (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>
       </ion-button>
     </ion-buttons>

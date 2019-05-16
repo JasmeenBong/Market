@@ -1,16 +1,16 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="lightBlue">
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-button fill="solid" expand="block" (click)="LoginWithFacebook()">
+  <ion-button fill="solid" color="facebook-color" id="facebook-style" expand="block" (click)="LoginWithFacebook()">
     <ion-icon name="logo-facebook" slot="start"></ion-icon>
     <ion-label>Sign in with Facebook</ion-label>
   </ion-button>
 
-  <ion-button fill="solid" expand="block" (click)="LoginWithGoogle()">
+  <ion-button id="googleLogin" fill="solid" color="primary" expand="block" (click)="LoginWithGoogle()">
     <ion-icon name="logo-google" slot="start"></ion-icon>
     <ion-label>Sign in with Google</ion-label>
   </ion-button>
@@ -40,7 +40,7 @@
         </div>
       </ng-container>
     </div>
-    <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" expand="block">Login</ion-button>
+    <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" color="darkBlue" expand="block">Login</ion-button>
 
     <label class="error-message">{{errorMessage}}</label>
   </form>

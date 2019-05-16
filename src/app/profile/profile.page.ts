@@ -26,6 +26,12 @@ export class ProfilePage implements OnInit {
   noRegion: any = true;
   noArea : any = true;
   userArea : any;
+  profileImg:any;
+  username:any;
+  birthday:any;
+  phoneNumber:any;
+  gender:any;
+  profileImage: any;
   enabled : any = false;
 
   constructor(
@@ -38,7 +44,8 @@ export class ProfilePage implements OnInit {
     private ToastController: ToastController,
     private formBuilder: FormBuilder
 
-      ) { }
+      ) {
+      }
 
       validation_messages = {
         'email': [
@@ -52,6 +59,7 @@ export class ProfilePage implements OnInit {
       };
 
   ngOnInit() {
+    
   }
 
   ionViewWillEnter(){
@@ -60,39 +68,36 @@ export class ProfilePage implements OnInit {
     }
     else {
       this.uid = this.authService.user.uid;
-      this.getProfileDetails();
+    this.getProfileDetails();
     }
   }
 
   getProfileDetails(){
-    return firebase.database().ref('/users/' + this.uid).once('value').then(function(snapshot) {
-      var username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
-      var pNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
-      var birthday = (snapshot.val() && snapshot.val().birthday) || null;
-      var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
-      var gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
-      var url = (snapshot.val() && snapshot.val().url) || null;
+
+    firebase.database().ref('/users/' + this.uid).once('value').then(snapshot => {
+      this.username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
+      this.phoneNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
+      this.birthday = (snapshot.val() && snapshot.val().birthday) || null;
+      this.gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
+      this.profileImage = (snapshot.val() && snapshot.val().url) || null;
       var area = (snapshot.val() && snapshot.val().area) || null;
+      var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
 
-      (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
-      (<HTMLInputElement>document.getElementById('uname')).value = username;
-      (<HTMLInputElement>document.getElementById('phoneNumber')).value = pNumber;
-      (<HTMLInputElement>document.getElementById('birthDay')).value = birthday;
-
-      (<HTMLInputElement>document.getElementById('gender')).value = gender;
       (<HTMLInputElement>document.getElementById('region')).value = location;
       (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
 
-      return firebase.database().ref('location').once('value').then(function(snapshot){
+      firebase.database().ref('location').once('value').then(function(snapshot){
         snapshot.forEach(function(childSnapshot) {
           var regions = document.createElement('ion-select-option');
           var regionval = document.createTextNode(childSnapshot.val().region);
           regions.appendChild(regionval);
           (<HTMLInputElement>document.getElementById('region')).appendChild(regions);
       });
-      })
+      });
+
     });
   }
+
 
   AccessGallery(){
     this.camera.getPicture({
@@ -101,13 +106,11 @@ export class ProfilePage implements OnInit {
       }).then((img) => {
 
         if(img!=""){
-          var reviewImage = 'data:image/jpeg;base64,' + img;
-          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
+          this.profileImage = 'data:image/jpeg;base64,' + img;
           }else{
             var userId = firebase.auth().currentUser.uid;
-            return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-              var url = (snapshot.val() && snapshot.val().url);
-            (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+            return firebase.database().ref('/users/' + userId).once('value').then(snapshot => {
+              this.profileImage = (snapshot.val() && snapshot.val().url);
             });
           }
            }, (err) => {
@@ -123,13 +126,11 @@ export class ProfilePage implements OnInit {
     destinationType: this.camera.DestinationType.DATA_URL
       }).then((img) => {
         if(img!=""){
-          var reviewImage = 'data:image/jpeg;base64,' + img;
-          (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',reviewImage);
+          this.profileImage = 'data:image/jpeg;base64,' + img;
           }else{
             var userId = firebase.auth().currentUser.uid;
-            return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-              var url = (snapshot.val() && snapshot.val().url);
-            (<HTMLInputElement>document.getElementById('profilePicture')).setAttribute('src',url);
+            return firebase.database().ref('/users/' + userId).once('value').then(snapshot => {
+              this.profileImage = (snapshot.val() && snapshot.val().url);
             });
           }
             }, (err) => {
@@ -168,13 +169,13 @@ export class ProfilePage implements OnInit {
     var userId = firebase.auth().currentUser.uid;
     var usersRef = firebase.database().ref().child('users/' + userId);
     usersRef.update({
-      name: (<HTMLInputElement>document.getElementById('uname')).value,
-      phoneNumber:(<HTMLInputElement>document.getElementById('phoneNumber')).value,
-      birthday:(<HTMLInputElement>document.getElementById('birthDay')).value,
-      gender:(<HTMLInputElement>document.getElementById('gender')).value,
+      name: this.username,
+      phoneNumber:this.phoneNumber,
+      birthday:this.birthday,
+      gender:this.gender,
       location:(<HTMLInputElement>document.getElementById('region')).value,
       area:(<HTMLInputElement>document.getElementById('selectedArea')).value,
-      url: (<HTMLInputElement>document.getElementById('profilePicture')).getAttribute('src')
+      url: this.profileImage
     });
     this.presentToast();
     this.enabled = false;

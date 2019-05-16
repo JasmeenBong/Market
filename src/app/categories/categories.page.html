@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar no-border-bottom color="primary">
+  <ion-toolbar no-border-bottom color="lightBlue">
     <ion-buttons slot="start">
-        <ion-button (click)="goToHomePage()">
+        <ion-button color="darkBlue" (click)="goToHomePage()">
             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
         </ion-button>
     </ion-buttons>
@@ -30,7 +30,7 @@
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
         <ion-card>
-          <ion-img [src] = "col.images[0]" (click) = "goToProductPage(col.pid)"></ion-img>
+          <ion-img  class="ImageProduct" [src] = "col.images[0]" (click) = "goToProductPage(col.pid)"></ion-img>
           <ion-fab vertical="top" horizontal="end" slot="fixed">
               <ion-icon name="heart" style="zoom:2.0;" [color]="col.buttonColor" (click)="addtoLikedProduct(col.pid, col)"></ion-icon>
           </ion-fab>

@@ -22,21 +22,22 @@
 }
 
 .productImage{
-  width: 100vw;
+  width: 100%;
+  height:100%;
 }
 
 /* On screens that are 992px wide or less, the background color is blue */
 @media screen and (max-width: 1920px) {
   .productImage{
-    height: 800px;
-    width: 100vw;
+    width: 100%;
+    height:100%;
   }
 }
 
 /* On screens that are 600px wide or less, the background color is olive */
 @media screen and (max-width: 800px) {
   .productImage{
-    height: 300px;
-    width: 100vw;
+    width: 100%;
+    height:100%;
   }
 }
