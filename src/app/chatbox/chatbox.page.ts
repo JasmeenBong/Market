@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { AuthenticateService } from '../services/authentication.service';
+import { NavController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import * as angulardb from 'angularfire2/database';
 import { DatePipe } from '@angular/common';
@@ -38,9 +40,7 @@ export class ChatboxPage implements OnInit {
         });
       });
   }
-
-
-
+  
   send(){
     this.msg = firebase.database().ref('messages');
     this.msgRef = this.msg.child('/').push({
@@ -54,12 +54,15 @@ export class ChatboxPage implements OnInit {
   }
 
   ionViewdidLoad(){
-
   }
 
-  ngOnInit() {
-
-
-   }
+  ionViewWillEnter(){
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
+    }
+    else {
+      this.showMessage();
+    }
+  }
 
 }

@@ -1,0 +1,20 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "appAssociation": "AUTO",
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/login/social/**",
+        "dynamicLinks": true
+      }
+    ]
+  }
+}

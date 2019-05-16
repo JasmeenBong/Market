@@ -3,7 +3,6 @@ import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@a
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
-import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';

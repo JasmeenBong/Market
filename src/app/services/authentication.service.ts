@@ -5,6 +5,8 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+import { resource } from 'selenium-webdriver/http';
+import { reject } from 'q';
 
 @Injectable()
 export class AuthenticateService{
@@ -87,24 +89,50 @@ export class AuthenticateService{
       const provider = new firebase.auth.GoogleAuthProvider();
 
       return new Promise<any>((resolve, reject) => {
-        firebase.auth().signInWithPopup(provider)
-        .then(function(result){
-          var user = result.user;
-          console.log("user:" + user);
-        }).catch(function(error){
+        firebase.auth().signInWithRedirect(provider)
+        .then( 
+          res => {
+            firebase.auth().getRedirectResult().then(function(result){
+              if(result.credential){
+                console.log(result.credential);
+                var user = result.user;
+                console.log(user);
+              }
+            }).catch(function(error){
+               console.log(error.message);
+            });
+          }
+        ).catch(function(error) {
           console.log(error.message);
-        })
+        });
       });
   }
 
   facebookLogin(){
     var provider = new firebase.auth.FacebookAuthProvider();
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithPopup(provider).then(function(result){
-        var user = result.user;
 
-        console.log("user:" + user);
-      }).catch(function(error) {
+    // return new Promise<any> ((resolve, reject) => {
+    //   firebase.auth().signInWithPopup(provider).then(function(result){
+    //     console.log(result);
+    //   }).catch(function(error){
+    //     console.log(error.message);
+    //   })
+    // })
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().signInWithRedirect(provider)
+      .then( 
+        res => {
+          firebase.auth().getRedirectResult().then(function(result){
+            if(result.credential){
+              console.log(result.credential);
+              var user = result.user;
+              console.log(user);
+            }
+          }).catch(function(error){
+             console.log(error.message);
+          });
+        }
+      ).catch(function(error) {
         console.log(error.message);
       });
     });
