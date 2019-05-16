@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { AuthenticateService } from '../services/authentication.service';
+import { NavController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import * as angulardb from 'angularfire2/database';
 
@@ -20,7 +22,12 @@ export class ChatboxPage implements OnInit {
   msgRef;
   sendEnabled = false;
 
-  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase) { 
+  constructor(private route:ActivatedRoute, 
+    public db: angulardb.AngularFireDatabase,
+    private authService : AuthenticateService,
+    private navCtrl : NavController) { }
+
+  goToChatBox(){
     this.reciever = this.route.snapshot.paramMap.get('reciever');
     this.sender = this.route.snapshot.paramMap.get('sender');
     this.retMsg = firebase.database().ref('messages');
@@ -35,7 +42,7 @@ export class ChatboxPage implements OnInit {
           });
     });
   });
-}
+  }
 
   
  
@@ -50,12 +57,18 @@ export class ChatboxPage implements OnInit {
     this.message = "";
   }
   ionViewdidLoad(){
-    
+  }
+
+  ionViewWillEnter(){
+    if(!this.authService.user || this.authService.user == ""){
+      this.navCtrl.navigateForward('tabs/tab5/login');
+    }
+    else {
+      this.goToChatBox();
+    }
   }
 
   ngOnInit() {
-
-  
-   }
+  }
 
 }       
