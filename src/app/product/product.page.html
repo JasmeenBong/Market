@@ -9,7 +9,7 @@
         <ion-icon name="heart" color="product.buttonColor"></ion-icon>
       </ion-button>
     </ion-buttons> -->
-    <ion-buttons slot="end" *ngIf="communicate == true">
+    <ion-buttons slot="end">
       <ion-button color="darkBlue" (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>
       </ion-button>
@@ -86,7 +86,7 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer  *ngIf="communicate == true">
+<ion-footer>
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">

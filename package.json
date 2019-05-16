@@ -134,5 +134,10 @@
     ]
   },
   "appAssociation": "AUTO",
-  "rewrites": [ { "source": "/social/login/**", "dynamicLinks": true } ]
+  "rewrites": [
+    {
+      "source": "/social/login/**",
+      "dynamicLinks": true
+    }
+  ]
 }
