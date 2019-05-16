@@ -61,7 +61,7 @@ export class ChatboxPage implements OnInit {
       this.navCtrl.navigateForward('tabs/tab5/login');
     }
     else {
-      this.goToChatBox();
+      this.showMessage();
     }
   }
 
