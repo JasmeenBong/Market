@@ -1,26 +1,30 @@
 <ion-header>
-  <ion-toolbar color="lightBlue">
-    <ion-searchbar  (ionInput)="getProductsBasedonSearchBar($event)">
+    <ion-toolbar color="darkBlue">
+      <ion-item color="darkBlue">
+      <ion-searchbar  (ionInput)="getProductsBasedonSearchBar($event)">
       </ion-searchbar>
-        <ion-item *ngFor="let product of productList"> 
-          {{ product.postName }}
-        </ion-item>
-        </ion-toolbar>
-</ion-header>
-<ion-content color="light">
-  <ion-slides pager="true">
-    <ion-slide *ngFor="let image of carousel">
-        <ion-img style="width:100%;" [src]=image></ion-img>
-    </ion-slide>
-  </ion-slides>
-  <ion-grid>
-    <ion-row *ngFor="let row of array" class="card-background-page">
-      <ion-col  col-4 text-center *ngFor="let col of row">
-        <ion-card color="lightBlue" (click)="goCategoriesPage(col.categoryName)">
-          <ion-img  [src] = "col.url"></ion-img>
-          <ion-card-title>{{col.categoryName}}</ion-card-title>
-        </ion-card>
-        </ion-col>
-     </ion-row>
-  </ion-grid>
-</ion-content>
+      <ion-item *ngFor="let product of productList"> 
+            {{ product.postName }}
+          </ion-item>
+     <ion-icon (click)="moreInfo()" color="light" name="information-circle"></ion-icon>
+  </ion-item>
+          </ion-toolbar>
+  </ion-header>
+  <ion-content color="light">
+    <ion-slides pager="true">
+      <ion-slide *ngFor="let image of carousel">
+          <ion-img style="width:100%;" [src]=image></ion-img>
+      </ion-slide>
+    </ion-slides>
+    <ion-grid>
+      <ion-row *ngFor="let row of array" class="card-background-page">
+        <ion-col  col-4 text-center *ngFor="let col of row">
+          <ion-card color="lightBlue" (click)="goCategoriesPage(col.categoryName)">
+            <ion-img  [src] = "col.url"></ion-img>
+            <ion-card-title>{{col.categoryName}}</ion-card-title>
+          </ion-card>
+          </ion-col>
+       </ion-row>
+    </ion-grid>
+  </ion-content>
+  

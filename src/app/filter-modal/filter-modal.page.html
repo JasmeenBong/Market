@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-toolbar color="lightBlue">
+  <ion-toolbar color="darkBlue">
         <ion-buttons slot="start">
-            <ion-button (click)="closeModal()">
+            <ion-button color="lightBlue" (click)="closeModal()">
                 <ion-icon name="arrow-back"></ion-icon>
               </ion-button>
         </ion-buttons>
-       <ion-title>Filter</ion-title>
+       <ion-title color="lightBlue">Filter</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -30,5 +30,5 @@
 </ion-list>
 </ion-content>
 <ion-footer align="center" no-border>
- <ion-button expand="block" (click)="passDataBack(selectedPrice,selectedPostTime)">Ok</ion-button>
+ <ion-button expand="block" color="darkBlue" (click)="passDataBack(selectedPrice,selectedPostTime)">Ok</ion-button>
 </ion-footer>

@@ -43,7 +43,9 @@ export class HomePage implements OnInit {
       }
     });
  }
-
+moreInfo(){
+  this.router.navigate(['about']);
+}
   async getProductsBasedonSearchBar(ev){
     await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
        this.products = Object.values(value[0]);
