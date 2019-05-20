@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar no-border-bottom color="lightBlue">
+  <ion-toolbar no-border-bottom color="darkBlue">
     <ion-buttons slot="start">
-        <ion-button color="darkBlue" (click)="goToHomePage()">
+        <ion-button color="lightBlue" (click)="goToHomePage()">
             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
         </ion-button>
     </ion-buttons>
@@ -24,7 +24,7 @@
 
 <ion-content>
   <p id="noProductinCategories" *ngIf="noProductinCategories == true" padding>
-    There is currently no product(s) in this category.
+    There is currently no post(s) in this category.
   </p>
   <ion-grid>
     <ion-row *ngFor="let row of array" class="card-background-page">
