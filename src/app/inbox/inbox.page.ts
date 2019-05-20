@@ -16,6 +16,7 @@ export class InboxPage implements OnInit {
   subs;
   showAllMsgs = [];
   currentUser;
+  count = 0;
 
   constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router, private authService : AuthenticateService, private navCtrl: NavController) {
   }
@@ -35,43 +36,49 @@ export class InboxPage implements OnInit {
     this.subs.on("value",(snapshot)=>{
       snapshot.forEach((childSnapshot)=> {
         if(childSnapshot.val().reciever == this.currentUser.email){
-          const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
-          if(!found){
             firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().sender).on('value', (userSnapshot : any) =>{
             if(userSnapshot.val()){ 
               var user : any = Object.values(userSnapshot.val())[0];
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
               if(!found){  
+                   this.count++;
                    this.showAllMsgs.push({
                      email: childSnapshot.val().sender,
-                     url: user.url
+                     url: user.url,
+                     count : this.count
+
                 });
-                console.log(this.showAllMsgs);
+                this.count = 0;
               }
+              else{
+                const objIndex = this.showAllMsgs.findIndex((obj => obj.email == childSnapshot.val().sender));
+                this.showAllMsgs[objIndex].count = this.showAllMsgs[objIndex].count + 1;
+                console.log(this.showAllMsgs[objIndex].count);
+                this.count = 0;
+                }
             }else{
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
               if(!found){  
               this.showAllMsgs.push({
                    email: childSnapshot.val().sender,
-                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg"
+                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg",
+                     count : this.count
                 });
+                this.count = 0;
               }
             }
-            });
-          }
+            });    
         }
         if(childSnapshot.val().sender == this.currentUser.email){
-          const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
-          if(!found){
+         
             firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().reciever).on('value', (userSnapshot : any) =>{
             if(userSnapshot.val()){ 
               var user : any = Object.values(userSnapshot.val())[0];
-              console.log(user.url);
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
               if(!found){  
               this.showAllMsgs.push({
                    email: childSnapshot.val().reciever,
-                     url: user.url
+                    url: user.url,
                 });
               }
             }else{
@@ -85,13 +92,12 @@ export class InboxPage implements OnInit {
             }
             });
           }
-        }   
+          
       });
     });
   }
 
   ngOnInit() {
-    this.ionViewWillEnter();
   }
 
   getChat(chat){
