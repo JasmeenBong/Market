@@ -27,7 +27,7 @@ export class ChatboxPage implements OnInit {
     
   }
 
-  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase, private datePipe :DatePipe) {
+  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase, private datePipe :DatePipe,private authService : AuthenticateService) {
   this.showMessage();
   }
 
@@ -40,6 +40,13 @@ export class ChatboxPage implements OnInit {
         snapshot.forEach((childSnapshot)=> {
          if((this.sender == childSnapshot.val().sender && this.reciever == childSnapshot.val().reciever) || (this.reciever == childSnapshot.val().sender && this.sender == childSnapshot.val().reciever)){
            this.getMsgs.push(childSnapshot.val());
+           if(childSnapshot.val().reciever == this.authService.user.email){
+           this.retMsg.child(childSnapshot.key).update({
+              status : "read"
+           }).catch(function(error){
+             console.error(error);
+           });
+           }
         }
         });
       });
