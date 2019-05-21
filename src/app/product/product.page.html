@@ -1,8 +1,8 @@
 <ion-header>
-  <ion-toolbar color="lightBlue">
-    <ion-title>{{product.postName}}</ion-title>
-    <ion-buttons color="darkBlue" slot="start">
-      <ion-back-button></ion-back-button>
+  <ion-toolbar color="darkBlue">
+    <ion-title color="lightBlue">{{product.postName}}</ion-title>
+    <ion-buttons color="lightBlue" slot="start">
+      <ion-back-button color="lightBlue"></ion-back-button>
     </ion-buttons>
     <!-- <ion-buttons slot="end">
       <ion-button (click)="addtoLikedProduct(product.id, product.buttonColor)">
@@ -10,7 +10,7 @@
       </ion-button>
     </ion-buttons> -->
     <ion-buttons slot="end">
-      <ion-button color="darkBlue" (click)="alertReport()">
+      <ion-button color="lightBlue" (click)="alertReport()">
         <ion-icon name="warning"></ion-icon>
       </ion-button>
     </ion-buttons>

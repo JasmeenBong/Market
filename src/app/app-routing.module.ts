@@ -21,10 +21,7 @@ const routes: Routes = [
   { path: 'verify-email', loadChildren: './verify-email/verify-email.module#VerifyEmailPageModule' },
   { path: 'forgot-password', loadChildren: './forgot-password/forgot-password.module#ForgotPasswordPageModule' },
   { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
-  { path: 'chatbox', loadChildren: './chatbox/chatbox.module#ChatboxPageModule' },
-
-
-
+  { path: 'about', loadChildren: './about/about.module#AboutPageModule' },
 ];
 @NgModule({
   imports: [
