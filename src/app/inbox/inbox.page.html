@@ -11,7 +11,7 @@
             <ion-img [src]="message.url"></ion-img>
           </ion-avatar>
           <ion-label (click)="getChat(message.email)">{{message.email}}</ion-label>
-          <!-- <ion-badge slot="end">{{message.count}}</ion-badge> -->
+          <ion-badge slot="end" *ngIf="message.count != 0">{{message.count}}</ion-badge>
         </ion-item>
   </ion-list>
 </ion-content>

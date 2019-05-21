@@ -32,6 +32,7 @@ export class InboxPage implements OnInit {
   }
 
    getMessage(){
+    this.showAllMsgs = [];
     this.subs = firebase.database().ref('messages');
     this.subs.on("value",(snapshot)=>{
       snapshot.forEach((childSnapshot)=> {
@@ -41,20 +42,18 @@ export class InboxPage implements OnInit {
               var user : any = Object.values(userSnapshot.val())[0];
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
               if(!found){  
-                   this.count++;
                    this.showAllMsgs.push({
                      email: childSnapshot.val().sender,
                      url: user.url,
                      count : this.count
-
                 });
                 this.count = 0;
               }
               else{
                 const objIndex = this.showAllMsgs.findIndex((obj => obj.email == childSnapshot.val().sender));
-                this.showAllMsgs[objIndex].count = this.showAllMsgs[objIndex].count + 1;
-                console.log(this.showAllMsgs[objIndex].count);
-                this.count = 0;
+                if(childSnapshot.val().status == "unread"){
+                  this.showAllMsgs[objIndex].count = this.showAllMsgs[objIndex].count + 1;
+                }
                 }
             }else{
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().sender);
@@ -70,7 +69,6 @@ export class InboxPage implements OnInit {
             });    
         }
         if(childSnapshot.val().sender == this.currentUser.email){
-         
             firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().reciever).on('value', (userSnapshot : any) =>{
             if(userSnapshot.val()){ 
               var user : any = Object.values(userSnapshot.val())[0];
@@ -79,15 +77,19 @@ export class InboxPage implements OnInit {
               this.showAllMsgs.push({
                    email: childSnapshot.val().reciever,
                     url: user.url,
+                    count : this.count
                 });
+                this.count = 0;
               }
             }else{
               const found = this.showAllMsgs.some(el => el.email === childSnapshot.val().reciever);
               if(!found){  
               this.showAllMsgs.push({
                    email: childSnapshot.val().reciever,
-                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg"
+                     url: "https://banner2.kisspng.com/20180627/wio/kisspng-computer-icons-user-profile-avatar-jain-icon-5b332c5add9336.0201786915300803469076.jpg",
+                     count: this.count
                 });
+                this.count = 0; 
               }
             }
             });
@@ -98,6 +100,7 @@ export class InboxPage implements OnInit {
   }
 
   ngOnInit() {
+    this.ionViewWillEnter();
   }
 
   getChat(chat){

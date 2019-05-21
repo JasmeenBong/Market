@@ -16,6 +16,7 @@
         <div [class]="message.sender == this.sender ? 'innerMessage messageRight' : 'innerMessage messageLeft'">
           <div class="username">{{message.sender}}</div>
           <div class="messageContent">{{ message.message }}</div>
+          <div class="meesageTime">{{message.timeStamp}}</div>
         </div>
       </div>
     </div>
