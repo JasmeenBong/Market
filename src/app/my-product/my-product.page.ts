@@ -103,11 +103,11 @@ export class MyProductPage implements OnInit{
     this.refreshPage();
   }
 
-  postSold(pid){
+  async postSold(pid){
       console.log("SOLD");
       this.isDisabled = true;
       this.presentAlert("Your ad has been sold hence the system will delete the ad. Thank you for using our system.");
-      this.dbService.deleteAd(pid);
+      await this.dbService.deleteAd(pid);
       this.refreshPage();
   }
 
