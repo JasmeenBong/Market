@@ -5,8 +5,6 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { resource } from 'selenium-webdriver/http';
-import { reject } from 'q';
 
 @Injectable()
 export class AuthenticateService{
@@ -57,109 +55,39 @@ export class AuthenticateService{
   }
 
   googleLogin(){
-    // return new Promise<any>((resolve,reject) => {
-    //   this.googlePlus.login({
-    //     'webClientId': '859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com',
-    //     'offline': true
-    //   })
-    //   .then(
-    //     res => {
-    //       const googleCredential = firebase.auth.GoogleAuthProvider
-    //         .credential(res.idToken);
+    return new Promise<any>((resolve,reject) => {
+      this.googlePlus.login({
+        'webClientId': '859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com',
+        'offline': true
+      })
+      .then(
+        result => {
+          const googleCredential = firebase.auth.GoogleAuthProvider
+            .credential(result.idToken);
 
-    //       if(this.platform.is('ios')|| this.platform.is("android") || this.platform.is('mobileweb')){
-    //           firebase.auth().signInWithCredential(googleCredential)
-    //               .then(response => {
-    //                   console.log("Firebase successful sign in with Google " + JSON.stringify(response));
-    //                   resolve(response)
-    //               });
-    //       }
-    //       else {
-    //           firebase.auth().signInWithRedirect(googleCredential)
-    //               .then(response => {
-    //                 console.log("Firebase successful sign in with Google " + JSON.stringify(response));
-    //                 resolve(response)
-    //               });
-    //       }
-    //     }, err => {
-    //     reject(err);
-    //   });
-    // });
-
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      return new Promise<any>((resolve, reject) => {
-        firebase.auth().signInWithRedirect(provider)
-        .then( 
-          res => {
-            firebase.auth().getRedirectResult().then(function(result){
-              if(result.credential){
-                console.log(result.credential);
-                var user = result.user;
-                console.log(user);
-              }
-            }).catch(function(error){
-               console.log(error.message);
-            });
-          }
-        ).catch(function(error) {
-          console.log(error.message);
-        });
+          firebase.auth().signInWithCredential(googleCredential)
+            .then(res => resolve(res),
+            err => reject(err));
+        }, err => {
+        reject(err);
       });
+    });
   }
 
   facebookLogin(){
-    var provider = new firebase.auth.FacebookAuthProvider();
+    return new Promise<any>((resolve,reject) => {
+      this.facebook.login(['email', 'public_profile'])
+        .then((response : FacebookLoginResponse) => {
+            const facebookCredential = firebase.auth.FacebookAuthProvider
+              .credential(response.authResponse.accessToken);
 
-    // return new Promise<any> ((resolve, reject) => {
-    //   firebase.auth().signInWithPopup(provider).then(function(result){
-    //     console.log(result);
-    //   }).catch(function(error){
-    //     console.log(error.message);
-    //   })
-    // })
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithRedirect(provider)
-      .then( 
-        res => {
-          firebase.auth().getRedirectResult().then(function(result){
-            if(result.credential){
-              console.log(result.credential);
-              var user = result.user;
-              console.log(user);
-            }
-          }).catch(function(error){
-             console.log(error.message);
-          });
-        }
-      ).catch(function(error) {
-        console.log(error.message);
-      });
+              firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
+              .then(res => resolve(res),
+              err => reject(err));
+            }, err => {
+              reject (err);
+        });
     });
-    // return new Promise<any>((resolve,reject) => {
-    //   this.facebook.login(['email', 'public_profile'])
-    //     .then((response : FacebookLoginResponse) => {
-    //         const facebookCredential = firebase.auth.FacebookAuthProvider
-    //           .credential(response.authResponse.accessToken);
-    //
-    //           if(this.platform.is('ios')|| this.platform.is("android") || this.platform.is('mobileweb')){
-    //               firebase.auth().signInWithCredential(facebookCredential)
-    //                   .then(response => {
-    //                       console.log("Firebase successful sign in with Facebook " + JSON.stringify(response));
-    //                       resolve(response);
-    //                   });
-    //           }
-    //           else {
-    //               firebase.auth().signInWithRedirect(facebookCredential)
-    //                   .then(response => {
-    //                     console.log("Firebase successful sign in with Google " + JSON.stringify(response));
-    //                     resolve(response);
-    //                   });
-    //           }
-    //         }, err => {
-    //           reject (err);
-    //     });
-    // });
   }
 
   logoutUser(){

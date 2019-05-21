@@ -4,17 +4,12 @@
   },
   "appAssociation": "AUTO",
   "hosting": {
-    "public": "public",
+    "public": "src",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
-      {
-        "source": "/login/social/**",
-        "dynamicLinks": true
-      }
-    ]
+    "rewrites": [ { "source": "/lgn/**", "dynamicLinks": true } ]
   }
 }

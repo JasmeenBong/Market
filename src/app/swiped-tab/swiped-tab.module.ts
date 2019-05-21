@@ -10,7 +10,37 @@ import { SwipedTabPage } from './swiped-tab.page';
 const routes: Routes = [
   {
     path: '',
-    component: SwipedTabPage
+    component: SwipedTabPage,
+    children: [
+      {
+        path: 'login',
+        children: [
+          {
+            path: '',
+            loadChildren: '../login/login.module#LoginPageModule'
+          }
+        ]
+      },
+      {
+        path: 'register',
+        children: [
+          {
+            path: '',
+            loadChildren: '../register/register.module#RegisterPageModule'
+          }
+        ]
+      },
+      {
+        path: '',
+        redirectTo: '/swiped-tab/login',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
+    path: '',
+    redirectTo: '/swiped-tab/login',
+    pathMatch: 'full'
   }
 ];
 

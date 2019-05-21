@@ -16,13 +16,13 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./sell.page.scss'],
 })
 export class SellPage implements OnInit {
-
-  //options for upload image on Android
-  options: any;
   //count how many image uploaded
   counter: number = 0;
+  //store malaysia area list from firebabse
   MalaysiaAreaList = [];
+  //store the region 
   regionList = [];
+  //store area list based on region
   areaList = [];
   //action (post Ad/Edit Ad)
   action: any = "";
@@ -36,8 +36,7 @@ export class SellPage implements OnInit {
   noCategory: any = true;
   //validate selected region
   noRegion: any = true;
-
-
+  //validate selected arera
   noArea : any = true;
   //store the user id for seller
   uid : any;
@@ -58,10 +57,8 @@ export class SellPage implements OnInit {
   postRegion : any;
 
   constructor(
-    private imagePicker: ImagePicker,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
     private dbService : DatabaseService,
     private navCtrl : NavController,
     private alertController : AlertController,
@@ -150,7 +147,7 @@ export class SellPage implements OnInit {
         console.log(this.uid);
       }
       else {
-        this.router.navigateByUrl('tabs/tab5/login');
+        this.navCtrl.navigateForward('tabs/tab5/login');
       }
     });
   }
@@ -209,40 +206,6 @@ export class SellPage implements OnInit {
       this.noArea = false;
     }
   }
-
-  // uploadImage() {
-  //   this.options = {
-  //     // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
-  //     // selection of a single image, the plugin will return it.
-  //     //maximumImagesCount: 3,
-  //
-  //     // max width and height to allow the images to be.  Will keep aspect
-  //     // ratio no matter what.  So if both are 800, the returned image
-  //     // will be at most 800 pixels wide and 800 pixels tall.  If the width is
-  //     // 800 and height 0 the image will be 800 pixels wide if the source
-  //     // is at least that wide.
-  //     width: 200,
-  //     //height: 200,
-  //
-  //     // quality of resized image, defaults to 100
-  //     quality: 25,
-  //
-  //     // output type, defaults to FILE_URIs.
-  //     // available options are
-  //     // window.imagePicker.OutputType.FILE_URI (0) or
-  //     // window.imagePicker.OutputType.BASE64_STRING (1)
-  //     outputType: 1
-  //   };
-  //   this.imagePicker.getPictures(this.options).then((results) => {
-  //     for (var i = 0; i < results.length; i++) {
-  //       console.log(results[i]);
-  //       this.images.push('data:image/jpeg;base64,' + results[i]);
-  //       this.counter ++;
-  //     }
-  //   }, (err) => {
-  //     console.log(err);
-  //   });
-  // }
 
   uploadImage(){
     this.camera.getPicture({
@@ -303,7 +266,7 @@ export class SellPage implements OnInit {
         this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
 
         this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
-        this.router.navigateByUrl("/tabs/tab2");
+        this.navCtrl.navigateForward("/tabs/tab2");
     }
     else {
       let currDate = new Date();
@@ -314,7 +277,7 @@ export class SellPage implements OnInit {
         this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
 
         this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
-        this.router.navigateByUrl("/tabs/tab2");
+        this.navCtrl.navigateForward("/tabs/tab2");
     }
   }
 

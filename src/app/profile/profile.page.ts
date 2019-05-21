@@ -42,10 +42,7 @@ export class ProfilePage implements OnInit {
     private camera: Camera,
     private AlertController:AlertController,
     private ToastController: ToastController,
-    private formBuilder: FormBuilder
-
-      ) {
-      }
+    private formBuilder: FormBuilder) {}
 
       validation_messages = {
         'email': [
@@ -64,11 +61,11 @@ export class ProfilePage implements OnInit {
 
   ionViewWillEnter(){
     if(!this.authService.user || this.authService.user == ""){
-      this.navCtrl.navigateForward('tabs/tab5/login');
+      this.navCtrl.navigateForward('swiped-tab');
     }
     else {
       this.uid = this.authService.user.uid;
-    this.getProfileDetails();
+      this.getProfileDetails();
     }
   }
 

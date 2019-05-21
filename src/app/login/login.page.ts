@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { Router } from '@angular/router';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import * as firebase from 'firebase/app';
 
@@ -72,11 +71,11 @@ export class LoginPage implements OnInit {
   LoginWithGoogle(){
     this.authService.googleLogin()
     .then(res => {
-        console.log(res);
         this.errorMessage = "";
-        this.authService.isLoggedin = true;
         this.authService.user = firebase.auth().currentUser;
-        // this.navCtrl.navigateForward('/tabs/tab5');
+        this.authService.isLoggedin = true;
+        this.addToDb();
+        this.navCtrl.navigateForward('/tabs/tab5');
     }, err => {
           this.errorMessage = err.message;
     });
@@ -85,25 +84,21 @@ export class LoginPage implements OnInit {
   LoginWithFacebook(){
     this.authService.facebookLogin()
     .then(res => {
-      console.log(res);
       this.errorMessage = "";
-      this.authService.isLoggedin = true;
       this.authService.user = firebase.auth().currentUser;
-      // this.navCtrl.navigateForward('/tabs/tab5');
+      this.authService.isLoggedin = true;
+      this.addToDb();
+      this.navCtrl.navigateForward('/tabs/tab5');
     }, err => {
       this.errorMessage = err.message;
-    })
-  }
-
-  goToRegisterPage(){
-    this.navCtrl.navigateForward('/tabs/tab5/register');
+    });
   }
 
   forgotPassword(){
     this.router.navigate(['forgot-password']);
   }
 
-  addToDb(){
+  async addToDb(){
     var newUser = firebase.auth().currentUser;
 
     var id = newUser.uid;
@@ -111,6 +106,10 @@ export class LoginPage implements OnInit {
     var image = newUser.photoURL;
     var email = newUser.email;
 
-    this.dbService.addFacebookUser(id, name, email, image);
+    await this.dbService.addFacebookUser(id, name, email, image);
+  }
+
+  back(){
+    this.navCtrl.navigateBack("");
   }
 }

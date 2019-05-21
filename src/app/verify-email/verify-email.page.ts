@@ -23,7 +23,7 @@ export class VerifyEmailPage implements OnInit {
   }
 
   goBackToLogin(){
-    this.router.navigateByUrl("tabs/tab5/login");
+    this.router.navigateByUrl("swiped-tab/login");
   }
 
 }

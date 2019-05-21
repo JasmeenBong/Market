@@ -24,9 +24,10 @@
   }
 
   .icon{
-    font-size: 20px;
+    font-size: 30px;
     float: right;
     clear: left;
+    margin-left: 5px;
   }
 
   .postname, .dateTime{
@@ -37,7 +38,6 @@
     text-align: left;
     color: red;
   }
-
 }
 
 #noProduct{
@@ -48,4 +48,15 @@
   transform: translate(-50%, -50%);
   font-size: 20px;
   text-align: center;
+}
+
+#sold{
+  font-size: 20px; 
+  padding-left: 15px;
+  padding-right: 15px;
+  vertical-align: 50%;
+}
+
+ion-toggle{
+  padding-bottom: 5pt;
 }
