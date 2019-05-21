@@ -115,9 +115,7 @@
       "cordova-plugin-googleplus": {},
       "cordova-plugin-facebook4": {
         "APP_ID": "1233477970144707",
-        "APP_NAME": "“MarketApp”",
-        "FACEBOOK_HYBRID_APP_EVENTS": "false",
-        "FACEBOOK_ANDROID_SDK_VERSION": "4.40.0"
+        "APP_NAME": "Market App"
       },
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-appavailability": {},
