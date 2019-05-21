@@ -34,6 +34,7 @@ import { DatePipe } from '@angular/common';
 import { SMS } from '@ionic-native/sms/ngx';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Network } from '@ionic-native/network/ngx';
+import { MyProductPage } from './my-product/my-product.page';
 
 firebase.initializeApp(environment.firebase);
 
@@ -75,6 +76,7 @@ firebase.initializeApp(environment.firebase);
     AppAvailability,
     DatePipe,
     Network,
+    MyProductPage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
