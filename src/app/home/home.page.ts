@@ -46,19 +46,25 @@ export class HomePage implements OnInit {
 moreInfo(){
   this.router.navigate(['about']);
 }
-  async getProductsBasedonSearchBar(ev){
-    await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
-       this.products = Object.values(value[0]);
-     });
-    this.val = ev.target.value;
-    if(this.val && this.val.trim() !== ''){
-    this.productList = this.products.filter(product =>{
-      return product.postName.toLowerCase().indexOf(this.val.toLowerCase()) > -1;
-    });
-  }
-  else{
-    this.productList = [];
+  async getProductsBasedonSearchBar(){
+    let navigationExtras: NavigationExtras = {
+      queryParams:{
+        category : "All"
+      }
     }
+    this.router.navigate(['categories'],navigationExtras);
+  //   await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
+  //      this.products = Object.values(value[0]);
+  //    });
+  //   this.val = ev.target.value;
+  //   if(this.val && this.val.trim() !== ''){
+  //   this.productList = this.products.filter(product =>{
+  //     return product.postName.toLowerCase().indexOf(this.val.toLowerCase()) > -1;
+  //   });
+  // }
+  // else{
+  //   this.productList = [];
+  //   }
   }
 
   async showCarouselPhoto(){

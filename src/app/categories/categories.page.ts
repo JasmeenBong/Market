@@ -27,6 +27,7 @@ export class CategoriesPage implements OnInit {
   likedProductarray = new Array();
   userInfo;
   noProductinCategories = false;
+  val;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
     private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController,
@@ -145,6 +146,21 @@ export class CategoriesPage implements OnInit {
 
   async getProductListFromFireBase(category){
     this.spinnerDialog.show();
+    if(category == "All"){
+      await Promise.resolve(this.dbService.getAllProducts()).then(value=>{
+        if(value[0] == null || value[0] == undefined){
+          this.spinnerDialog.hide();
+        this.noProductinCategories = true;
+        }
+        else{
+
+        this.products = Object.entries(value[0]);
+        this.noProductinCategories = false;
+        this.spinnerDialog.hide();
+        }
+      });
+      this.printOutProductList();
+    }else{
     await Promise.resolve(this.dbService.getProductListforEachCategories(category)).then(value=> {
       if(value[0] == null || value[0] == undefined){
         this.spinnerDialog.hide();
@@ -156,7 +172,8 @@ export class CategoriesPage implements OnInit {
         this.spinnerDialog.hide();
       }
       this.printOutProductList();
-  });
+    });
+    }
   }
 
   goToProductPage(pid)
@@ -263,6 +280,21 @@ async openAlert(){
         col.buttonColor = "";
         this.presentToast('Removed from my favourite list');
       }
+    }
+  }
+
+  getProductsBasedonSearchBar(ev){
+    this.val = ev.target.value;
+    if(this.val && this.val.trim() !== ''){
+    this.products = this.products.filter(product =>{
+      return product[1].postName.toLowerCase().indexOf(this.val.toLowerCase()) > -1;
+    });
+    this.array = [[],[]];
+    this.printOutProductList();
+    }
+    else{
+      // console.log(this.categories);
+      this.getCategoriesFromHomePage();
     }
   }
 
