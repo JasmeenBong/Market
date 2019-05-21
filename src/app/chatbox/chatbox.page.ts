@@ -64,4 +64,8 @@ export class ChatboxPage implements OnInit {
     this.message = "";
   } 
 
+  goToInbox(){
+    
+  }
+
 }

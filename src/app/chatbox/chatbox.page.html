@@ -1,8 +1,12 @@
 <ion-header>
   <ion-toolbar  color="darkBlue">
     <ion-title color="lightBlue">
-
-
+      <ion-buttons slot="start">
+        <ion-button color="lightBlue" (click)="goToInbox()">
+            <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            Back
+        </ion-button>
+    </ion-buttons>
           <!-- <ion-icon slot="icon-only" name="arrow-back"></ion-icon> -->
         Send a message!
       </ion-title>
@@ -16,7 +20,7 @@
         <div [class]="message.sender == this.sender ? 'innerMessage messageRight' : 'innerMessage messageLeft'">
           <div class="username">{{message.sender}}</div>
           <div class="messageContent">{{ message.message }}</div>
-          <div class="meesageTime">{{message.timeStamp}}</div>
+          <!-- <div class="meesageTime">{{message.timeStamp}}</div> -->
         </div>
       </div>
     </div>

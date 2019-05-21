@@ -6,7 +6,6 @@ import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Camera } from '@ionic-native/camera/ngx';
-import { MyProductPage } from '../my-product/my-product.page';
 
 import * as firebase from 'firebase/app';
 
@@ -63,8 +62,7 @@ export class SellPage implements OnInit {
     private navCtrl : NavController,
     private alertController : AlertController,
     private datePipe : DatePipe,
-    private camera : Camera,
-    private myProductPage : MyProductPage
+    private camera : Camera
   ) { }
 
   ngOnInit() {
@@ -215,11 +213,10 @@ export class SellPage implements OnInit {
 
      }).then((img) => {
 
-      //  if(img!=""){
+       if(img!=""){
          this.images.push('data:image/jpeg;base64,' + img);
          this.counter ++;
-         
-      //  }
+       }
 
      }, (err) => {
        console.log(err);
@@ -268,8 +265,8 @@ export class SellPage implements OnInit {
         this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
 
         this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
-        this.navCtrl.navigateForward("/tabs/tab2");
-        this.myProductPage.refreshPage();
+        this.navCtrl.navigateBack("/tabs/tab2");
+        location.reload();
     }
     else {
       let currDate = new Date();
@@ -280,8 +277,8 @@ export class SellPage implements OnInit {
         this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
 
         this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
-        this.navCtrl.navigateForward("/tabs/tab2");
-        this.myProductPage.refreshPage();
+        this.navCtrl.navigateBack("/tabs/tab2");
+        location.reload();
     }
   }
 
