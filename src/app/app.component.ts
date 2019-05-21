@@ -3,30 +3,38 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { Network } from '@ionic-native/network/ngx';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  public onlineOffline: boolean = navigator.onLine;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private toastCtrl : ToastController,
+    private network : Network
   ) {
-    if (this.onlineOffline == false){
-      this.presentAlert();
-    }
-    else {
-      this.initializeApp();
+    this.initializeApp();
+
+    if (this.network.type == "none"){
+      this.presentAlert;
+      console.log("offline");
     }
 
-    window.addEventListener('offline', () => {
+    this.network.onConnect().subscribe(() => {
+      this.presentToast();
+      console.log("online");
+    });
+
+    this.network.onDisconnect().subscribe(() => {
       this.presentAlert();
+      console.log("offline");
     });
   }
 
@@ -38,6 +46,16 @@ export class AppComponent {
       buttons: ['OK']
     });
     return await alert.present();
+  }
+
+  async presentToast(){
+    const toast = await this.toastCtrl.create({
+      message : "Reconnecting...",
+      duration : 3000,
+      position : "bottom"
+    });
+    
+    toast.present();
   }
 
   initializeApp() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { EmailComposer} from '@ionic-native/email-composer/ngx';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-about',
   templateUrl: './about.page.html',
@@ -8,12 +8,12 @@ import { EmailComposer} from '@ionic-native/email-composer/ngx';
 })
 export class AboutPage implements OnInit {
 
-  constructor(public router: Router,private emailComposer: EmailComposer) { }
+  constructor(public navCtrl: NavController,private emailComposer: EmailComposer) { }
 
   ngOnInit() {
   }
   back(){
-    this.router.navigateByUrl('/tabs/tab1');
+    this.navCtrl.navigateBack('/tabs/tab1');
   }
   
   sendEmail() {

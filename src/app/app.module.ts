@@ -33,7 +33,7 @@ import {DatePicker} from '@ionic-native/date-picker/ngx';
 import { DatePipe } from '@angular/common';
 import { SMS } from '@ionic-native/sms/ngx';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import { Network } from '@ionic-native/network/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -74,6 +74,7 @@ firebase.initializeApp(environment.firebase);
     EmailComposer,
     AppAvailability,
     DatePipe,
+    Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

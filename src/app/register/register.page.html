@@ -1,13 +1,3 @@
-<ion-header>
-  <ion-toolbar color="darkBlue">
-    <ion-button color="lightBlue" slot="start" (click)="back()" size="small" fill="clear">
-      <ion-icon name="arrow-back" slot="start"></ion-icon>
-      
-    </ion-button>
-    <ion-title color="lightBlue">Register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content padding>
   <form class="form" [formGroup]="validations_form" (ngSubmit) = "registerUser(validations_form.value)">
 
@@ -54,14 +44,17 @@
     </div>
 
     <div class="validataion-errors" *ngIf="(validations_form.hasError('notEqual')) && (validations_form.controls.password.valid)">
-      Your passwords do not match. Please try again.
-    </div>
+        Your passwords do not match. Please try again.
+      </div>
+
+    <ion-item lines="none">
+        <ion-icon name="information-circle" slot="start"></ion-icon>
+        <span style="font-size: 10pt; margin-left: 5pt;">Password must be 8 characters with at least one digit, upper case, and lower case.</span>
+    </ion-item>
 
     <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" expand="block">Register</ion-button>
 
     <label class="error-message">{{errorMessage}}</label>
   </form>
-
-  <p class="go-to-login">Already have an account? <a (click)="goLoginPage()">Try to Log In.</a></p>
 
 </ion-content>

@@ -33,7 +33,7 @@ export class FavouritePage implements OnInit {
 
   ionViewWillEnter() {
     if(!this.authService.user || this.authService.user == ""){
-      this.navCtrl.navigateForward('tabs/tab5/login');
+      this.navCtrl.navigateForward('swiped-tab/login');
     }
     else {
       this.uid = this.authService.user.uid;

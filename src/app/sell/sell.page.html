@@ -18,10 +18,10 @@
 <ion-content>
   <label for="uploaded-photos" [(ngModel)]="counter" ngModel id="counterLabel">Uploaded photos({{counter}}/3)</label>
   <form class="form" [formGroup]="validatePost">
-    <ion-button  color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
+    <ion-button #uploadImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="images"></ion-icon>
       Upload Image</ion-button>
-    <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
+    <ion-button #takeImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
       Take Image</ion-button>
     <ion-item>
@@ -37,7 +37,7 @@
       </div>
     </ion-item>
 
-<div class="validataion-errors" *ngIf="counter == 0">
+    <div class="validataion-errors" *ngIf="counter == 0 && (uploadImg.click || takeImg.click)">
       <span>Please insert an image.</span>
     </div>
 

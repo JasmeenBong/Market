@@ -33,8 +33,8 @@ export class RegisterPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
       password: new FormControl('', Validators.compose([
-        Validators.minLength(8),
-        Validators.required
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$')
       ])),
       reEnterPassword: new FormControl('', Validators.compose([
         Validators.required
@@ -49,7 +49,7 @@ export class RegisterPage implements OnInit {
     ],
     'password': [
       { type: 'required', message: 'Password is required.'},
-      { type: 'minlength', message: 'Password must be at least 8 characters long.'}
+      { type: 'pattern', message: 'Password must contain at least one digit, upper case, and lower case with minimum 8 characters.'}
     ],
     'reEnterPassword' : [
       { type: 'required', message: 'Please re-enter your password.'}
@@ -71,20 +71,13 @@ export class RegisterPage implements OnInit {
       console.log(res);
       this.errorMessage = "";
       this.successMessage = "Your account has been created.";
-      this.authService.isLoggedin = true;
-      this.authService.user = firebase.auth().currentUser;
       this.addToDb();
       this.authService.sendVerificationMail();
-      // this.navCtrl.navigateForward('/tabs/tab1');
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
       this.successMessage = "";
     })
-  }
-
-  goLoginPage(){
-    this.navCtrl.navigateForward('/tabs/tab5/login');
   }
 
   addToDb(){
@@ -94,9 +87,5 @@ export class RegisterPage implements OnInit {
     var email = newUser.email;
 
     this.dbService.addNewUser(id, email);
-  }
-
-  back(){
-    this.navCtrl.navigateBack('/tabs/tab5/login');
   }
 }

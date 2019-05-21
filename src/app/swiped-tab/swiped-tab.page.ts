@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-swiped-tab',
@@ -8,7 +8,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class SwipedTabPage implements OnInit {
 
-  constructor() {}
+  title = "Sign In";
+
+  constructor(
+    private navCtrl : NavController
+  ) {}
 
   ngOnInit() {}
+
+  changeTitle(action){
+    if (action == 'signin'){
+      this.title = "Sign In";
+    }
+    else if (action == 'signup'){
+      this.title = "Sign Up";
+    }
+  }
+
+  close(){
+    this.navCtrl.navigateBack("");
+  }
 }

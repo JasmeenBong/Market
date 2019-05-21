@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, IonToggle } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../services/databases.service';
 import { AuthenticateService } from '../services/authentication.service';
@@ -21,6 +21,8 @@ export class MyProductPage implements OnInit{
   array = [[],[]];
   uid : string = "";
   noProduct = false;
+  isDisabled : Boolean = false;
+
   constructor(
     private router: Router,
     private dbService : DatabaseService,
@@ -34,7 +36,7 @@ export class MyProductPage implements OnInit{
 
   ionViewWillEnter(){
     if(!this.authService.user || this.authService.user == ""){
-      this.navCtrl.navigateForward('tabs/tab5/login');
+      this.navCtrl.navigateForward('swiped-tab/login');
     }
     else {
       this.uid = this.authService.user.uid;
@@ -49,7 +51,6 @@ export class MyProductPage implements OnInit{
       }
       else{
         this.products = Object.entries(value[0]);
-        console.log(value);
         var count = 0;
         for(var row =0; row < (this.products.length/2); row++)
         {
@@ -78,7 +79,6 @@ export class MyProductPage implements OnInit{
         pid: pid
       }
     }
-    // this.router.navigate(['product'],navigationExtras);
     this.navCtrl.navigateForward(['product'], navigationExtras);
   }
 
@@ -100,6 +100,15 @@ export class MyProductPage implements OnInit{
   deletePost(pid){
     this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
+    this.refreshPage();
+  }
+
+  postSold(pid){
+      console.log("SOLD");
+      this.isDisabled = true;
+      this.presentAlert("Your ad has been sold hence the system will delete the ad. Thank you for using our system.");
+      this.dbService.deleteAd(pid);
+      this.refreshPage();
   }
 
   async presentAlert(msg) {
