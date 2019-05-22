@@ -23,13 +23,13 @@
       Upload Image</ion-button>
     <ion-button #takeImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
-      Take Image</ion-button>
+      Camera</ion-button>
     <ion-item>
       <div *ngIf="images != []">
         <br />
           <div class="uploaded-photo" *ngFor="let image of images">
             <ion-thumbnail class="thumbnail" slot="start">
-              <ion-icon class="icon-close" name="close" (click)="cancelImage($index)"></ion-icon>
+              <ion-icon class="icon-close" name="close" (click)="cancelImage(image)"></ion-icon>
               <ion-img [src]=image></ion-img>
             </ion-thumbnail>
           </div>
@@ -37,7 +37,7 @@
       </div>
     </ion-item>
 
-    <div class="validataion-errors" *ngIf="counter == 0 && (uploadImg.click || takeImg.click)">
+    <div class="validataion-errors" *ngIf="counter == 0">
       <span>Please insert an image.</span>
     </div>
 
@@ -125,7 +125,7 @@
 
     <ion-item>
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
-      <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange($event)">
+      <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange()">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
         <ion-select-option *ngFor="let area of areaList" [value]=area>
           {{area}}
