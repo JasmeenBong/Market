@@ -30,7 +30,7 @@ export class CategoriesPage implements OnInit {
   val;
 
   constructor(private route: ActivatedRoute, private router: Router, private dbService : DatabaseService, private modalController: ModalController,
-    private alertController: AlertController, private navController: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController,
+    private alertController: AlertController, private navCtrl: NavController, private spinnerDialog: SpinnerDialog, private toastController : ToastController,
     private authService : AuthenticateService) {
     this.getCategoriesFromHomePage()
   }
@@ -314,7 +314,7 @@ async openAlert(){
           {
             text: 'Ok',
             handler: () => {
-              this.router.navigateByUrl('tabs/tab5/login');
+              this.navCtrl.navigateForward('swiped-tab/login');
             }
           },
           {
@@ -329,7 +329,7 @@ async openAlert(){
   }
 
   goToHomePage(){
-    this.navController.navigateBack('tabs/tab1');
+    this.navCtrl.navigateBack('tabs/tab1');
   }
 
   ngOnInit() {
