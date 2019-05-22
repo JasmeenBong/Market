@@ -6,7 +6,6 @@ import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Camera } from '@ionic-native/camera/ngx';
-import { MyProductPage } from '../my-product/my-product.page';
 
 import * as firebase from 'firebase/app';
 
@@ -56,6 +55,8 @@ export class SellPage implements OnInit {
   postArea : any;
   postRegion : any;
 
+  area;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -63,8 +64,7 @@ export class SellPage implements OnInit {
     private navCtrl : NavController,
     private alertController : AlertController,
     private datePipe : DatePipe,
-    private camera : Camera,
-    private myProductPage : MyProductPage
+    private camera : Camera
   ) { }
 
   ngOnInit() {
@@ -100,7 +100,7 @@ export class SellPage implements OnInit {
 
     if(this.action == "edit"){
       this.title = "Edit My Ad";
-      this.getProductList(this.productId);
+      this.getProductDetails(this.productId);
     }
     else {
       this.title = "Post an Ad";
@@ -145,7 +145,6 @@ export class SellPage implements OnInit {
     firebase.auth().onAuthStateChanged(user => {
       if (user){
         this.uid = user.uid;
-        console.log(this.uid);
       }
       else {
         this.navCtrl.navigateForward('tabs/tab5/login');
@@ -153,10 +152,10 @@ export class SellPage implements OnInit {
     });
   }
 
-  getProductList(pid){
+  getProductDetails(pid){
     Promise.resolve(this.dbService.getProductById(pid)).then(value=> {
        this.myAd = value[0];
-       this.images = Object.values(this.myAd.images);
+       this.images = this.myAd.images;
        this.noCategory = false;
        this.noRegion = false;
        this.noArea = false;
@@ -191,7 +190,6 @@ export class SellPage implements OnInit {
     }
 
     this.getAreaList(event.target.value);
-    this.postArea.value = "none";
   }
 
   getAreaList(region){
@@ -202,8 +200,8 @@ export class SellPage implements OnInit {
     }
   }
 
-  onAreaChange(event: any){
-    if(event.target.value != "none"){
+  onAreaChange(){
+    if(this.postArea.value != "none"){
       this.noArea = false;
     }
   }
@@ -215,11 +213,10 @@ export class SellPage implements OnInit {
 
      }).then((img) => {
 
-      //  if(img!=""){
+       if(img!=""){
          this.images.push('data:image/jpeg;base64,' + img);
          this.counter ++;
-         
-      //  }
+      }
 
      }, (err) => {
        console.log(err);
@@ -243,45 +240,52 @@ export class SellPage implements OnInit {
       });
   }
 
-  cancelImage(index){
-    this.images.splice(index, 1);
+  cancelImage(image){
+    var index = this.images.indexOf(image);
+    if(index != -1){
+      this.images.splice(index, 1); 
+    }
     this.counter = this.counter - 1;
     console.log("image removed");
   }
 
   savePost(){
-    if(this.postBreed.value == ""){
-      this.postBreed.value = "not set";
-    }
-
-    if(this.postAge.value == ""){
-      this.postAge.value = "not set";
-    }
-
-    if(this.postWeight.value == ""){
-      this.postWeight.value = "not set";
-    }
-
-    if(this.action == "edit"){
-      this.dbService.updateAd(this.images, this.postTitle.value, this.postCategory.value,
-        this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
-        this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
-
-        this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
-        this.navCtrl.navigateForward("/tabs/tab2");
-        this.myProductPage.refreshPage();
+    console.log(this.postArea.value);
+    if(this.postArea.value == "none"){
+      this.presentAlert("Please select your area");
     }
     else {
-      let currDate = new Date();
-      let formatedDate = this.datePipe.transform(currDate, 'yyyy-MM-dd hh:mm');
-
-      this.dbService.addNewAd(this.images, this.postTitle.value, this.postCategory.value,
-        this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
-        this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
-
-        this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
-        this.navCtrl.navigateForward("/tabs/tab2");
-        this.myProductPage.refreshPage();
+      if(this.postBreed.value == ""){
+        this.postBreed.value = "not set";
+      }
+  
+      if(this.postAge.value == ""){
+        this.postAge.value = "not set";
+      }
+  
+      if(this.postWeight.value == ""){
+        this.postWeight.value = "not set";
+      }
+  
+      if(this.action == "edit"){
+        this.dbService.updateAd(this.images, this.postTitle.value, this.postCategory.value,
+          this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
+          this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
+  
+          this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
+          this.navCtrl.navigateForward("/tabs/tab2");
+      }
+      else {
+        let currDate = new Date();
+        let formatedDate = this.datePipe.transform(currDate, 'yyyy-MM-dd hh:mm');
+  
+        this.dbService.addNewAd(this.images, this.postTitle.value, this.postCategory.value,
+          this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
+          this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
+  
+          this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
+          this.navCtrl.navigateForward("/tabs/tab2");
+      }
     }
   }
 

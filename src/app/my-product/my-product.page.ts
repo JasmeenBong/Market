@@ -6,7 +6,7 @@ import { AuthenticateService } from '../services/authentication.service';
 import { NavigationExtras } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
-import * as firebase from 'firebase/app';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class MyProductPage implements OnInit{
 
   productList;
   products;
-  array = [[],[]];
+  array;
   uid : string = "";
   noProduct = false;
   isDisabled : Boolean = false;
@@ -28,15 +28,23 @@ export class MyProductPage implements OnInit{
     private dbService : DatabaseService,
     private alertController : AlertController,
     private navCtrl : NavController,
-    private authService : AuthenticateService
+    private authService : AuthenticateService,
+    private spinnerDialog: SpinnerDialog
   ) { }
 
   ngOnInit() {
+    this.spinnerDialog.show();
+
+    // setTimeout(() => {
+    //   this.spinnerDialog.hide();
+    // }, 5000);
   }
 
   ionViewWillEnter(){
+    this.spinnerDialog.show();
     if(!this.authService.user || this.authService.user == ""){
       this.navCtrl.navigateForward('swiped-tab/login');
+      this.spinnerDialog.hide();
     }
     else {
       this.uid = this.authService.user.uid;
@@ -45,21 +53,28 @@ export class MyProductPage implements OnInit{
   }
 
   async getMyPostedAds(uid){
+    this.array = [[],[]];
     await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
       if(value[0] == null || value[0] == undefined){
         this.noProduct = true;
+        this.array = [[],[]];
+        this.spinnerDialog.hide();
       }
       else{
+        this.noProduct = false;
         this.products = Object.entries(value[0]);
+        console.log(this.products);
         var count = 0;
         for(var row =0; row < (this.products.length/2); row++)
         {
+          this.array[row]=[];
           for(var col=0; col<2; col++){
             this.array[row][col] = this.products[count][1];
             this.array[row][col].pid = this.products[count][0];
             count++;
           }
         }
+        this.spinnerDialog.hide();
       }
     });
   }
@@ -93,12 +108,13 @@ export class MyProductPage implements OnInit{
   }
 
   refreshPage(){
+    this.ngOnInit();
     this.getMyPostedAds(this.uid);
     console.log("refreshed");
   }
 
-  deletePost(pid){
-    this.dbService.deleteAd(pid);
+  async deletePost(pid){
+    await this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
     this.refreshPage();
   }

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="darkBlue">
       <ion-item color="darkBlue">
-      <ion-searchbar style="color: lightBlue" (ionInput)="getProductsBasedonSearchBar($event)">
+      <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
       </ion-searchbar>
       <ion-item *ngFor="let product of productList"> 
             {{ product.postName }}
