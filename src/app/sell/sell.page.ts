@@ -264,9 +264,8 @@ export class SellPage implements OnInit {
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
         this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
 
-        this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
+        this.presentAlert("Successfully updated your Ad details! Please refresh the page.");
         this.navCtrl.navigateBack("/tabs/tab2");
-        location.reload();
     }
     else {
       let currDate = new Date();
@@ -276,9 +275,8 @@ export class SellPage implements OnInit {
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
         this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
 
-        this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
+        this.presentAlert("Successfully added your new Ad! Please refresh the page.");
         this.navCtrl.navigateBack("/tabs/tab2");
-        location.reload();
     }
   }
 

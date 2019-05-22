@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController, AlertController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import {UserArea} from '../profile/area';
-import { Camera } from '@ionic-native/camera/ngx';
 import {ToastController} from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import { reference } from '@angular/core/src/render3';
@@ -19,12 +18,13 @@ import { TestingCompiler } from '@angular/core/testing/src/test_compiler';
 })
 export class ChangePasswordPage implements OnInit {
 
+password;
+repeatpass;
   constructor(
     private navCtrl: NavController,
     private authService: AuthenticateService,
     private router: Router,
-    private area: UserArea,
-    private camera: Camera,
+    private formBuilder: FormBuilder,
     private AlertController:AlertController,
     private ToastController: ToastController
   
@@ -42,14 +42,14 @@ export class ChangePasswordPage implements OnInit {
   }
 
   changePass(){
-   let newPassword =  (<HTMLInputElement>document.getElementById('npassword')).value;
-  let repeatPassword = (<HTMLInputElement>document.getElementById('rnpassword')).value;
+   let newPassword =  (<HTMLInputElement>document.getElementById('password')).value;
+  let repeatPassword = (<HTMLInputElement>document.getElementById('repeatPassword')).value;
 
-if(newPassword===repeatPassword){
-  if(newPassword.length < 9){
+if(this.password===this.repeatpass){
+  if(newPassword.length < 9 || repeatPassword.length < 9){
     this.presentToast("Password Too Short!");
   }else{
-    firebase.auth().currentUser.updatePassword(newPassword).then(function(){
+    firebase.auth().currentUser.updatePassword(this.password).then(function(){
     }).catch(function(error){
       this.presentToast(error);
     });
