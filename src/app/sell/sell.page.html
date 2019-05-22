@@ -127,7 +127,7 @@
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
       <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange($event)">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
-        <ion-select-option *ngFor="let area of areaList" [value]=area >
+        <ion-select-option *ngFor="let area of areaList" [value]=area>
           {{area}}
         </ion-select-option>
       </ion-select>
