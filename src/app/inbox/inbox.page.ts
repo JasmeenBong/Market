@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 import * as angulardb from 'angularfire2/database';
 import { NavController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-inbox',
@@ -18,7 +19,8 @@ export class InboxPage implements OnInit {
   currentUser;
   count = 0;
 
-  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router, private authService : AuthenticateService, private navCtrl: NavController) {
+  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router, private authService : AuthenticateService, private navCtrl: NavController,
+    private spinnerDialog: SpinnerDialog) {
   }
 
   ionViewWillEnter(){
@@ -32,6 +34,7 @@ export class InboxPage implements OnInit {
   }
 
    getMessage(){
+    this.spinnerDialog.show();
     this.showAllMsgs = [];
     this.subs = firebase.database().ref('messages');
     this.subs.on("value",(snapshot)=>{
@@ -94,8 +97,9 @@ export class InboxPage implements OnInit {
             }
             });
           }
-          
-      });
+          this.spinnerDialog.hide();   
+      }
+      );
     });
   }
 

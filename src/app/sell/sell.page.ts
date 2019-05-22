@@ -217,7 +217,6 @@ export class SellPage implements OnInit {
          this.images.push('data:image/jpeg;base64,' + img);
          this.counter ++;
       }
-
      }, (err) => {
        console.log(err);
      });

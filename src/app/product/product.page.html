@@ -102,9 +102,9 @@
           <ion-label>Email</ion-label>
           <ion-icon name="mail"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button tab="Chat">
+        <ion-tab-button tab="Chat" (click)="chat()" [disabled]="noCommunicate">
           <ion-label>Chat</ion-label>
-          <ion-icon (click)="chat()"name="chatboxes"></ion-icon>
+          <ion-icon name="chatboxes"></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

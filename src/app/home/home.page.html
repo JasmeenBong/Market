@@ -3,9 +3,9 @@
       <ion-item color="darkBlue">
       <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
       </ion-searchbar>
-      <ion-item *ngFor="let product of productList"> 
+      <!-- <ion-item *ngFor="let product of productList"> 
             {{ product.postName }}
-          </ion-item>
+          </ion-item> -->
      <ion-icon (click)="moreInfo()" color="light" name="information-circle"></ion-icon>
   </ion-item>
           </ion-toolbar>
