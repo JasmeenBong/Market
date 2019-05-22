@@ -16,14 +16,45 @@
   display:inline;
 }
 
-.thumbnail{
-  display: inline-block;
-  border: 10px;
-  border-color: red;
+.select{
+  width:100%;
+  text-align:right;
+  
 }
 
+#details{
+  border-style:solid;
+  border-width: 1px;
+  border-color: darkblue;
+  padding:2px;
+  margin:5px;
+}
+
+.thumbnail{
+  display: inline-block;
+  height:90px;
+  width:90px;
+}
+
+@media screen and (min-width: 357px) {
+  .thumbnail{
+    display: inline-block;
+    height:110px;
+    width:110px;
+  }
+  
+}
+
+@media screen and (min-width: 425px) {
+  .thumbnail{
+    display: inline-block;
+    height:125px;
+    width:125px;
+  }
+}
 .input-text {
-  text-align: right;
+float:right;
+text-align: right;
 }
 
 .validataion-errors, .error-message{
