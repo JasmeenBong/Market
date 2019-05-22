@@ -7,6 +7,7 @@ import * as angulardb from 'angularfire2/database';
 import { DatePipe } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.page.html',
@@ -27,7 +28,7 @@ export class ChatboxPage implements OnInit {
     
   }
 
-  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase, private datePipe :DatePipe,private authService : AuthenticateService) {
+  constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase, private datePipe :DatePipe,private authService : AuthenticateService, private router: Router) {
   this.showMessage();
   }
 
@@ -62,10 +63,10 @@ export class ChatboxPage implements OnInit {
       status: 'unread'
     })
     this.message = "";
-  } 
+   } 
 
-  goToInbox(){
-    
+  goBack(){
+      this.router.navigate(['/product']);
   }
 
 }

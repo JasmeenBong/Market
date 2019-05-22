@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
     ActivatedRoute,
-    Router
+    Router,
 } from '@angular/router';
 import {
     DatabaseService
@@ -42,6 +42,7 @@ import {
   SMS
 } from '@ionic-native/sms/ngx';
 import * as firebase from 'firebase/app';
+import { AuthenticateService } from '../services/authentication.service';
 
 
 @Component({
@@ -56,11 +57,11 @@ export class ProductPage implements OnInit {
     seller
     images;
     isDisabled;
-    communicate = true;
+    noCommunicate = false;
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
-        private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog, private sms: SMS) {
+        private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog, private sms: SMS, private authService : AuthenticateService) {
         this.getIdFromCategoriesPage()
     }
 
@@ -102,10 +103,14 @@ export class ProductPage implements OnInit {
               this.isDisabled = true;
             }
 
-            if(this.seller.email == firebase.auth().currentUser.email){
-                this.communicate = false;
+            if(!this.authService.user){
+                this.noCommunicate = true;
             }else{
-                this.communicate = true;
+                if(this.authService.user.email == this.seller.email){
+                    this.noCommunicate = true;
+                }else{
+                    this.noCommunicate = false;
+                }
             }
         });
     }
@@ -237,6 +242,11 @@ export class ProductPage implements OnInit {
     }
 
     backtoCategoriesPage() {
+        // let navigationExtras: NavigationExtras = {
+        //     queryParams:{
+        //       category : this.product.postCategory
+        //     }
+        //   }
         this.router.navigate(['/categories']);
     }
 
