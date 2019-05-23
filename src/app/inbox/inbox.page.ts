@@ -107,10 +107,6 @@ export class InboxPage implements OnInit {
     this.ionViewWillEnter();
   }
 
-  goBack(){
-    this.router.navigate(['/tabs/tab1']);
-  }
-
   getChat(chat){
     this.router.navigate(['/chatbox',{sender:firebase.auth().currentUser.email, reciever:chat}]);
 

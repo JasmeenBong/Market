@@ -66,7 +66,7 @@ export class ChatboxPage implements OnInit {
    } 
 
   goBack(){
-      this.router.navigate(['/tabs/tab3/inbox']);
+    this.router.navigate(['/tabs/tab3']);
   }
 
 }
