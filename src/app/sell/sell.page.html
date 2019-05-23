@@ -23,13 +23,13 @@
       Upload Image</ion-button>
     <ion-button #takeImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
-      Take Image</ion-button>
+      Camera</ion-button>
     <ion-item>
       <div *ngIf="images != []">
         <br />
           <div class="uploaded-photo" *ngFor="let image of images">
             <ion-thumbnail class="thumbnail" slot="start">
-              <ion-icon class="icon-close" name="close" (click)="cancelImage($index)"></ion-icon>
+              <ion-icon class="icon-close" name="close" (click)="cancelImage(image)"></ion-icon>
               <ion-img [src]=image></ion-img>
             </ion-thumbnail>
           </div>
@@ -37,13 +37,13 @@
       </div>
     </ion-item>
 
-    <div class="validataion-errors" *ngIf="counter == 0 && (uploadImg.click || takeImg.click)">
+    <div class="validataion-errors" *ngIf="counter == 0">
       <span>Please insert an image.</span>
     </div>
 
     <ion-item>
       <ion-label class="input-label">Post Title</ion-label>
-      <ion-input class="input-text" type="text" id="postTitle" placeholder="Give a title for your advertisement" formControlName="title"></ion-input>
+      <ion-input class="input-text" type="text" id="postTitle" placeholder="Add a title" formControlName="title"></ion-input>
     </ion-item>
 
     <div class="validation-errors" *ngFor="let validation of ad_validation_messages.title">
@@ -85,17 +85,6 @@
       <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label class="input-label">Ad Details</ion-label>
-      <ion-input class="input-text" type="text" id="details" placeholder="What are you selling?" formControlName="details"></ion-input>
-    </ion-item>
-
-    <div class="validation-errors" *ngFor="let validation of ad_validation_messages.details">
-        <span class="error-message" *ngIf="validatePost.get('details').hasError(validation.type) &&
-        (validatePost.get('details').dirty || validatePost.get('details').touched)">
-          {{validation.message}}
-        </span>
-    </div>
 
     <ion-item>
       <ion-label class="input-label">Price (RM)</ion-label>
@@ -125,9 +114,9 @@
 
     <ion-item>
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
-      <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange($event)">
+      <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange()">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
-        <ion-select-option *ngFor="let area of areaList" [value]=area >
+        <ion-select-option *ngFor="let area of areaList" [value]=area>
           {{area}}
         </ion-select-option>
       </ion-select>
@@ -136,6 +125,17 @@
     <div class="validataion-errors" *ngIf="(noArea == true)">
       <span>Please select your area.</span>
     </div>
+    
+    <ion-item>
+        <ion-textarea rows="8" type="text" id="details" placeholder="Briefly explain what are you selling" formControlName="details"></ion-textarea>
+      </ion-item>
+  
+      <div class="validation-errors" *ngFor="let validation of ad_validation_messages.details">
+          <span class="error-message" *ngIf="validatePost.get('details').hasError(validation.type) &&
+          (validatePost.get('details').dirty || validatePost.get('details').touched)">
+            {{validation.message}}
+          </span>
+      </div>
 
   </form>
 </ion-content>

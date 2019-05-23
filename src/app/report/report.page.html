@@ -24,7 +24,6 @@
 
     <form [formGroup]="reportForm" (ngSubmit)="logForm()">
       <ion-item>
-        <ion-label class="input-label">*Name:</ion-label>
         <ion-input type="input-text" id="name" placeholder="Please enter your name" formControlName="name"></ion-input>
       </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.name">
@@ -34,7 +33,6 @@
         </span>
       </div>
       <ion-item>
-          <ion-label class="input-label">*Email:</ion-label>
           <ion-input type="input-text" id="email" placeholder="Please enter your email" formControlName="email"></ion-input>
       </ion-item>
       <div class="validation-errors" *ngFor="let validation of report_validation_messages.email">

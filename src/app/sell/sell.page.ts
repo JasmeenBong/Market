@@ -55,6 +55,8 @@ export class SellPage implements OnInit {
   postArea : any;
   postRegion : any;
 
+  area;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -98,7 +100,7 @@ export class SellPage implements OnInit {
 
     if(this.action == "edit"){
       this.title = "Edit My Ad";
-      this.getProductList(this.productId);
+      this.getProductDetails(this.productId);
     }
     else {
       this.title = "Post an Ad";
@@ -143,7 +145,6 @@ export class SellPage implements OnInit {
     firebase.auth().onAuthStateChanged(user => {
       if (user){
         this.uid = user.uid;
-        console.log(this.uid);
       }
       else {
         this.navCtrl.navigateForward('tabs/tab5/login');
@@ -151,10 +152,10 @@ export class SellPage implements OnInit {
     });
   }
 
-  getProductList(pid){
+  getProductDetails(pid){
     Promise.resolve(this.dbService.getProductById(pid)).then(value=> {
        this.myAd = value[0];
-       this.images = Object.values(this.myAd.images);
+       this.images = this.myAd.images;
        this.noCategory = false;
        this.noRegion = false;
        this.noArea = false;
@@ -189,7 +190,6 @@ export class SellPage implements OnInit {
     }
 
     this.getAreaList(event.target.value);
-    this.postArea.value = "none";
   }
 
   getAreaList(region){
@@ -200,8 +200,8 @@ export class SellPage implements OnInit {
     }
   }
 
-  onAreaChange(event: any){
-    if(event.target.value != "none"){
+  onAreaChange(){
+    if(this.postArea.value != "none"){
       this.noArea = false;
     }
   }
@@ -216,8 +216,7 @@ export class SellPage implements OnInit {
        if(img!=""){
          this.images.push('data:image/jpeg;base64,' + img);
          this.counter ++;
-       }
-
+      }
      }, (err) => {
        console.log(err);
      });
@@ -240,8 +239,11 @@ export class SellPage implements OnInit {
       });
   }
 
-  cancelImage(index){
-    this.images.splice(index, 1);
+  cancelImage(image){
+    var index = this.images.indexOf(image);
+    if(index != -1){
+      this.images.splice(index, 1); 
+    }
     this.counter = this.counter - 1;
     console.log("image removed");
   }
@@ -264,9 +266,8 @@ export class SellPage implements OnInit {
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
         this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
 
-        this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
+        this.presentAlert("Successfully updated your Ad details! Please refresh the page.");
         this.navCtrl.navigateBack("/tabs/tab2");
-        location.reload();
     }
     else {
       let currDate = new Date();
@@ -276,9 +277,8 @@ export class SellPage implements OnInit {
         this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
         this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
 
-        this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
+        this.presentAlert("Successfully added your new Ad! Please refresh the page.");
         this.navCtrl.navigateBack("/tabs/tab2");
-        location.reload();
     }
   }
 

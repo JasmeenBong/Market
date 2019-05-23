@@ -1,13 +1,16 @@
 <ion-header>
     <ion-toolbar color="darkBlue">
-      <ion-item color="darkBlue">
-      <ion-searchbar style="color: lightBlue" (click)="getProductsBasedonSearchBar()">
+      <ion-item color="darkBlue">    
+      <ion-searchbar (click)="getProductsBasedonSearchBar()">
       </ion-searchbar>
       <!-- <ion-item *ngFor="let product of productList"> 
             {{ product.postName }}
           </ion-item> -->
      <ion-icon (click)="moreInfo()" color="light" name="information-circle"></ion-icon>
-  </ion-item>
+    </ion-item>
+    <ion-item *ngFor="let product of productList"> 
+        {{ product.postName }}
+      </ion-item>
           </ion-toolbar>
   </ion-header>
   <ion-content color="light">
