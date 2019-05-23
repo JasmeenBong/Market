@@ -42,33 +42,39 @@ export class FavouritePage implements OnInit {
   }
 
   getLikedProduct(){
-    console.log('start');
-    var user = firebase.database().ref('users/' + this.uid);
-    user.on("value",snapshot=>{
-      this.likedProductIDarray = snapshot.val().likedProduct;
-      if(this.likedProductIDarray.length){
-        this.noLikedProduct = false;
-        this.likedProductIDarray.forEach((id)=>{
-          this.getProductDetails(id);
-        });
-      }else{
-        this.likedProductarray = [];
-        this.array = [[],[]];
-        this.noLikedProduct = true;
-      }
-    });
+    // console.log('start');
+    Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value =>{
+     this.likedProductIDarray = Object.values(value[0].likedProduct);
+     this.likedProductIDarray.forEach(value=>{
+       if(this.likedProductarray.length != this.likedProductIDarray.length){
+       this.getProductDetails(value);
+       }
+     })
+    }); 
+    // var user = firebase.database().ref('users/' + this.uid);
+    // user.on("value",snapshot=>{
+    //   this.likedProductIDarray = snapshot.val().likedProduct;
+    //   if(this.likedProductIDarray.length){
+    //     this.noLikedProduct = false;
+    //     this.likedProductIDarray.forEach((id)=>{
+    //       this.getProductDetails(id);
+    //     });
+    //   }else{
+    //     this.likedProductarray = [];
+    //     this.array = [[],[]];
+    //     this.noLikedProduct = true;
+    //   }
+    // });
   }
 
   getProductDetails(id){
-  var likedProduct = firebase.database().ref('posts/'+id);
-  likedProduct.on("value",snapshot=>{
-    const found = this.likedProductarray.some(el => el.id === id);
-    if(!found){
-    var product = snapshot.val();
-    product.id = id;
-    this.likedProductarray.push(product);
-    console.log(this.likedProductarray);
-    if(this.likedProductarray.length == this.likedProductIDarray.length){
+    Promise.resolve(this.dbService.getProductById(id)).then(value => {
+      console.log(value[0]);
+      const found = this.likedProductarray.some(el=> el.id === id);
+      if(!found){
+        value[0].id = id;
+       this.likedProductarray.push(value[0]);
+      }
       var count = 0;
         for(var row =0; row < (this.likedProductarray.length/2); row++){
           {
@@ -82,14 +88,41 @@ export class FavouritePage implements OnInit {
                 count++;
                 console.log(count);
                 }
-                }
               }
             }
           }
-      }
+        }
+    });
+  // var likedProduct = firebase.database().ref('posts/'+id);
+  // likedProduct.on("value",snapshot=>{
+  //   const found = this.likedProductarray.some(el => el.id === id);
+  //   if(!found){
+  //   var product = snapshot.val();
+  //   product.id = id;
+  //   this.likedProductarray.push(product);
+  //   console.log(this.likedProductarray);
+  //   if(this.likedProductarray.length == this.likedProductIDarray.length){
+  //     var count = 0;
+  //       for(var row =0; row < (this.likedProductarray.length/2); row++){
+  //         {
+  //           this.array[row] = [];
+  //             for(var col=0; col<2; col++){
+  //               if(this.likedProductarray[count]){
+  //               this.array[row][col] = this.likedProductarray[count];
+  //               console.log(this.array);
+  //               this.array[row][col].pid = this.likedProductarray[count].id;
+  //               if(count != this.likedProductarray.length){
+  //               count++;
+  //               console.log(count);
+  //               }
+  //               }
+  //             }
+  //           }
+  //         }
+  //     }
   
-    }
-  });
+  //   }
+  // });
   }
 
   async removeFromLikedProduct(pid){
