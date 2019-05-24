@@ -28,7 +28,7 @@
       <div>
         <br />
           <div class="uploaded-photo" *ngFor="let image of images">
-            <ion-thumbnail class="thumbnail" slot="start" *ngIf="images.length != 0">
+            <ion-thumbnail class="thumbnail" slot="start" *ngIf="image">
               <div id="close-icon-bg">
               <ion-icon class="icon-close" name="close" (click)="cancelImage(image)"></ion-icon>
               </div>

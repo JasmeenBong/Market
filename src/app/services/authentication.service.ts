@@ -54,24 +54,24 @@ export class AuthenticateService{
     })
   }
 
-  googleLogin(){
-    return new Promise<any>((resolve,reject) => {
-      this.googlePlus.login({
-        'webClientId': '859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com',
-        'offline': true
-      })
-      .then(
-        result => {
-          const googleCredential = firebase.auth.GoogleAuthProvider
-            .credential(result.idToken);
+  // googleLogin(){
+  //   return new Promise<any>((resolve,reject) => {
+  //     this.googlePlus.login({
+  //       'webClientId': '859739031584-6ms3gn9hs1gu6lovpagbeg26vdn93g3h.apps.googleusercontent.com',
+  //       'offline': true
+  //     })
+  //     .then(
+  //       result => {
+  //         const googleCredential = firebase.auth.GoogleAuthProvider
+  //           .credential(result.idToken);
 
-          firebase.auth().signInWithCredential(googleCredential)
-            .then(res => resolve(res),
-            err => reject(err));
-        }, err => {
-        reject(err);
-      });
-    });
+  //         firebase.auth().signInWithCredential(googleCredential)
+  //           .then(res => resolve(res),
+  //           err => reject(err));
+  //       }, err => {
+  //       reject(err);
+  //     });
+  //   });
 
     // const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -93,22 +93,22 @@ export class AuthenticateService{
     //       console.log(error.message);
     //     });
     //   });
-  }
+  // }
 
-  facebookLogin(){
-    return new Promise<any>((resolve,reject) => {
-      this.facebook.login(['email', 'public_profile'])
-        .then((response : FacebookLoginResponse) => {
-            const facebookCredential = firebase.auth.FacebookAuthProvider
-              .credential(response.authResponse.accessToken);
+  // facebookLogin(){
+    // return new Promise<any>((resolve,reject) => {
+    //   this.facebook.login(['email', 'public_profile'])
+    //     .then((response : FacebookLoginResponse) => {
+    //         const facebookCredential = firebase.auth.FacebookAuthProvider
+    //           .credential(response.authResponse.accessToken);
 
-              firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
-              .then(res => resolve(res),
-              err => reject(err));
-            }, err => {
-              reject (err);
-        });
-    });
+    //           firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
+    //           .then(res => resolve(res),
+    //           err => reject(err));
+    //         }, err => {
+    //           reject (err);
+    //     });
+    // });
 
     // var provider = new firebase.auth.FacebookAuthProvider();
 
@@ -132,7 +132,17 @@ export class AuthenticateService{
     //     console.log(error.message);
     //   });
     // });
-  }
+
+    // var provider = new firebase.auth.FacebookAuthProvider();
+
+    // return new Promise<any> ((resolve, reject) => {
+    //   firebase.auth().signInWithPopup(provider).then(function(result){
+    //     console.log(result);
+    //   }).catch(function(error){
+    //     console.log(error.message);
+    //   })
+    // });
+  // }
 
   logoutUser(){
       return new Promise((resolve, reject) => {

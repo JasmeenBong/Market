@@ -68,31 +68,31 @@ export class LoginPage implements OnInit {
     })
   }
 
-  LoginWithGoogle(){
-    this.authService.googleLogin()
-    .then(res => {
-        this.errorMessage = "";
-        this.authService.user = firebase.auth().currentUser;
-        this.authService.isLoggedin = true;
-        // this.addToDb();
-        this.navCtrl.navigateForward('/tabs/tab5');
-    }, err => {
-          this.errorMessage = err.message;
-    });
-  }
+  // LoginWithGoogle(){
+  //   this.authService.googleLogin()
+  //   .then(res => {
+  //       this.errorMessage = "";
+  //       this.authService.user = firebase.auth().currentUser;
+  //       this.authService.isLoggedin = true;
+  //       // this.addToDb();
+  //       this.navCtrl.navigateForward('/tabs/tab5');
+  //   }, err => {
+  //         this.errorMessage = err.message;
+  //   });
+  // }
 
-  LoginWithFacebook(){
-    this.authService.facebookLogin()
-    .then(res => {
-      this.errorMessage = "";
-      this.authService.user = firebase.auth().currentUser;
-      this.authService.isLoggedin = true;
-      // this.addToDb();
-      this.navCtrl.navigateForward('/tabs/tab5');
-    }, err => {
-      this.errorMessage = err.message;
-    });
-  }
+  // LoginWithFacebook(){
+  //   this.authService.facebookLogin()
+  //   .then(res => {
+  //     this.errorMessage = "";
+  //     this.authService.user = firebase.auth().currentUser;
+  //     this.authService.isLoggedin = true;
+  //     // this.addToDb();
+  //     this.navCtrl.navigateForward('/tabs/tab5');
+  //   }, err => {
+  //     this.errorMessage = err.message;
+  //   });
+  // }
 
   forgotPassword(){
     this.router.navigate(['forgot-password']);
