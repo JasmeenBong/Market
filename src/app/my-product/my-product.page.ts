@@ -126,26 +126,44 @@ export class MyProductPage implements OnInit{
   }
 
   async deletePost(pid){
-    // var allUser = firebase.database().ref("/users");
-    // allUser.on("value",snapshot=>{
-    //   snapshot.forEach(childSnapshot=>{
-    //   if(childSnapshot.val().likedProduct != ""){}
-    //      this.likedProductarray = childSnapshot.val().likedProduct;
-    //      console.log(this.likedProductarray);
-    //     //  this.likedProductarray.forEach(id=>{
-    //     //    if(id != null || id != undefined){
-    //     //    console.log(id);
-    //     //    }
-    //     //  })
-    //     }
-    //   });
-    // });
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+         })
+        }
+      });
+    });
     await this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
     this.refreshPage();
   }
 
   async postSold(pid){
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+          })
+         }
+        });
+      });
       console.log("SOLD");
       this.isDisabled = true;
       this.presentAlert("Your ad has been sold hence the system will delete the ad.");
