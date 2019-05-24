@@ -94,7 +94,10 @@ export class FavouritePage implements OnInit {
         {
           text: 'Ok',
           handler: () => {
-            this.likedProductIDarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            var index = this.likedProductIDarray.indexOf(pid);
+            if (index > -1) {
+              this.likedProductIDarray.splice(index, 1);
+            }
             this.dbService.addToCurrentUserLikedProduct(this.uid, this.likedProductIDarray);
             this.array = [[],[]];
             this.likedProductarray = [];

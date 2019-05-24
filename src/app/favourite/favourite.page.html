@@ -16,11 +16,17 @@
           <ion-fab vertical="top" horizontal="end" slot="fixed">
               <ion-icon name="trash" style="zoom:2.0;" [color]="col.buttonColor" (click)="removeFromLikedProduct(col.pid)"></ion-icon>
           </ion-fab>
-          <ion-card-content>
+          <ion-card-content (click) = "goToProductPage(col.pid)">
           <ion-card-subtitle class="postname">{{col.postName}}</ion-card-subtitle>
           <ion-card-subtitle class="price">RM{{col.price}}</ion-card-subtitle>
           <ion-card-subtitle class="dateTime">{{col.dateTime}}</ion-card-subtitle>
           </ion-card-content>
+          <ion-item class="manage-post-btn"> 
+             <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
+              <ion-icon class="manage-btn" name="trash" style="zoom:2.0;" [color]="col.buttonColor" (click)="removeFromLikedProduct(col.pid)"></ion-icon>
+              <p class="manage-title">Delete</p>
+              </ion-item>
+            <!-- </ion-fab> -->
         </ion-card>
         </ion-col>
      </ion-row>
