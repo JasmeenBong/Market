@@ -48,18 +48,17 @@ export class MyProductPage implements OnInit{
     else {
       this.uid = this.authService.user.uid;
       this.getMyPostedAds(this.uid);
-      this.spinnerDialog.hide();
     }
 
   }
 
   async getMyPostedAds(uid){
+    this.spinnerDialog.hide();
     this.array = [[],[]];
     await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
       if(value[0] == null || value[0] == undefined){
         this.noProduct = true;
         this.array = [[],[]];
-        this.spinnerDialog.hide();
       }
       else{
         this.noProduct = false;
