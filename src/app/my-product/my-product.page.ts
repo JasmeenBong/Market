@@ -48,6 +48,7 @@ export class MyProductPage implements OnInit{
     else {
       this.uid = this.authService.user.uid;
       this.getMyPostedAds(this.uid);
+      this.spinnerDialog.hide();
     }
 
   }
@@ -76,13 +77,12 @@ export class MyProductPage implements OnInit{
             let formatedFetchDate = new Date(this.array[row][col].dateTime );
             let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
             let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-           console.log(diffDays);
+            console.log(diffDays);
         
             count++;
           }
         }
       }
-      this.spinnerDialog.hide();
     });
   }
 
