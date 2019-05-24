@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { NavigationExtras } from '@angular/router'
 import { DatabaseService } from '../services/databases.service';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
-import * as firebase from 'firebase/app';
+import { MenuController } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-home',
@@ -18,10 +20,18 @@ export class HomePage implements OnInit {
   array = [[],[]];
   val;
   carousel;
+  posts;
+  loading = true;
+  recentposts = [];
+  recentlyPosted;
+  loadingNotice;
 
-  constructor(public router: Router,   private dbService : DatabaseService, private spinnerDialog: SpinnerDialog) {
+
+  constructor(private datePipe : DatePipe,private menu: MenuController, public router: Router,   private dbService : DatabaseService, private spinnerDialog: SpinnerDialog) {
   this.getCategoriesFromFireBase();
   this.showCarouselPhoto();
+  this.recentPosted();
+
   }
 
   async getCategoriesFromFireBase(){
@@ -45,11 +55,33 @@ export class HomePage implements OnInit {
   }else{
     this.spinnerDialog.hide();
   }
+    this.recentlyPosted = "Recently Posted";
+    this.loadingNotice = "Hang on";
  }
 
 
 moreInfo(){
   this.router.navigate(['about']);
+}
+
+async recentPosted(){
+  let db = firebase.database();
+  this.posts = db.ref('/posts');
+
+    this.posts.once('value',(snapshot)=>{
+      snapshot.forEach(child=>{
+      let date1 = new Date();
+      let formatedFetchDate = new Date(child.val().dateTime);
+      let diffTime = Math.abs(formatedFetchDate.getTime() - date1.getTime());
+      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if(diffDays <= 5){
+        this.recentposts.push(child.val());
+      }
+      });
+      this.loading = false;
+        });
+
 }
   async getProductsBasedonSearchBar(){
     let navigationExtras: NavigationExtras = {
@@ -84,7 +116,9 @@ moreInfo(){
     this.router.navigate(['categories'],navigationExtras);
   }
 
-  ngOnInit() {
+  ngOnInit(){
+
   }
+  
 
 }

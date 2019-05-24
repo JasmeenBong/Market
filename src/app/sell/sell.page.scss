@@ -2,56 +2,66 @@
   padding-left: 16px;
 }
 
-.imgStyle{
-  width:50%;
-  margin-right:2px;
-}
+
 
 #add-imgbtn{
   padding-left: 16px;
 }
 
-.uploaded-photo{
-  margin-left: 2px;
-  display:inline;
-}
+
 
 .select{
   width:100%;
   text-align:right;
   
 }
-
-#details{
+ion-img{
   border-style:solid;
-  border-width: 1px;
-  border-color: darkblue;
-  padding:2px;
-  margin:5px;
+  border-color:darkblue;
+  border-width: 3px;
 }
 
-.thumbnail{
-  display: inline-block;
-  height:90px;
-  width:90px;
-}
-
-@media screen and (min-width: 357px) {
+@media only screen and (max-device-width: 480px) {
   .thumbnail{
     display: inline-block;
-    height:110px;
-    width:110px;
+    height:90px;
+    width:90px;
   }
-  
-}
+  .uploaded-photo{
+    display:inline;
+    margin-left:1px;
+  } 
 
-@media screen and (min-width: 425px) {
+}
+@media only screen and (device-width: 768px) {
   .thumbnail{
     display: inline-block;
-    height:125px;
-    width:125px;
+    height:150px;
+    width:150px;
+    
   }
+  .uploaded-photo{
+    display:inline;
+    margin-left:1px;
+  } 
 }
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  .thumbnail{
+    display: inline-block;
+    height:150px;
+    width:150px;
+  }
+  .uploaded-photo{
+    display:inline;
+    margin-left:1px;
+  } 
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  /* For landscape layouts only */
+}
+
 .input-text {
 float:right;
 text-align: right;
@@ -70,4 +80,5 @@ ion-item{
   position: relative;
   float: right;
   z-index: 1;
+  
 }

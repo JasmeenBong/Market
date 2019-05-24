@@ -39,7 +39,64 @@ ion-icon{
   text-align: right;
   margin-left:10px;
 }
+h4 {
+  color:darkblue;
+  margin-left:10px;
+  font-weight: bolder;
+}
 
+h6{
+  color:darkblue;
+  font-size: 20px;
+  margin:5px;
+  font-weight: bolder;
+  text-align: center;
+
+}
+
+h6::after{
+  content: '.';
+  animation: dots 1s steps(5,end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);}
+  40% {
+    color: darkblue;
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);}
+  60% {
+    text-shadow:
+      .25em 0 0 darkblue,
+      .5em 0 0 rgba(0,0,0,0);}
+  80%, 100% {
+    text-shadow:
+      .25em 0 0 darkblue,
+      .5em 0 0 darkblue;}
+    }
+
+#recent-posted-card{
+height:450px;  
+width:100%;
+border-radius: 0px;
+}
+
+.recent-image{
+  width:100%;
+  height:100%;
+  object-fit: fill;
+}
+
+#recent-titles{
+  text-align: left;
+  color:darkblue;
+  padding:5px;
+}
 .spinner {
   width: 40px;
   height: 40px;
