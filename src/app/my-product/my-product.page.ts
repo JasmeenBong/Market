@@ -5,7 +5,7 @@ import { DatabaseService } from '../services/databases.service';
 import { AuthenticateService } from '../services/authentication.service';
 import { NavigationExtras } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import * as firebase from 'firebase/app';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
@@ -22,6 +22,7 @@ export class MyProductPage implements OnInit{
   uid : string = "";
   noProduct = false;
   isDisabled : Boolean = false;
+  likedProductarray = [];
 
   constructor(
     private router: Router,
@@ -114,6 +115,20 @@ export class MyProductPage implements OnInit{
   }
 
   async deletePost(pid){
+    // var allUser = firebase.database().ref("/users");
+    // allUser.on("value",snapshot=>{
+    //   snapshot.forEach(childSnapshot=>{
+    //   if(childSnapshot.val().likedProduct != ""){}
+    //      this.likedProductarray = childSnapshot.val().likedProduct;
+    //      console.log(this.likedProductarray);
+    //     //  this.likedProductarray.forEach(id=>{
+    //     //    if(id != null || id != undefined){
+    //     //    console.log(id);
+    //     //    }
+    //     //  })
+    //     }
+    //   });
+    // });
     await this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
     this.refreshPage();

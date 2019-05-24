@@ -140,7 +140,6 @@ export class DatabaseService{
   }
 
 
-
   addReporttoFirebase(report,owner,post,time){
     this.db.ref("reports/").push().set({
       timeStamp: time,
