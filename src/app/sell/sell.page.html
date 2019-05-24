@@ -7,8 +7,8 @@
     </ion-buttons>
     <ion-title color="lightBlue">{{title}}</ion-title>
     <ion-buttons  slot="end">
-      <ion-button color="lightBlue" [disabled]="(validatePost.valid == false) && (counter == 0 &&
-      noCategory == true && noRegion == true && noArea == true) && (validatePost.get('price').hasError(validation.type) == true)" (click)="savePost(validatePost.value)">
+      <ion-button color="lightBlue" [disabled]="(validatePost.valid == false) || counter == 0 ||
+      noCategory == true || noRegion == true || noArea == true" (click)="savePost(validatePost.value)">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -24,7 +24,7 @@
     <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
       Camera</ion-button>
-    <ion-item *ngShow="images.length != 0">
+    <ion-item *ngIf="images.length != 0">
       <div>
         <br />
           <div class="uploaded-photo" *ngFor="let image of images">
@@ -74,17 +74,17 @@
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Breed</ion-label>
-      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional"></ion-input>
+      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional" formControlName="breed"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Age (Weeks)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional" formControlName="age"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Weight (Kg)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional" formControlName="weight"></ion-input>
     </ion-item>
 
 
