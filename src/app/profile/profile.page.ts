@@ -3,7 +3,6 @@ import { NavController, ModalController, AlertController } from '@ionic/angular'
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-
 import { Router } from '@angular/router';
 import {UserArea} from '../profile/area';
 import { Camera } from '@ionic-native/camera/ngx';

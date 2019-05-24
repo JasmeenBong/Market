@@ -13,14 +13,19 @@
     margin-top: auto;
   }
 
-  .card-image{
-    height: inherit !important;
-  }
+ ion-img{
+
+   object-fit: fill;
+ }
 
   ion-card-title {
     font-size: 15px;
     width: 100%;
     font-weight: bold;
+  }
+  
+  p{
+    color:red
   }
 
   .icon{

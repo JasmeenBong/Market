@@ -20,6 +20,7 @@
     <br />
     Need to sell your pet or their accessories? Just click the add icon on the top right.
   </p>
+  
   <ion-grid *ngIf="array != [[],[]]">
     <ion-row *ngFor="let row of array" class="card-background-page">
       <ion-col col-4 text-center *ngFor="let col of row">
@@ -42,6 +43,8 @@
               <ion-icon class="icon" (click)="editPost(col.pid)" name="create"></ion-icon>
             </ion-col>
           </ion-row>
+       
+
         </ion-card>
       </ion-col>
      </ion-row>

@@ -1,14 +1,11 @@
 <ion-header>
     <ion-toolbar color="darkBlue">
-      <ion-item color="darkBlue">
-      <ion-searchbar (ionInput)="getProductsBasedonSearchBar($event)">
+      <ion-item color="darkBlue">    
+      <ion-searchbar (click)="getProductsBasedonSearchBar()">
       </ion-searchbar>
-      <!-- <ion-item *ngFor="let product of productList"> 
-            {{ product.postName }}
-          </ion-item> -->
-     <ion-icon (click)="moreInfo()" color="light" name="information-circle"></ion-icon>
-  </ion-item>
-          </ion-toolbar>
+     <ion-icon (click)="moreInfo()" color="light" name="more"></ion-icon>
+    </ion-item>
+  </ion-toolbar>
   </ion-header>
   <ion-content color="light">
     <ion-slides pager="true">
@@ -25,6 +22,22 @@
           </ion-card>
           </ion-col>
        </ion-row>
-    </ion-grid>
+      </ion-grid>
+      
+      <h4>{{recentlyPosted}}</h4>
+      <h6 class="loading" *ngIf="loading === true">{{loadingNotice}}</h6>      
+      <hr>
+
+      <ion-slides pager="true">
+          <ion-slide *ngFor="let posts of recentposts">
+                    <ion-card id="recent-posted-card">
+                      <ion-card-title id="recent-titles"> <strong>RM {{posts.price}}</strong><br> {{posts.postName}}</ion-card-title>
+                      
+
+                    <ion-img  class="recent-image" [src] = "posts.images[0]"></ion-img>
+                    </ion-card>
+                  </ion-slide>
+                  </ion-slides>
+  
   </ion-content>
   

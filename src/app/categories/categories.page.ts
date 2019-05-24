@@ -134,11 +134,11 @@ export class CategoriesPage implements OnInit {
       {
         this.array[row] = [];
         for(var col=0; col<2; col++){
-          if(this.products[count][1].area == this.location){
+          if(this.products[count][1].area == this.location[0]){
             this.array[row][col] = this.products[count][1];
             this.array[row][col].pid = this.products[count][0];
-            count++;
           }
+            count++;
         }
       }
     }

@@ -5,7 +5,7 @@ import { DatabaseService } from '../services/databases.service';
 import { AuthenticateService } from '../services/authentication.service';
 import { NavigationExtras } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import * as firebase from 'firebase/app';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
@@ -19,9 +19,12 @@ export class MyProductPage implements OnInit{
   productList;
   products;
   array;
+  now;
+  due = [];
   uid : string = "";
   noProduct = false;
   isDisabled : Boolean = false;
+  likedProductarray = [];
 
   constructor(
     private router: Router,
@@ -46,6 +49,7 @@ export class MyProductPage implements OnInit{
       this.uid = this.authService.user.uid;
       this.getMyPostedAds(this.uid);
     }
+
   }
 
   async getMyPostedAds(uid){
@@ -60,12 +64,20 @@ export class MyProductPage implements OnInit{
         this.noProduct = false;
         this.products = Object.entries(value[0]);
         var count = 0;
+
         for(var row =0; row < (this.products.length/2); row++)
         {
           this.array[row]=[];
           for(var col=0; col<2; col++){
             this.array[row][col] = this.products[count][1];
             this.array[row][col].pid = this.products[count][0];
+
+            this.now = new Date();
+            let formatedFetchDate = new Date(this.array[row][col].dateTime );
+            let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+           console.log(diffDays);
+        
             count++;
           }
         }
@@ -109,15 +121,47 @@ export class MyProductPage implements OnInit{
   }
 
   async deletePost(pid){
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+         })
+        }
+      });
+    });
     await this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
     this.refreshPage();
   }
 
   async postSold(pid){
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+          })
+         }
+        });
+      });
       console.log("SOLD");
       this.isDisabled = true;
-      this.presentAlert("Your ad has been sold hence the system will delete the ad. Thank you for using our system.");
+      this.presentAlert("Your ad has been sold hence the system will delete the ad.");
       await this.dbService.deleteAd(pid);
       this.refreshPage();
   }
