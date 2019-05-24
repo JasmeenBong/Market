@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 })
 export class HomePage implements OnInit {
 
-  categories;
+  categories = [];
   products;
   productList = [];
   array = [[],[]];
@@ -35,27 +35,31 @@ export class HomePage implements OnInit {
   }
 
   async getCategoriesFromFireBase(){
+  this.categories = [];
   this.spinnerDialog.show();
-  await Promise.resolve(this.dbService.getCategory()).then(value=> {
-      if(value){
-        this.categories = Object.values(value[0]);
-        this.spinnerDialog.hide();
-      }else{
-        setTimeout(() => {
-          this.spinnerDialog.hide();
-        }, 5000);
-      }
-      var count = 0;
-      for(var row=0; row<(this.categories.length/3); row++){
-        for(var col=0; col<3; col++){
-          this.array[row][col] = this.categories[count];
-          count++;
-        }
-      }
+  var categoriesList = firebase.database().ref('/categories');
+  if(categoriesList){
+  categoriesList.on("value",snapshot=>{
+    snapshot.forEach(childSnapshot=>{
+      this.categories.push(childSnapshot.val())
     });
+    this.spinnerDialog.hide();
+    var count = 0;
+    for(var row=0; row<(this.categories.length/3); row++){
+      for(var col=0; col<3; col++){
+        this.array[row][col] = this.categories[count];
+        count++;
+      }
+    }
+  });
+  }else{
+    this.spinnerDialog.hide();
+  }
     this.recentlyPosted = "Recently Posted";
     this.loadingNotice = "Hang on";
  }
+
+
 moreInfo(){
   this.router.navigate(['about']);
 }
@@ -86,18 +90,6 @@ async recentPosted(){
       }
     }
     this.router.navigate(['categories'],navigationExtras);
-  //   await Promise.resolve(this.dbService.getAllProducts()).then(value=> {
-  //      this.products = Object.values(value[0]);
-  //    });
-  //   this.val = ev.target.value;
-  //   if(this.val && this.val.trim() !== ''){
-  //   this.productList = this.products.filter(product =>{
-  //     return product.postName.toLowerCase().indexOf(this.val.toLowerCase()) > -1;
-  //   });
-  // }
-  // else{
-  //   this.productList = [];
-  //   }
   }
 
   async showCarouselPhoto(){

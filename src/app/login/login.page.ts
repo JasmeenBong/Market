@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
         this.errorMessage = "";
         this.authService.isLoggedin = true;
         this.authService.user = firebase.auth().currentUser;
-        this.navCtrl.navigateForward('tabs/tab5');
+        this.navCtrl.navigateForward('tabs/tab1');
       }
     }, err => {
       this.errorMessage = err.message;
@@ -74,7 +74,7 @@ export class LoginPage implements OnInit {
         this.errorMessage = "";
         this.authService.user = firebase.auth().currentUser;
         this.authService.isLoggedin = true;
-        this.addToDb();
+        // this.addToDb();
         this.navCtrl.navigateForward('/tabs/tab5');
     }, err => {
           this.errorMessage = err.message;
@@ -87,7 +87,7 @@ export class LoginPage implements OnInit {
       this.errorMessage = "";
       this.authService.user = firebase.auth().currentUser;
       this.authService.isLoggedin = true;
-      this.addToDb();
+      // this.addToDb();
       this.navCtrl.navigateForward('/tabs/tab5');
     }, err => {
       this.errorMessage = err.message;

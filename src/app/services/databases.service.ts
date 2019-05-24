@@ -131,6 +131,15 @@ export class DatabaseService{
     return this.db.ref("location/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
 
+  getAllMessage(){
+    return this.db.ref("messages/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
+  }
+
+  getUserProfilebyEmail(email){
+    return this.db.ref("users/").orderByChild('email').equalTo(email).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
+  }
+
+
   addReporttoFirebase(report,owner,post,time){
     this.db.ref("reports/").push().set({
       timeStamp: time,

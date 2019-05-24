@@ -7,8 +7,8 @@
     </ion-buttons>
     <ion-title color="lightBlue">{{title}}</ion-title>
     <ion-buttons  slot="end">
-      <ion-button color="lightBlue" [disabled]="(!validatePost.valid) && (counter == 0) &&
-      (noCategory == true) && (noRegion == true) && (noArea == true)" (click)="savePost()">
+      <ion-button color="lightBlue" [disabled]="(!validatePost.valid) && (counter == 0 &&
+      noCategory == true && noRegion == true && noArea == true)" (click)="savePost(validatePost.value)">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -18,10 +18,10 @@
 <ion-content>
   <label for="uploaded-photos" [(ngModel)]="counter" ngModel id="counterLabel">Uploaded photos({{counter}}/3)</label>
   <form class="form" [formGroup]="validatePost">
-    <ion-button #uploadImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
+    <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="uploadImage()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="images"></ion-icon>
       Upload Image</ion-button>
-    <ion-button #takeImg color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
+    <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
       Camera</ion-button>
     <ion-item>
@@ -57,7 +57,7 @@
 
     <ion-item>
         <ion-label class="input-label" for="selectedCategory">Categories</ion-label>
-        <ion-select class="select" id="selectedCategory" (ionChange)="onCategoryChange($event)">
+        <ion-select class="select" id="selectedCategory" (ionChange)="onCategoryChange($event)" formControlName="category">
           <ion-select-option value="none" selected="true" disabled="disabled">Select a category</ion-select-option>
           <ion-select-option value="dog">Dog</ion-select-option>
           <ion-select-option value="cat">Cat</ion-select-option>
@@ -74,17 +74,17 @@
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Breed</ion-label>
-      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional"></ion-input>
+      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional" formControlName="breed"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Age (Weeks)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional" formControlName="age"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Weight (Kg)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional" formControlName="weight"></ion-input>
     </ion-item>
 
 
@@ -102,7 +102,7 @@
 
     <ion-item>
       <ion-label class="input-label" for="selectedRegion">Region</ion-label>
-      <ion-select class="select" id="selectedRegion" (ionChange)="onRegionChange($event)">
+      <ion-select class="select" id="selectedRegion" (ionChange)="onRegionChange()" formControlName="selectedRegion">
         <ion-select-option value="none" selected="true" disabled="disabled">Select your region</ion-select-option>
         <ion-select-option *ngFor="let region of regionList" [value]=region >
           {{region}}
@@ -116,14 +116,11 @@
 
     <ion-item>
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
-      <ion-select class="select" id="selectedArea" (ionChange)="onAreaChange()">
-        <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
-        <ion-select-option *ngFor="let area of areaList" [value]=area>
-          {{area}}
-        </ion-select-option>
+      <ion-select id="selectedArea" [(ngModel)]="selectedArea" (ionChange)="areaChange(selectedArea)" formControlName="selectedArea">
+        <ion-select-option [value]="none" [selected]="true" [disabled]="disabled">Select your region</ion-select-option>
+        <ion-select-option *ngFor="let area of areaList" [value]=area>{{area}}</ion-select-option>
       </ion-select>
     </ion-item>
-
     <div class="validataion-errors" *ngIf="(noArea == true)">
       <span>Please select your area.</span>
     </div>

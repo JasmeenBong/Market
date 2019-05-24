@@ -5,7 +5,7 @@ import { DatabaseService } from '../services/databases.service';
 import { AuthenticateService } from '../services/authentication.service';
 import { NavigationExtras } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import * as firebase from 'firebase/app';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 
 
@@ -24,6 +24,7 @@ export class MyProductPage implements OnInit{
   uid : string = "";
   noProduct = false;
   isDisabled : Boolean = false;
+  likedProductarray = [];
 
   constructor(
     private router: Router,
@@ -36,10 +37,6 @@ export class MyProductPage implements OnInit{
 
   ngOnInit() {
     this.spinnerDialog.show();
-
-    // setTimeout(() => {
-    //   this.spinnerDialog.hide();
-    // }, 5000);
   }
 
   ionViewWillEnter(){
@@ -84,9 +81,8 @@ export class MyProductPage implements OnInit{
             count++;
           }
         }
-        this.spinnerDialog.hide();
       }
-
+      this.spinnerDialog.hide();
     });
   }
 
@@ -125,12 +121,44 @@ export class MyProductPage implements OnInit{
   }
 
   async deletePost(pid){
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+         })
+        }
+      });
+    });
     await this.dbService.deleteAd(pid);
     this.presentAlert("Successfully deleted! Please refresh the page.");
     this.refreshPage();
   }
 
   async postSold(pid){
+    var allUser = firebase.database().ref("/users");
+    allUser.on("value",snapshot=>{
+      snapshot.forEach(childSnapshot=>{
+      if(childSnapshot.val().likedProduct != ""){
+        this.likedProductarray = childSnapshot.val().likedProduct;
+        console.log(childSnapshot.val().likedProduct);
+        console.log(this.likedProductarray);
+         childSnapshot.val().likedProduct.forEach(id=>{
+           if(id == pid){
+            this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+            this.dbService.addToCurrentUserLikedProduct(childSnapshot.key,this.likedProductarray);
+           }
+          })
+         }
+        });
+      });
       console.log("SOLD");
       this.isDisabled = true;
       this.presentAlert("Your ad has been sold hence the system will delete the ad.");
