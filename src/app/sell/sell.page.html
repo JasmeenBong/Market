@@ -7,8 +7,8 @@
     </ion-buttons>
     <ion-title color="lightBlue">{{title}}</ion-title>
     <ion-buttons  slot="end">
-      <ion-button color="lightBlue" [disabled]="(!validatePost.valid) && (counter == 0 &&
-      noCategory == true && noRegion == true && noArea == true)" (click)="savePost(validatePost.value)">
+      <ion-button color="lightBlue" [disabled]="(validatePost.valid == false) && (counter == 0 &&
+      noCategory == true && noRegion == true && noArea == true) && (validatePost.get('price').hasError(validation.type) == true)" (click)="savePost(validatePost.value)">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
