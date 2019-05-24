@@ -46,9 +46,12 @@ export class HomePage implements OnInit {
     this.spinnerDialog.hide();
     var count = 0;
     for(var row=0; row<(this.categories.length/3); row++){
+      this.array[row] = [];
       for(var col=0; col<3; col++){
+        if(this.categories[count]){
         this.array[row][col] = this.categories[count];
         count++;
+        }
       }
     }
   });
