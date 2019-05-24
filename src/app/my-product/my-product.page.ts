@@ -34,10 +34,6 @@ export class MyProductPage implements OnInit{
 
   ngOnInit() {
     this.spinnerDialog.show();
-
-    // setTimeout(() => {
-    //   this.spinnerDialog.hide();
-    // }, 5000);
   }
 
   ionViewWillEnter(){
@@ -63,7 +59,6 @@ export class MyProductPage implements OnInit{
       else{
         this.noProduct = false;
         this.products = Object.entries(value[0]);
-        console.log(this.products);
         var count = 0;
         for(var row =0; row < (this.products.length/2); row++)
         {
@@ -74,8 +69,8 @@ export class MyProductPage implements OnInit{
             count++;
           }
         }
-        this.spinnerDialog.hide();
       }
+      this.spinnerDialog.hide();
     });
   }
 

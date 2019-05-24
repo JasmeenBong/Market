@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { Camera } from '@ionic-native/camera/ngx';
 
 import * as firebase from 'firebase/app';
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-sell',
@@ -54,8 +55,7 @@ export class SellPage implements OnInit {
   postPrice : any;
   postArea : any;
   postRegion : any;
-
-  area;
+  selectedArea;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,7 +64,8 @@ export class SellPage implements OnInit {
     private navCtrl : NavController,
     private alertController : AlertController,
     private datePipe : DatePipe,
-    private camera : Camera
+    private camera : Camera,
+    private imagePicker : ImagePicker
   ) { }
 
   ngOnInit() {
@@ -78,7 +79,13 @@ export class SellPage implements OnInit {
         ])),
         price: new FormControl('', Validators.compose([
           Validators.required
-        ]))
+        ])),
+        category: new FormControl(),
+        breed: new FormControl(),
+        age: new FormControl(),
+        weight: new FormControl(),
+        selectedRegion: new FormControl(),
+        selectedArea: new FormControl()
       }
     );
 
@@ -129,7 +136,6 @@ export class SellPage implements OnInit {
     this.postDetails = (<HTMLInputElement>document.getElementById("details"));
     this.postPrice = (<HTMLInputElement>document.getElementById("price"));
     this.postRegion = (<HTMLSelectElement>document.getElementById("selectedRegion"));
-    this.postArea = (<HTMLSelectElement>document.getElementById("selectedArea"));
   }
 
   async getMalaysiaAreaListFromFirebase(){
@@ -175,7 +181,8 @@ export class SellPage implements OnInit {
     this.postPrice.value = this.myAd.price;
     this.postRegion.value = this.myAd.region;
     this.getAreaList(this.myAd.region);
-    this.postArea.value = this.myAd.area;
+    this.selectedArea = this.myAd.area;
+    // console.log(this.selectedArea.value);
   }
 
   onCategoryChange(event: any){
@@ -184,12 +191,12 @@ export class SellPage implements OnInit {
     }
   }
 
-  onRegionChange(event: any){
-    if(event.target.value != "none"){
+  onRegionChange(){
+    if(this.postRegion.value != "none"){
       this.noRegion = false;
     }
 
-    this.getAreaList(event.target.value);
+    this.getAreaList(this.postRegion.value);
   }
 
   getAreaList(region){
@@ -200,26 +207,44 @@ export class SellPage implements OnInit {
     }
   }
 
-  onAreaChange(){
-    if(this.postArea.value != "none"){
+  areaChange(area){
+    if(area != "none"){
       this.noArea = false;
+      console.log(area);
     }
   }
 
+  // uploadImage(){
+  //   this.camera.getPicture({
+  //     sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+  //     destinationType: this.camera.DestinationType.DATA_URL
+
+  //    }).then((img) => {
+
+  //      if(img!=""){
+  //        this.images.push('data:image/jpeg;base64,' + img);
+  //        this.counter ++;
+  //     }
+  //    }, (err) => {
+  //      console.log(err);
+  //    });
+  // }
+
   uploadImage(){
-    this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
-      destinationType: this.camera.DestinationType.DATA_URL
-
-     }).then((img) => {
-
-       if(img!=""){
-         this.images.push('data:image/jpeg;base64,' + img);
-         this.counter ++;
+    let options : ImagePickerOptions = {
+      maximumImagesCount : 3,
+      width: 200,
+      height: 200,
+      outputType: 1
+    };
+    this.imagePicker.getPictures(options).then((results) => {
+      for (var i = 0; i < results.length; i++){
+        this.images.push('data:image/jpeg;base64,' + results[i]);
+        this.counter ++;
       }
-     }, (err) => {
-       console.log(err);
-     });
+    }, (err) => {
+      alert(err);
+    });
   }
 
   takePicture(){
@@ -248,28 +273,28 @@ export class SellPage implements OnInit {
     console.log("image removed");
   }
 
-  savePost(){
-    console.log(this.postArea.value);
-    if(this.postArea.value == "none"){
+  savePost(value){
+    if(value.selectedArea == "none"){
       this.presentAlert("Please select your area");
     }
     else {
-      if(this.postBreed.value == ""){
+      console.log(value);
+      if(value.breed == ""){
         this.postBreed.value = "not set";
       }
   
-      if(this.postAge.value == ""){
+      if(value.age == ""){
         this.postAge.value = "not set";
       }
   
-      if(this.postWeight.value == ""){
+      if(value.weight == ""){
         this.postWeight.value = "not set";
       }
   
       if(this.action == "edit"){
-        this.dbService.updateAd(this.images, this.postTitle.value, this.postCategory.value,
-          this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
-          this.postPrice.value, this.postRegion.value, this.postArea.value, this.productId);
+        this.dbService.updateAd(this.images, value.title, value.category,
+          value.breed, value.age, value.weight, value.details,
+          value.price, value.selectedRegion, value.selectedArea, this.productId);
   
           this.presentAlert("Successfully updating your Ad details! Please refresh the page.");
           this.navCtrl.navigateForward("/tabs/tab2");
@@ -278,9 +303,9 @@ export class SellPage implements OnInit {
         let currDate = new Date();
         let formatedDate = this.datePipe.transform(currDate, 'yyyy-MM-dd hh:mm');
   
-        this.dbService.addNewAd(this.images, this.postTitle.value, this.postCategory.value,
-          this.postBreed.value, this.postAge.value, this.postWeight.value, this.postDetails.value,
-          this.postPrice.value, this.postRegion.value, this.postArea.value, formatedDate, this.uid);
+        this.dbService.addNewAd(this.images, value.title, value.category,
+          value.breed, value.age, value.weight, value.details,
+          value.price, value.selectedRegion, value.selectedArea, formatedDate, this.uid);
   
           this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
           this.navCtrl.navigateForward("/tabs/tab2");

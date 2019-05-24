@@ -48,7 +48,7 @@ export class AuthenticateService{
     return await firebase.auth().sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       window.alert('Password reset email sent, check your inbox.');
-      this.router.navigateByUrl("/tabs/tab5/login");
+      this.router.navigateByUrl("swiped-tab");
     }).catch((error) => {
       window.alert(error)
     })
@@ -72,6 +72,27 @@ export class AuthenticateService{
         reject(err);
       });
     });
+
+    // const provider = new firebase.auth.GoogleAuthProvider();
+
+    //   return new Promise<any>((resolve, reject) => {
+    //     firebase.auth().signInWithRedirect(provider)
+    //     .then( 
+    //       res => {
+    //         firebase.auth().getRedirectResult().then(function(result){
+    //           if(result.credential){
+    //             console.log(result.credential);
+    //             var user = result.user;
+    //             console.log(user);
+    //           }
+    //         }).catch(function(error){
+    //            console.log(error.message);
+    //         });
+    //       }
+    //     ).catch(function(error) {
+    //       console.log(error.message);
+    //     });
+    //   });
   }
 
   facebookLogin(){
@@ -88,6 +109,29 @@ export class AuthenticateService{
               reject (err);
         });
     });
+
+    // var provider = new firebase.auth.FacebookAuthProvider();
+
+    // return new Promise<any>((resolve, reject) => {
+    //   firebase.auth().signInWithRedirect(provider)
+    //   .then( 
+    //     res => {
+    //       firebase.auth().getRedirectResult().then(function(result){
+    //         this.platform.resume.subscribe(() => {
+    //           if(result.credential){
+    //             console.log(result.credential);
+    //             var user = result.user;
+    //             console.log(user);
+    //           }
+    //         });
+    //       }).catch(function(error){
+    //          console.log(error.message);
+    //       });
+    //     }
+    //   ).catch(function(error) {
+    //     console.log(error.message);
+    //   });
+    // });
   }
 
   logoutUser(){

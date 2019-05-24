@@ -75,6 +75,7 @@ firebase.initializeApp(environment.firebase);
     AppAvailability,
     DatePipe,
     Network,
+    DatePicker,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
