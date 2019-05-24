@@ -24,11 +24,11 @@
     <ion-button color="darkBlue" size="small" id="add-imgbtn" slot="start" (click)="takePicture()" [disabled]="counter == 3">
       <ion-icon slot="icon-only" name="camera"></ion-icon>
       Camera</ion-button>
-    <ion-item *ngIf="images != []">
+    <ion-item *ngIf="images.length != 0">
       <div>
         <br />
           <div class="uploaded-photo" *ngFor="let image of images">
-            <ion-thumbnail class="thumbnail" slot="start">
+            <ion-thumbnail class="thumbnail" slot="start" *ngIf="images.length != 0">
               <div id="close-icon-bg">
               <ion-icon class="icon-close" name="close" (click)="cancelImage(image)"></ion-icon>
               </div>

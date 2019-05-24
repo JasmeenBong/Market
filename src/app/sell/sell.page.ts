@@ -56,6 +56,7 @@ export class SellPage implements OnInit {
   postArea : any;
   postRegion : any;
   selectedArea;
+  permission = false;
 
   constructor(
     private formBuilder: FormBuilder,
