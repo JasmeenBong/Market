@@ -45,7 +45,7 @@ export class FavouritePage implements OnInit {
     Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value =>{
      this.likedProductIDarray = Object.values(value[0].likedProduct);
      if(this.likedProductIDarray.length){
-     this.noLikedProduct == false;
+     this.noLikedProduct = false;
      this.likedProductIDarray.forEach(value=>{
        if(this.likedProductarray.length != this.likedProductIDarray.length){
          console.log("not same");
@@ -56,6 +56,7 @@ export class FavouritePage implements OnInit {
      })
     }else{
       this.noLikedProduct = true;
+      console.log(this.noLikedProduct);
     }
     }); 
   }
