@@ -83,8 +83,8 @@ export class SellPage implements OnInit {
         ])),
         category: new FormControl(),
         breed: new FormControl(),
-        age: new FormControl(),
-        weight: new FormControl(),
+	      age: new FormControl(),
+	      weight: new FormControl(),
         selectedRegion: new FormControl(),
         selectedArea: new FormControl()
       }
@@ -285,11 +285,11 @@ export class SellPage implements OnInit {
       }
   
       if(value.age == ""){
-        this.postAge.value = "not set";
+        this.postAge.value = NaN;
       }
   
       if(value.weight == ""){
-        this.postWeight.value = "not set";
+        this.postWeight.value = NaN;
       }
   
       if(this.action == "edit"){
@@ -305,8 +305,8 @@ export class SellPage implements OnInit {
         let formatedDate = this.datePipe.transform(currDate, 'yyyy-MM-dd hh:mm');
   
         this.dbService.addNewAd(this.images, value.title, value.category,
-          value.breed, value.age, value.weight, value.details,
-          value.price, value.selectedRegion, value.selectedArea, formatedDate, this.uid);
+          value.breed, value.age, value.weight, value.details, value.price, 
+          value.selectedRegion, value.selectedArea, formatedDate, this.uid);
   
           this.presentAlert("Successfully adding your new Ad! Please refresh the page.");
           this.navCtrl.navigateForward("/tabs/tab2");
