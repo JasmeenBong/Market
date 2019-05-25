@@ -58,6 +58,8 @@ export class ProductPage implements OnInit {
     images;
     isDisabled;
     noCommunicate = false;
+    hasName = true;
+    hasPhoneNumber = true;
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
@@ -96,11 +98,22 @@ export class ProductPage implements OnInit {
     async getImagesforAvatar(uid) {
         await Promise.resolve(this.dbService.getSellerInformation(uid)).then(value => {
             this.seller = value[0];
-            if(this.seller.phoneNumber){
+            if(this.seller.phoneNumber && this.seller.phoneNumber != ""){
               this.isDisabled = false;
+              this.hasPhoneNumber = true;
+              console.log(this.hasPhoneNumber);
             }
             else{
               this.isDisabled = true;
+              this.hasPhoneNumber = false;
+              console.log(this.hasPhoneNumber);
+            }
+            if(this.seller.name && this.seller.name != ""){
+                this.hasName = true;
+                console.log(this.hasName);
+            }else{
+                this.hasName = false;
+                console.log(this.hasName);
             }
 
             if(!this.authService.user){

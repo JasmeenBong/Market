@@ -35,15 +35,19 @@
     </ion-row>
     <ion-row>
       <ion-col>
-          <ion-icon name="pin"></ion-icon>
-          <ion-label padding-left>{{product.region}} , {{product.area}}</ion-label>
+          <ion-icon name="pin" color="danger"></ion-icon>
+          <ion-label class="regionlabel">{{product.region}} , {{product.area}}</ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-item no-padding no-lines>
-        <ion-avatar><img src="{{seller.url}}"/></ion-avatar>
-        <a href="" class="ownername" id="ownerParams">{{seller.name}}</a>
+        <ion-item>
+          <ion-avatar><img src="{{seller.url}}"/></ion-avatar>
+          <ion-label>
+            <h2 class="ownername" *ngIf="hasName">{{seller.name}}</h2>
+            <p *ngIf='hasPhoneNumber' class="ownerphonenumber">{{seller.phoneNumber}}</p>
+            <p class="owneremail">{{seller.email}}</p>
+          </ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
