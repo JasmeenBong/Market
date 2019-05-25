@@ -20,6 +20,7 @@ export class ChangePasswordPage implements OnInit {
 
 password;
 repeatpass;
+currentPass;
   constructor(
     private navCtrl: NavController,
     private authService: AuthenticateService,
@@ -28,7 +29,12 @@ repeatpass;
     private AlertController:AlertController,
     private ToastController: ToastController
   
-  ) { }
+  ) {
+    console.log(firebase.auth().currentUser);
+    var user = firebase.auth().currentUser;
+  
+
+   }
 
   ngOnInit() {
   }
