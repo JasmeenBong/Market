@@ -28,10 +28,10 @@ export class FavouritePage implements OnInit {
 
   ngOnInit()
   {
-    this.ionViewWillEnter();
+    this.ionViewDidEnter();
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     if(!this.authService.user || this.authService.user == ""){
       this.navCtrl.navigateForward('swiped-tab/login');
     }
@@ -47,14 +47,15 @@ export class FavouritePage implements OnInit {
      if(this.likedProductIDarray.length){
      this.noLikedProduct = false;
      this.likedProductIDarray.forEach(value=>{
+       console.log(value);
        if(this.likedProductarray.length != this.likedProductIDarray.length){
-         console.log("not same");
-         console.log(this.likedProductIDarray.length);
-         console.log(this.likedProductarray.length);
+       this.likedProductarray = [];
+       this.array = [[],[]];
        this.getProductDetails(value);
        }
      })
     }else{
+       this.array = [[],[]];
       this.noLikedProduct = true;
       console.log(this.noLikedProduct);
     }

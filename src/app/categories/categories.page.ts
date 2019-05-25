@@ -35,6 +35,13 @@ export class CategoriesPage implements OnInit {
     this.getCategoriesFromHomePage()
   }
 
+  ionViewWillEnter(){
+    this.checkCurrentUserWithoutLogin();
+    if(Object.values(this.userInfo.likedProduct) != this.likedProductarray){
+    console.log('enter');
+    this.printOutProductList();
+    }
+  }
   getCategoriesFromHomePage(){
      this.route.queryParams.subscribe(params=> {
        if(params && params.category){
@@ -275,7 +282,11 @@ async openAlert(){
         col.buttonColor = "danger";
         this.presentToast('Added to my favourite list');
       }else{
-        this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+      var index = this.likedProductarray.indexOf(pid);
+        if (index > -1) {
+          this.likedProductarray.splice(index, 1);
+        }
+        // this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
         this.dbService.addToCurrentUserLikedProduct(this.uid, this.likedProductarray);
         col.buttonColor = "";
         this.presentToast('Removed from my favourite list');

@@ -16,7 +16,7 @@ import {
     AppAvailability
 } from '@ionic-native/app-availability/ngx';
 import {
-    Platform
+    Platform, ToastController
 } from '@ionic/angular';
 import {
     CallNumber
@@ -45,6 +45,7 @@ import * as firebase from 'firebase/app';
 import { AuthenticateService } from '../services/authentication.service';
 
 
+
 @Component({
     selector: 'app-product',
     templateUrl: './product.page.html',
@@ -53,6 +54,9 @@ import { AuthenticateService } from '../services/authentication.service';
 export class ProductPage implements OnInit {
 
     pid;
+    uid;
+    userInfo;
+    likedProductarray;
     product;
     seller
     images;
@@ -63,7 +67,8 @@ export class ProductPage implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router, private dbService: DatabaseService, private socialSharing: SocialSharing,
         private appAvailability: AppAvailability, private platform: Platform, private callNumber: CallNumber, private androidPermissions: AndroidPermissions, private emailComposer: EmailComposer,
-        private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog, private sms: SMS, private authService : AuthenticateService) {
+        private alertController: AlertController, private modalController: ModalController, private spinnerDialog: SpinnerDialog, private sms: SMS, private authService : AuthenticateService, private navCtrl : NavController,
+        private toastController: ToastController) {
         this.getIdFromCategoriesPage()
     }
 
@@ -77,11 +82,70 @@ export class ProductPage implements OnInit {
 
     }
 
+    async checkCurrentUser(){
+        if(!this.authService.user || this.authService.user == ""){
+          this.askusertoLogin();
+        }
+        else {
+          this.uid = this.authService.user.uid;
+          await Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
+            this.userInfo  = value[0];
+          });
+        }
+      }
+
+      async askusertoLogin(){
+        const alert = await this.alertController.create({
+          header: 'Fantastic, you found something you like',
+          message: 'Please log-in, for the best experience.',
+          buttons: [
+            {
+              text: 'Ok',
+              handler: () => {
+                this.navCtrl.navigateForward('swiped-tab/login');
+              }
+            },
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+            }
+          }
+          ]
+        });
+        return await alert.present();
+    }
+    
+
+    checkCurrentUserWithoutLogin(){
+        let user = this.authService.user;
+        if(user){
+          console.log(user.email);
+          this.uid = user.uid;
+          Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value=> {
+            this.userInfo  = value[0];
+            this.likedProductarray = Object.values(this.userInfo.likedProduct);
+          });
+        }
+      }
+
 
     async getProductDetailsById(pid) {
+        this.checkCurrentUserWithoutLogin();
         this.spinnerDialog.show();
         await Promise.resolve(this.dbService.getProductById(pid)).then(value => {
             if(value){
+              value[0].id = this.pid;
+              if(this.likedProductarray){
+                console.log(this.likedProductarray);
+                if(this.likedProductarray.includes(pid)){
+                   value[0].buttonColor = "danger";
+                }else{
+                    value[0].buttonColor = "";
+                }
+              }else{
+                    value[0].buttonColor = "";
+              }
               this.product = value[0];
               this.spinnerDialog.hide();
             }else{
@@ -262,6 +326,37 @@ export class ProductPage implements OnInit {
         //   }
         this.router.navigate(['/categories']);
     }
+
+    addtoLikedProduct(id){
+     this.checkCurrentUser();
+     if(this.userInfo){
+       this.likedProductarray = Object.values(this.userInfo.likedProduct);
+       if(!this.likedProductarray.includes(id))
+       {
+         this.likedProductarray.push(id);
+         this.dbService.addToCurrentUserLikedProduct(this.uid, this.likedProductarray);
+         this.product.buttonColor = "danger";
+         this.presentToast('Added to my favourite list');
+       }else{
+       var index = this.likedProductarray.indexOf(id);
+         if (index > -1) {
+           this.likedProductarray.splice(index, 1);
+         }
+         // this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
+         this.dbService.addToCurrentUserLikedProduct(this.uid, this.likedProductarray);
+         this.product.buttonColor = "";
+         this.presentToast('Removed from my favourite list');
+       }
+     }
+    }
+
+    async presentToast(msg) {
+        const toast = await this.toastController.create({
+          message: msg,
+          duration: 2000
+        });
+        toast.present();
+      }
 
     ngOnInit() {
 
