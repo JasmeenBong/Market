@@ -19,10 +19,12 @@ export class HomePage implements OnInit {
   productList = [];
   array = [[],[]];
   val;
+  takeMeToPost;
   carousel;
   posts;
   loading = true;
   recentposts = [];
+  postsObject;
   recentlyPosted;
   loadingNotice;
 
@@ -62,7 +64,13 @@ export class HomePage implements OnInit {
     this.loadingNotice = "Hang on";
  }
 
+goToProduct(takeMeToPost){
+console.log(takeMeToPost);
+}
 
+ sell(){
+   this.router.navigate(['tabs/tab2']);
+ }
 moreInfo(){
   this.router.navigate(['about']);
 }
@@ -81,8 +89,10 @@ async recentPosted(){
       if(diffDays <= 5){
         this.recentposts.push(child.val());
       }
+
       });
       this.loading = false;
+
         });
 
 }

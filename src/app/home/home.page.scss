@@ -92,6 +92,33 @@ border-radius: 0px;
   object-fit: fill;
 }
 
+#sell-something{
+  width:45%;
+  height:40px;
+  margin-left:2.5%;
+  border-radius: 5px;
+  margin-right:5%;
+  background-color: darkblue;
+  font-size: 15px;
+  margin-bottom: 8px;
+
+}
+
+ion-icon{
+  margin-right: 1px;
+}
+
+
+#find-something{
+  width:45%;
+  height:40px;
+  border-radius: 5px;
+  background-color: darkblue;
+  font-size: 15px;
+  margin-bottom: 8px;
+
+}
+
 #recent-titles{
   text-align: left;
   color:darkblue;

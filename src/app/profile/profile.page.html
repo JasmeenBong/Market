@@ -6,27 +6,11 @@
       </ion-toolbar>
  </ion-header>
  <ion-content>
-    <div class="container">
-       <img src="{{profileImage}}" class="profile-pic-profile"/>
-       <h5>Upload From</h5>
-       <ion-row id="UploadMethod">
-          <ion-col>
-             <ion-button color="darkBlue" (click)="AccessGallery()" id="useGallery">
-                <ion-icon name="image"></ion-icon>
-                Gallery
-             </ion-button>
-          </ion-col>
-          <ion-col>
-            or
-          </ion-col>
-          <ion-col>
-             <ion-button color="darkBlue" (click)="AccessCamera()" id="useCamera">
-                <ion-icon name="camera"></ion-icon>
-                Camera
-             </ion-button>
-          </ion-col>
-       </ion-row>
-    </div>
+    <div (click)="presentActionSheet()" class="container">
+       <img  src="{{profileImage}}" class="profile-pic-profile"/>
+       <div class="changeIcon">Click to change</div>
+
+      </div>
     <ion-item>
        <ion-label class="label">Full Name:</ion-label>
        <ion-input type="text" id="uname" [value]=username></ion-input>

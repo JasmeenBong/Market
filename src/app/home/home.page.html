@@ -14,6 +14,11 @@
       </ion-slide>
     </ion-slides>
     <ion-grid>
+    <ion-buttons>
+        <ion-button (click)="sell()" id="sell-something"><ion-icon name="camera"></ion-icon>Sell</ion-button>
+        <ion-button  (click)="getProductsBasedonSearchBar()" id="find-something"><ion-icon name="cash"></ion-icon>Buy</ion-button>
+   </ion-buttons>
+   
       <ion-row *ngFor="let row of array" class="card-background-page">
         <ion-col  col-4 text-center *ngFor="let col of row">
           <ion-card color="lightBlue" (click)="goCategoriesPage(col.categoryName)">
@@ -30,10 +35,8 @@
 
       <ion-slides pager="true">
           <ion-slide *ngFor="let posts of recentposts">
-                    <ion-card id="recent-posted-card">
+                    <ion-card  (click)="goToProduct(posts.postName)" id="recent-posted-card">
                       <ion-card-title id="recent-titles"> <strong>RM {{posts.price}}</strong><br> {{posts.postName}}</ion-card-title>
-                      
-
                     <ion-img  class="recent-image" [src] = "posts.images[0]"></ion-img>
                     </ion-card>
                   </ion-slide>

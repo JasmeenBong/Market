@@ -14,7 +14,9 @@
   }
 
   .card-image{
-    height: inherit !important;
+    width:100%;
+    height:100%;
+    object-fit: fill;
   }
   // .col-4{
   //   display: flex;
@@ -30,17 +32,14 @@
 
 .manage-post-btn{
   display:inline;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: lightgray;
+padding-bottom: 0px;
 }
 .manage-btn{
-height:60%;
 margin-right:5%;
 }
 
 .manage-title{
-
+margin-right:5%;
 }
 
 .col{
@@ -55,6 +54,11 @@ margin-right:5%;
 
 .postname{
   text-align: left;
+}
+ion-img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
 }
 
 .price{

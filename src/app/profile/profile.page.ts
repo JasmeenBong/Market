@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController, AlertController } from '@ionic/angular';
+import { NavController, ModalController, AlertController,ActionSheetController } from '@ionic/angular';
 import { AuthenticateService } from '../services/authentication.service';
 import { DatabaseService } from '../services/databases.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -41,7 +41,13 @@ export class ProfilePage implements OnInit {
     private camera: Camera,
     private AlertController:AlertController,
     private ToastController: ToastController,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    public actionSheetController: ActionSheetController) {}
+
+    
+
+
+
 
       validation_messages = {
         'email': [
@@ -71,13 +77,13 @@ export class ProfilePage implements OnInit {
   getProfileDetails(){
 
     firebase.database().ref('/users/' + this.uid).once('value').then(snapshot => {
-      this.username = (snapshot.val() && snapshot.val().name) || 'Anonymous';
-      this.phoneNumber = (snapshot.val() && snapshot.val().phoneNumber) || 'Anonymous';
+      this.username = (snapshot.val() && snapshot.val().name) || '';
+      this.phoneNumber = (snapshot.val() && snapshot.val().phoneNumber) || '';
       this.birthday = (snapshot.val() && snapshot.val().birthday) || null;
-      this.gender = (snapshot.val() && snapshot.val().gender) || 'Anonymous';
+      this.gender = (snapshot.val() && snapshot.val().gender) || '';
       this.profileImage = (snapshot.val() && snapshot.val().url) || null;
       var area = (snapshot.val() && snapshot.val().area) || null;
-      var location = (snapshot.val() && snapshot.val().location) || 'Anonymous';
+      var location = (snapshot.val() && snapshot.val().location) || '';
 
       (<HTMLInputElement>document.getElementById('region')).value = location;
       (<HTMLInputElement>document.getElementById('selectedArea')).value = area;
@@ -94,6 +100,7 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  
 
   AccessGallery(){
     this.camera.getPicture({
@@ -183,6 +190,14 @@ export class ProfilePage implements OnInit {
 
   await alert.present();
   }
+
+
+
+
+
+
+
+  
   async presentToast() {
     const toast = await this.ToastController.create({
       message: 'Your settings have been saved.',
@@ -204,6 +219,29 @@ logoutUser(){
     console.log(error);
   })
 }
+
+
+async presentActionSheet() {
+  const actionSheet = await this.actionSheetController.create({
+    header: 'Upload From',
+    buttons: [{
+      text: 'Camera',
+      role: 'destructive',
+      icon: 'camera',
+      handler: () => {
+        this.AccessCamera();
+      }
+    }, {
+      text: 'Gallery',
+      icon: 'images',
+      handler: () => {
+        this.AccessGallery();
+      }
+    }]
+  });
+  await actionSheet.present();
+}
+
 
 
 }

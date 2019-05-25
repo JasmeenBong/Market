@@ -39,6 +39,18 @@ font-weight: bolder;
 #uname, #phoneNumber{ 
 text-align: right;
 }
+.changeIcon {
+  position: absolute;
+  top: 82%;
+  background-color: rgba(32, 32, 32, 0.808);
+  color: white;
+  padding: -15px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 136px;
+  border-radius: 20px
+}
 
 .container {
     position: relative;

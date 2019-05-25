@@ -47,26 +47,40 @@ currentPass;
     toast.present();
   }
 
-  changePass(){
-   let newPassword =  (<HTMLInputElement>document.getElementById('password')).value;
-  let repeatPassword = (<HTMLInputElement>document.getElementById('repeatPassword')).value;
+  changePass() {
+    var user = firebase.auth().currentUser;
+    var credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        this.currentPass
+    )
+    user.reauthenticateAndRetrieveDataWithCredential(credential).then(function(success) {
+      var pass = (<HTMLInputElement>document.getElementById('password')).value;
+      var repeatpass = (<HTMLInputElement>document.getElementById('repeatPassword')).value;
 
-if(this.password===this.repeatpass){
-  if(newPassword.length < 9 || repeatPassword.length < 9){
-    this.presentToast("Password Too Short!");
-  }else{
-    firebase.auth().currentUser.updatePassword(this.password).then(function(){
-    }).catch(function(error){
-      this.presentToast(error);
+      if(pass === repeatpass){
+      user.updatePassword(pass).then(function() {
+        // Update successful.
+      //  this.presentToast("Sucess");
+     console.log("SUCESS")
+      }).catch(function(error) {
+       //this.presentToast("ERROR");
+       console.log(error);
+
+      });
+    }else{
+     //this.presentToast("Error");
+     console.log("error");
+
+    }
+
+    }).catch(function(error) {
+     // this.presentToast("ERROR");
+     console.log(error);
     });
-    this.presentToast("Sucessfully Changed The Password");
-  }
-  }
-  else{
-    this.presentToast("Please Make Sure Both Passwords Match");
+
+  
   }
 
-  }
 
   backProfile(){
     this.navCtrl.navigateBack('tabs/tab5');

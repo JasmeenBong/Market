@@ -21,6 +21,7 @@ export class InboxPage implements OnInit {
   showAllMsgs = [];
   currentUser;
   count = 0;
+  getProfileImg;
 
   constructor(private route:ActivatedRoute, public db: angulardb.AngularFireDatabase , private router: Router, private authService : AuthenticateService, private navCtrl: NavController,
     private spinnerDialog: SpinnerDialog, private dbService : DatabaseService) {
@@ -47,12 +48,14 @@ export class InboxPage implements OnInit {
       this.subs.forEach(msg =>{
         if(Object.values(msg)[1] == this.authService.user.email){
             Promise.resolve(this.dbService.getUserProfilebyEmail(Object.values(msg)[2])).then(value=>{
+              console.log(Object.values(Object.values(value[0])[0]));
               if(value != null || value != undefined){ 
               const found = this.showAllMsgs.some(el => el.email === Object.values(msg)[2]);
               if(!found){
               if(Object.values(msg)[3] == "unread"){
                 this.count =1;
               }
+
               this.showAllMsgs.push({
                 email: Object.values(msg)[2],
                 url: Object.values(Object.values(value[0])[0])[8],

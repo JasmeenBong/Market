@@ -14,14 +14,16 @@ export class DatabaseService{
   addNewUser(id, email){
     var array = [];
     this.db.ref("users/").child(id).set({
-                url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71',
                 name: '',
                 location: '',
                 email: email,
+                phoneNumber: '',
                 gender: '',
                 birthday:'',
                 area:'',
-                likedProduct:''
+                likedProduct:'',
+                url: 'https://firebasestorage.googleapis.com/v0/b/market-9d038.appspot.com/o/user%2F4ff36bf59e.png?alt=media&token=84f87924-bd66-4a68-8f13-91754de78a71'
+
     }).catch(function(error){
       console.error(error);
     });
