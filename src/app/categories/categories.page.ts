@@ -64,6 +64,7 @@ export class CategoriesPage implements OnInit {
   }
 
   async printOutProductList(){
+    this.array=[[],[]];
     await this.checkCurrentUserWithoutLogin();
     var count = 0;
     for(var row =0; row < (this.products.length/2); row++)
@@ -71,11 +72,14 @@ export class CategoriesPage implements OnInit {
       this.array[row] = [];
       for(var col=0; col<2; col++){
         if(!this.likedProductarray.length){
+          if(this.products[count]){
+          console.log(this.products[count]);
           this.array[row][col] = this.products[count][1];
           this.array[row][col].pid = this.products[count][0];
           this.array[row][col].buttonColor = '';
-          console.log(this.array);
+          // console.log(this.array);
           count++;
+          }
         }else{
           if(this.likedProductarray.includes(this.products[count][0]))
           {
@@ -96,60 +100,213 @@ export class CategoriesPage implements OnInit {
     }
   }
 
-  sortByTime(time){
-    if(time == "Oldest to Newest"){
-      this.products.sort(function(a,b){
+  sortBy(time,location,price){
+    if(this.location == "Malaysia")
+    {
+      if(time == "Oldest to Newest" && !price){
+        this.products.sort(function(a,b){
         var time1 : any = new Date(a[1].dateTime);
         var time2 : any = new Date(b[1].dateTime)
         return time1 - time2;
       });
-    }else if(time == "Newest to Oldest"){
-      this.products.sort(function(a,b){
-        var time1 : any = new Date(a[1].dateTime);
-        var time2 : any = new Date(b[1].dateTime)
-        return time2 - time1;
-      });
-    }else{
-      this.products = this.products;
-    }
-    this.printOutProductList();
-  }
-
-  sortByPrice(price){
-    if(price == "Lowest to Highest"){
-      this.products.sort(function(a, b) {
-        return parseFloat(a[1].price) - parseFloat(b[1].price);
-      });
-    }else if(price == "Highest to Lowest"){
-      this.products.sort(function(a, b) {
-        return parseFloat(b[1].price) - parseFloat(a[1].price);
-      });
-    }else{
-      this.products = this.products;
-    }
-    this.printOutProductList();
-  }
-
-  sortByLocation(){
-    if(this.location == "Malaysia")
-    {
       this.printOutProductList();
-    }
-    else{
-      var count = 0;
-      for(var row =0; row < (this.products.length/2); row++)
-      {
-        this.array[row] = [];
-        for(var col=0; col<2; col++){
-          if(this.products[count][1].area == this.location[0]){
-            this.array[row][col] = this.products[count][1];
-            this.array[row][col].pid = this.products[count][0];
-          }
-            count++;
-        }
       }
+      if(time == "Newest to Oldest" && !price){
+        this.products.sort(function(a,b){
+              var time1 : any = new Date(a[1].dateTime);
+              var time2 : any = new Date(b[1].dateTime)
+              return time2 - time1;
+        });
+        this.printOutProductList();
+      }
+      if(time == "Oldest to Newest" && price =="Lowest to Highest"){
+        this.products.sort(function(a,b){
+          var time1 : any = new Date(a[1].dateTime);
+          var time2 : any = new Date(b[1].dateTime)
+          return time1 - time2;
+        });
+        this.products.sort(function(a, b) {
+          return parseFloat(a[1].price) - parseFloat(b[1].price);
+        });
+        this.printOutProductList();
+      }
+      if(time == "Newest to Oldest" && price =="Lowest to Highest"){
+        this.products.sort(function(a,b){
+          var time1 : any = new Date(a[1].dateTime);
+          var time2 : any = new Date(b[1].dateTime)
+          return time2 - time1;
+        });
+        this.products.sort(function(a, b) {
+          return parseFloat(a[1].price) - parseFloat(b[1].price);
+        });
+        this.printOutProductList();
+      }
+      if(time == "Oldest to Newest" && price =="Highest to Lowest"){
+        this.products.sort(function(a,b){
+          var time1 : any = new Date(a[1].dateTime);
+          var time2 : any = new Date(b[1].dateTime)
+          return time1 - time2;
+        });
+        this.products.sort(function(a, b) {
+          return parseFloat(b[1].price) - parseFloat(a[1].price);
+        });
+        this.printOutProductList();
+      }
+      if(time == "Newest to Oldest" && price == "Highest to Lowest"){
+        this.products.sort(function(a,b){
+          var time1 : any = new Date(a[1].dateTime);
+          var time2 : any = new Date(b[1].dateTime)
+          return time2 - time1;
+        });
+        this.products.sort(function(a, b) {
+          return parseFloat(b[1].price) - parseFloat(a[1].price);
+        });
+        this.printOutProductList();
+      }
+      if(!time && price == "Lowest to Highest"){
+        this.products.sort(function(a, b) {
+          return parseFloat(a[1].price) - parseFloat(b[1].price);
+        });
+        this.printOutProductList();
+      }
+      if(!time && price == "Highest to Lowest"){
+        this.products.sort(function(a, b) {
+          return parseFloat(b[1].price) - parseFloat(a[1].price);
+        });
+        this.printOutProductList();
+      }
+    }else{
+        this.products = this.products.filter((o)=> o[1].area == this.location[0])
+        if(time == "Oldest to Newest" && !price){
+          this.products.sort(function(a,b){
+          var time1 : any = new Date(a[1].dateTime);
+          var time2 : any = new Date(b[1].dateTime)
+          return time1 - time2;
+        });
+        this.printOutProductList();
+        }
+        if(time == "Newest to Oldest" && !price){
+          this.products.sort(function(a,b){
+                var time1 : any = new Date(a[1].dateTime);
+                var time2 : any = new Date(b[1].dateTime)
+                return time2 - time1;
+          });
+          this.printOutProductList();
+        }
+        if(time == "Oldest to Newest" && price =="Lowest to Highest"){
+          this.products.sort(function(a,b){
+            var time1 : any = new Date(a[1].dateTime);
+            var time2 : any = new Date(b[1].dateTime)
+            return time1 - time2;
+          });
+          this.products.sort(function(a, b) {
+            return parseFloat(a[1].price) - parseFloat(b[1].price);
+          });
+          this.printOutProductList();
+        }
+        if(time == "Newest to Oldest" && price =="Lowest to Highest"){
+          this.products.sort(function(a,b){
+            var time1 : any = new Date(a[1].dateTime);
+            var time2 : any = new Date(b[1].dateTime)
+            return time2 - time1;
+          });
+          this.products.sort(function(a, b) {
+            return parseFloat(a[1].price) - parseFloat(b[1].price);
+          });
+          this.printOutProductList();
+        }
+        if(time == "Oldest to Newest" && price =="Highest to Lowest"){
+          this.products.sort(function(a,b){
+            var time1 : any = new Date(a[1].dateTime);
+            var time2 : any = new Date(b[1].dateTime)
+            return time1 - time2;
+          });
+          this.products.sort(function(a, b) {
+            return parseFloat(b[1].price) - parseFloat(a[1].price);
+          });
+          this.printOutProductList();
+        }
+        if(time == "Newest to Oldest" && price == "Highest to Lowest"){
+          this.products.sort(function(a,b){
+            var time1 : any = new Date(a[1].dateTime);
+            var time2 : any = new Date(b[1].dateTime)
+            return time2 - time1;
+          });
+          this.products.sort(function(a, b) {
+            return parseFloat(b[1].price) - parseFloat(a[1].price);
+          });
+          this.printOutProductList();
+        }
+        if(!time && price == "Lowest to Highest"){
+          this.products.sort(function(a, b) {
+            return parseFloat(a[1].price) - parseFloat(b[1].price);
+          });
+          this.printOutProductList();
+        }
+        if(!time && price == "Highest to Lowest"){
+          this.products.sort(function(a, b) {
+            return parseFloat(b[1].price) - parseFloat(a[1].price);
+          });
+          this.printOutProductList();
+        }
+        this.printOutProductList();
     }
   }
+
+  // sortByTime(time){
+  //   if(time == "Oldest to Newest"){
+  //     this.products.sort(function(a,b){
+  //       var time1 : any = new Date(a[1].dateTime);
+  //       var time2 : any = new Date(b[1].dateTime)
+  //       return time1 - time2;
+  //     });
+  //   }else if(time == "Newest to Oldest"){
+  //     this.products.sort(function(a,b){
+  //       var time1 : any = new Date(a[1].dateTime);
+  //       var time2 : any = new Date(b[1].dateTime)
+  //       return time2 - time1;
+  //     });
+  //   }else{
+  //     this.products = this.products;
+  //   }
+  //   this.printOutProductList();
+  // }
+
+  // sortByPrice(price){
+  //   if(price == "Lowest to Highest"){
+  //     this.products.sort(function(a, b) {
+  //       return parseFloat(a[1].price) - parseFloat(b[1].price);
+  //     });
+  //   }else if(price == "Highest to Lowest"){
+  //     this.products.sort(function(a, b) {
+  //       return parseFloat(b[1].price) - parseFloat(a[1].price);
+  //     });
+  //   }else{
+  //     this.products = this.products;
+  //   }
+  //   this.printOutProductList();
+  // }
+
+  // sortByLocation(){
+  //   if(this.location == "Malaysia")
+  //   {
+  //     this.printOutProductList();
+  //   }
+  //   else{
+  //     var count = 0;
+  //     for(var row =0; row < (this.products.length/2); row++)
+  //     {
+  //       this.array[row] = [];
+  //       for(var col=0; col<2; col++){
+  //         if(this.products[count][1].area == this.location[0]){
+  //           this.array[row][col] = this.products[count][1];
+  //           this.array[row][col].pid = this.products[count][0];
+  //         }
+  //           count++;
+  //       }
+  //     }
+  //   }
+  // }
 
   async getProductListFromFireBase(category){
     this.spinnerDialog.show();
@@ -176,6 +333,7 @@ export class CategoriesPage implements OnInit {
       {
         this.noProductinCategories = false;
         this.products = Object.entries(value[0]);
+        console.log(this.products);
         this.spinnerDialog.hide();
       }
       this.printOutProductList();
@@ -200,7 +358,7 @@ export class CategoriesPage implements OnInit {
   });
   modal.onDidDismiss().then(data => {
     this.location = Object.values(data.data);
-    this.sortByLocation();
+    this.sortBy(null,this.location,null);
   });
   await modal.present();
 }
@@ -212,14 +370,13 @@ export class CategoriesPage implements OnInit {
     });
     modal.onDidDismiss().then(data => {
       if(Object.values(data.data)[0] && !Object.values(data.data)[1]) {
-        this.sortByPrice(Object.values(data.data)[0]);
+        this.sortBy(null,this.location,Object.values(data.data)[0]);
       }
       if(!Object.values(data.data)[0] && Object.values(data.data)[1]){
-        this.sortByTime(Object.values(data.data)[1]);
+        this.sortBy(Object.values(data.data)[1],this.location,null);
       }
       if(Object.values(data.data)[0] && Object.values(data.data)[1]){
-        this.sortByPrice(Object.values(data.data)[0]);
-        this.sortByTime(Object.values(data.data)[1]);
+        this.sortBy(Object.values(data.data)[1],this.location,Object.values(data.data)[0]);
       }
     });
     await modal.present();

@@ -74,17 +74,17 @@
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Breed</ion-label>
-      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional" formControlName="breed"></ion-input>
+      <ion-input class="input-text" type="text" id="breed" placeholder="breed is optional"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Age (Weeks)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional" formControlName="age"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="age" placeholder="age is optional"></ion-input>
     </ion-item>
 
     <ion-item [hidden]="(postCategory.value == 'none') || (postCategory.value == 'others')">
       <ion-label class="input-label">Weight (Kg)</ion-label>
-      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional" formControlName="weight"></ion-input>
+      <ion-input class="input-text" type="number" min="1" id="weight" placeholder="weight is optional"></ion-input>
     </ion-item>
 
 
@@ -117,7 +117,7 @@
     <ion-item>
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
       <ion-select id="selectedArea" [(ngModel)]="selectedArea" (ionChange)="areaChange(selectedArea)" formControlName="selectedArea">
-        <ion-select-option [value]="none" [selected]="true" [disabled]="disabled">Select your region</ion-select-option>
+        <ion-select-option value="none" selected="true" disabled="disabled">Select your region</ion-select-option>
         <ion-select-option *ngFor="let area of areaList" [value]=area>{{area}}</ion-select-option>
       </ion-select>
     </ion-item>
