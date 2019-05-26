@@ -18,69 +18,86 @@ import { TestingCompiler } from '@angular/core/testing/src/test_compiler';
 })
 export class ChangePasswordPage implements OnInit {
 
-password;
-repeatpass;
-currentPass;
+  validatePassword : FormGroup;
+  password;
+  repeatpass;
+  currentPass;
+
   constructor(
     private navCtrl: NavController,
     private authService: AuthenticateService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private AlertController:AlertController,
-    private ToastController: ToastController
+    private alertController:AlertController,
+    // private ToastController: ToastController
   
   ) {
     console.log(firebase.auth().currentUser);
     var user = firebase.auth().currentUser;
-  
-
-   }
+  }
 
   ngOnInit() {
+    this.validatePassword = this.formBuilder.group({
+      newPass: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$')   
+      ])),
+      confirmPass : new FormControl('', Validators.compose([
+        Validators.required
+      ]))
+    }, {validator: this.checkMatch});
   }
 
-  async presentToast(msg) {
-    const toast = await this.ToastController.create({
+  passwordValidationMsg = {
+    'newPass': [
+      {type: 'required', message: 'Insert your new password.'}, 
+      {type: 'pattern', message: 'Password must contain at least one digit, upper case, and lower case with minimum 8 characters.'}
+    ],
+    'confirmPass' : [
+      {type: 'required', message: 'Confirm password is required.'}
+    ]
+  };
+
+  checkMatch(group: FormGroup){
+    let newPassword = group.controls.newPass.value;
+    let confirmPassword = group.controls.confirmPass.value;
+
+    if(confirmPassword !== ''){
+      return newPassword === confirmPassword ? null : { notEqual: true };
+    }
+  }
+
+  async presentAlert(msg) {
+    console.log(msg);
+    const alert = await this.alertController.create({
+      header: "Change password",
       message: msg,
-      duration: 2000
+      buttons: ['OK']
     });
-    toast.present();
+    await alert.present();
   }
 
-  changePass() {
+  changePass(pass) {
     var user = firebase.auth().currentUser;
     var credential = firebase.auth.EmailAuthProvider.credential(
         user.email,
         this.currentPass
-    )
-    user.reauthenticateAndRetrieveDataWithCredential(credential).then(function(success) {
-      var pass = (<HTMLInputElement>document.getElementById('password')).value;
-      var repeatpass = (<HTMLInputElement>document.getElementById('repeatPassword')).value;
-
-      if(pass === repeatpass){
-      user.updatePassword(pass).then(function() {
-        // Update successful.
-      //  this.presentToast("Sucess");
-     console.log("SUCESS")
-      }).catch(function(error) {
-       //this.presentToast("ERROR");
-       console.log(error);
-
-      });
-    }else{
-     //this.presentToast("Error");
-     console.log("error");
-
-    }
-
-    }).catch(function(error) {
-     // this.presentToast("ERROR");
-     console.log(error);
+    );
+    user.reauthenticateAndRetrieveDataWithCredential(credential).then((success) => {
+        user.updatePassword(pass).then(() => {
+          // Update successful.
+          this.presentAlert("Your password has been changed.");
+          console.log("SUCESS")
+          this.navCtrl.navigateForward("tabs/tab5");
+        }).catch(function(error) {
+          this.presentAlert(error.message);
+          console.log(error);
+        });
+    }, (error) => {
+        this.presentAlert("Error: Wrong current password.");
+        console.log(error);
     });
-
-  
   }
-
 
   backProfile(){
     this.navCtrl.navigateBack('tabs/tab5');

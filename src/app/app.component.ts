@@ -52,7 +52,7 @@ export class AppComponent {
     const toast = await this.toastCtrl.create({
       message : "Reconnecting...",
       duration : 3000,
-      position : "bottom"
+      position : "top"
     });
     
     toast.present();

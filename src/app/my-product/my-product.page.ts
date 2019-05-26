@@ -49,7 +49,6 @@ export class MyProductPage implements OnInit{
       this.uid = this.authService.user.uid;
       this.getMyPostedAds(this.uid);
     }
-
   }
 
   async getMyPostedAds(uid){
@@ -137,7 +136,7 @@ export class MyProductPage implements OnInit{
       });
     });
     await this.dbService.deleteAd(pid);
-    this.presentAlert("Successfully deleted! Please refresh the page.");
+    this.presentAlert("Successfully deleted!");
     this.refreshPage();
   }
 
@@ -172,5 +171,28 @@ export class MyProductPage implements OnInit{
       buttons: ['OK']
     });
     return await alert.present();
+  }
+
+  async presentDeleteAlert(pid){
+    const alert = await this.alertController.create({
+      header: 'Confirm delete',
+      message: 'Do you want to delete this post?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deletePost(pid);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
