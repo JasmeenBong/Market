@@ -83,6 +83,13 @@ export class InboxPage implements OnInit {
                 })
                 this.count = 0;
                 this.spinnerDialog.hide();
+              }else{
+                const objIndex = this.showAllMsgs.findIndex((obj => obj.email == childSnapshot.val().sender));
+                if(childSnapshot.val().status == "unread"){
+                  this.showAllMsgs[objIndex].count = this.showAllMsgs[objIndex].count + 1;                      
+                }
+                this.count = 0;
+                this.spinnerDialog.hide();
               }
             }
           });
