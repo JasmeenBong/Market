@@ -6,6 +6,7 @@
     border-radius: 100px;
     margin: auto;
     margin-top: 5%;
+    border-width: 5px;
 } 
 
 .ion-color-darkBlue{
@@ -41,15 +42,15 @@ text-align: right;
 }
 .changeIcon {
   position: absolute;
-  top: 82%;
-  background-color: rgba(32, 32, 32, 0.808);
+  top: 83%;
+  background-color: #202020;
   color: white;
-  padding: -15px;
-  left: 50%;
+  padding: 10px;
+  left: 69%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  width: 136px;
-  border-radius: 20px
+  width: 41px;
+  border-radius: 194px;
 }
 
 .container {

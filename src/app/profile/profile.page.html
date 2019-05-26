@@ -6,9 +6,9 @@
       </ion-toolbar>
  </ion-header>
  <ion-content>
-    <div (click)="presentActionSheet()" class="container">
+    <div class="container">
        <img  src="{{profileImage}}" class="profile-pic-profile"/>
-       <div class="changeIcon">Click to change</div>
+       <div class="changeIcon" (click)="presentActionSheet()"><ion-icon name="camera"></ion-icon></div>
 
       </div>
     <ion-item>
