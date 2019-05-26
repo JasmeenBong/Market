@@ -36,7 +36,7 @@
                     <ion-col>
                       <ion-card color="lightBlue">
                         <ion-img (click)="goToPost(0)"  class="recent-image" [src]="recentposts[0].images[0]"></ion-img>
-                        <ion-card-content>
+                        <ion-card-content (click)="goToPost(0)">
                               <p class="postname"><strong>RM {{recentposts[0].price}}</strong> <br> {{recentposts[0].postName}}</p>
                         </ion-card-content>      
                       </ion-card>
@@ -44,7 +44,7 @@
                       <ion-col>
                         <ion-card color="lightBlue">
                             <ion-img  (click)="goToPost(1)" class="recent-image" [src]="recentposts[1].images[0]"></ion-img>                   
-                          <ion-card-content>
+                          <ion-card-content (click)="goToPost(1)">
                               <p class="postname"><strong>RM {{recentposts[1].price}}</strong> <br> {{recentposts[1].postName}}</p>
                           </ion-card-content> 
                         </ion-card>
@@ -55,7 +55,7 @@
                     <ion-col>
                       <ion-card color="lightBlue">
                           <ion-img  (click)="goToPost(2)" class="recent-image" [src]="recentposts[2].images[0]"></ion-img>
-                        <ion-card-content>
+                        <ion-card-content (click)="goToPost(2)">
                             <p class="postname"><strong>RM {{recentposts[2].price}}</strong> <br> {{recentposts[2].postName}}</p>
                         </ion-card-content>
                       </ion-card>
@@ -63,7 +63,7 @@
                       <ion-col>
                         <ion-card color="lightBlue">
                             <ion-img  (click)="goToPost(3)" class="recent-image" [src]="recentposts[3].images[0]"></ion-img>
-                          <ion-card-content>
+                          <ion-card-content (click)="goToPost(3)">
                               <p class="postname"><strong>RM {{recentposts[3].price}}</strong> <br> {{recentposts[3].postName}}</p>
                           </ion-card-content>
                         </ion-card>
