@@ -8,6 +8,9 @@ import { ModalController } from '@ionic/angular';
 })
 export class FilterModalPage implements OnInit {
 
+  selectedPrice;
+  selectedPostTime;
+  
   constructor(private modalController: ModalController) { }
 
   closeModal(){

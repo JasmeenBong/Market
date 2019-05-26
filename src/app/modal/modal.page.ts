@@ -15,6 +15,8 @@ export class ModalPage implements OnInit {
   MalaysiaAreaList = [];
   areaList = [];
   url;
+  selectedRegion;
+  selectedArea;
 
   constructor(private modalController: ModalController, private dbService: DatabaseService, private http: HttpClient,
   private spinnerDialog: SpinnerDialog) {

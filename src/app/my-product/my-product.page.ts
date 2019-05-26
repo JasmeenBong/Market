@@ -48,71 +48,44 @@ export class MyProductPage implements OnInit{
     }
     else {
       this.uid = this.authService.user.uid;
+      this.products = [];
+      this.array = [[],[]];
       this.getMyPostedAds(this.uid);
     }
   }
 
   async getMyPostedAds(uid){
     this.spinnerDialog.hide();
-    this.productList = firebase.database().ref("/posts").orderByChild('uid').equalTo(uid);
-    this.productList.on("value", snapshot=>{
-      this.array = [[],[]];
-      if(snapshot.val() == null || snapshot.val() == undefined){
-        this.noProduct == true;
+    this.array = [[],[]];
+    await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
+      if(value[0] == null || value[0] == undefined){
+        this.noProduct = true;
         this.array = [[],[]];
       }
       else{
         this.noProduct = false;
-        snapshot.forEach(childSnapshot=>{
-          var product = childSnapshot.val();
-          product.id = childSnapshot.key;
-          this.products.push(product);
-        })
-      }
-      console.log(this.products);
-      var count = 0;
-      for(var row =0; row < (this.products.length/2); row++)
-      {
-        this.array[row]=[];
+        this.products = Object.entries(value[0]);
+        var count = 0;
+
+        for(var row =0; row < (this.products.length/2); row++)
+        {
+          this.array[row]=[];
           for(var col=0; col<2; col++){
-              this.array[row][col] = this.products[count];
-              this.array[row][col].pid = this.products[count].id;
-              console.log(this.array);
-              count++;
-            }
+            this.array[row][col] = this.products[count][1];
+            this.array[row][col].pid = this.products[count][0];
+
+            this.now = new Date();
+            let formatedFetchDate = new Date(this.array[row][col].dateTime );
+            let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            console.log(diffDays);
+        
+            count++;
+          }
         }
+      }
     });
   }
-   
-    // this.array = [[],[]];
-    // await Promise.resolve(this.dbService.getProductByOwner(uid)).then(value=> {
-    //   if(value[0] == null || value[0] == undefined){
-    //     this.noProduct = true;
-    //     this.array = [[],[]];
-    //   }
-    //   else{
-    //     this.noProduct = false;
-    //     this.products = Object.entries(value[0]);
-    //     var count = 0;
-
-    //     for(var row =0; row < (this.products.length/2); row++)
-    //     {
-    //       this.array[row]=[];
-    //       for(var col=0; col<2; col++){
-    //         this.array[row][col] = this.products[count][1];
-    //         this.array[row][col].pid = this.products[count][0];
-
-    //         this.now = new Date();
-    //         let formatedFetchDate = new Date(this.array[row][col].dateTime );
-    //         let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
-    //         let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    //         console.log(diffDays);
-        
-    //         count++;
-    //       }
-    //     }
-      // }
-    // });
 
   postNewAd(){
     let navigationExtras: NavigationExtras = {

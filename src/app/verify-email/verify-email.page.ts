@@ -12,7 +12,7 @@ export class VerifyEmailPage implements OnInit {
   email = "";
 
   constructor(
-    private authService : AuthenticateService,
+    public authService : AuthenticateService,
     private router : Router
   ) {
     var user = firebase.auth().currentUser;

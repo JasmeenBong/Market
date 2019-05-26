@@ -18,7 +18,7 @@ export class ReportPage implements OnInit {
   email;
   phonenumber;
   description;
-  private reportForm : FormGroup;
+  public reportForm : FormGroup;
 
   constructor(private modalController : ModalController, private navParams: NavParams, private formBuilder : FormBuilder,
   private dbService : DatabaseService, private alertController: AlertController, private datePipe : DatePipe) {
