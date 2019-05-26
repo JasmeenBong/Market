@@ -1,8 +1,6 @@
 //services for register, login, logout, and get user details
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
@@ -12,9 +10,6 @@ export class AuthenticateService{
   isLoggedin : Boolean;
   user;
   constructor(
-    private googlePlus : GooglePlus,
-    private platform: Platform,
-    private facebook: Facebook,
     private router : Router
   ){}
 

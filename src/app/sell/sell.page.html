@@ -114,10 +114,10 @@
       <span>Please select your region.</span>
     </div>
 
-    <ion-item>
+    <ion-item [disabled]="noRegion == true">
       <ion-label class="input-label" for="selectedArea">Area</ion-label>
       <ion-select id="selectedArea" [(ngModel)]="selectedArea" (ionChange)="areaChange(selectedArea)" formControlName="selectedArea">
-        <ion-select-option value="none" selected="true" disabled="disabled">Select your region</ion-select-option>
+        <ion-select-option value="none" selected="true" disabled="disabled">Select your area</ion-select-option>
         <ion-select-option *ngFor="let area of areaList" [value]=area>{{area}}</ion-select-option>
       </ion-select>
     </ion-item>

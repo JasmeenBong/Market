@@ -19,7 +19,6 @@ import * as firebase from 'firebase';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalPageModule } from './modal/modal.module';
@@ -63,7 +62,6 @@ firebase.initializeApp(environment.firebase);
     ImagePicker,
     Crop,
     Camera,
-    GooglePlus,
     Facebook,
     SMS,
     UserArea,

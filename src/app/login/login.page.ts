@@ -32,7 +32,6 @@ export class LoginPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
       password: new FormControl('', Validators.compose([
-        Validators.minLength(8),
         Validators.required
       ]))
     });
@@ -44,8 +43,7 @@ export class LoginPage implements OnInit {
       {type: 'pattern', message: 'Please enter a valid email.'}
     ],
     'password' : [
-      {type: 'required', message: 'Password is required.'},
-      {type: 'minLength', message: 'Password must be at least 8 characters long.'}
+      {type: 'required', message: 'Password is required.'}
     ]
   };
 
@@ -67,32 +65,6 @@ export class LoginPage implements OnInit {
       this.errorMessage = err.message;
     })
   }
-
-  // LoginWithGoogle(){
-  //   this.authService.googleLogin()
-  //   .then(res => {
-  //       this.errorMessage = "";
-  //       this.authService.user = firebase.auth().currentUser;
-  //       this.authService.isLoggedin = true;
-  //       // this.addToDb();
-  //       this.navCtrl.navigateForward('/tabs/tab5');
-  //   }, err => {
-  //         this.errorMessage = err.message;
-  //   });
-  // }
-
-  // LoginWithFacebook(){
-  //   this.authService.facebookLogin()
-  //   .then(res => {
-  //     this.errorMessage = "";
-  //     this.authService.user = firebase.auth().currentUser;
-  //     this.authService.isLoggedin = true;
-  //     // this.addToDb();
-  //     this.navCtrl.navigateForward('/tabs/tab5');
-  //   }, err => {
-  //     this.errorMessage = err.message;
-  //   });
-  // }
 
   forgotPassword(){
     this.router.navigate(['forgot-password']);

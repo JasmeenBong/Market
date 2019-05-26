@@ -44,7 +44,7 @@
     </div>
 
     <div class="validataion-errors" *ngIf="(validations_form.hasError('notEqual')) && (validations_form.controls.password.valid)">
-        Your passwords do not match. Please try again.
+        <p>Your passwords do not match. Please try again.</p>
       </div>
     <ion-button class="submit-btn" type="submit" [disabled]="!validations_form.valid" fill="solid" expand="block">Register</ion-button>
 

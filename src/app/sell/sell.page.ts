@@ -215,22 +215,6 @@ export class SellPage implements OnInit {
     }
   }
 
-  // uploadImage(){
-  //   this.camera.getPicture({
-  //     sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
-  //     destinationType: this.camera.DestinationType.DATA_URL
-
-  //    }).then((img) => {
-
-  //      if(img!=""){
-  //        this.images.push('data:image/jpeg;base64,' + img);
-  //        this.counter ++;
-  //     }
-  //    }, (err) => {
-  //      console.log(err);
-  //    });
-  // }
-
   uploadImage(){
     let options : ImagePickerOptions = {
       maximumImagesCount : 3,
@@ -274,9 +258,14 @@ export class SellPage implements OnInit {
     console.log("image removed");
   }
 
-  savePost(value){
+  async savePost(value){
     if(value.selectedArea == "none"){
-      this.presentAlert("Please select your area");
+      const alert = await this.alertController.create({
+        header: 'Invalid',
+        message: 'You have not selected your area.',
+        buttons: ['Dismiss']
+      });
+      alert.present();
     }
     else {
       console.log(value);
