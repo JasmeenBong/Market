@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   productList = [];
   array = [[],[]];
   val;
-  takeMeToPost;
+  takeMeToPost = [];
   carousel;
   posts;
   loading = true;
@@ -80,21 +80,29 @@ async recentPosted(){
   this.posts = db.ref('/posts');
 
     this.posts.once('value',(snapshot)=>{
-      snapshot.forEach(child=>{
-      let date1 = new Date();
-      let formatedFetchDate = new Date(child.val().dateTime);
-      let diffTime = Math.abs(formatedFetchDate.getTime() - date1.getTime());
-      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      if(diffDays <= 5){
-        this.recentposts.push(child.val());
+      var count = 0;
+      for(let i = Object.values(snapshot.val()).length; i > 0; i--){
+        if(count < 4){
+          this.recentposts.push(Object.values(snapshot.val())[i-1]);
+          this.takeMeToPost.push(Object.keys(snapshot.val())[i-1]);
+          count ++;
+        }
+        else {
+          break;
+        }
       }
-
-      });
       this.loading = false;
-
         });
 
+}
+
+async goToPost(index){
+  let navigationExtras: NavigationExtras = {
+    queryParams:{
+      pid: this.takeMeToPost[index]
+    }
+  }
+  this.router.navigate(['product'],navigationExtras);
 }
   async getProductsBasedonSearchBar(){
     let navigationExtras: NavigationExtras = {
@@ -125,7 +133,7 @@ async recentPosted(){
       queryParams:{
         category : categoryName
       }
-    }
+    };
     this.router.navigate(['categories'],navigationExtras);
   }
 

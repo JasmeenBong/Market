@@ -30,17 +30,45 @@
       </ion-grid>
       
       <h4>{{recentlyPosted}}</h4>
-      <h6 class="loading" *ngIf="loading === true">{{loadingNotice}}</h6>      
       <hr>
+                <h6 class="loading" *ngIf="loading === true">{{loadingNotice}}</h6>      
+                  <ion-row *ngIf="loading === false">
+                    <ion-col>
+                      <ion-card color="lightBlue">
+                        <ion-img (click)="goToPost(0)"  class="recent-image" [src]="recentposts[0].images[0]"></ion-img>
+                        <ion-card-content>
+                              <p class="postname"><strong>RM {{recentposts[0].price}}</strong> <br> {{recentposts[0].postName}}</p>
+                        </ion-card-content>      
+                      </ion-card>
+                      </ion-col>
+                      <ion-col>
+                        <ion-card color="lightBlue">
+                            <ion-img  (click)="goToPost(1)" class="recent-image" [src]="recentposts[1].images[0]"></ion-img>                   
+                          <ion-card-content>
+                              <p class="postname"><strong>RM {{recentposts[1].price}}</strong> <br> {{recentposts[1].postName}}</p>
+                          </ion-card-content> 
+                        </ion-card>
+                        </ion-col>
+                   </ion-row>
 
-      <ion-slides pager="true">
-          <ion-slide *ngFor="let posts of recentposts">
-                    <ion-card  (click)="goToProduct(posts.postName)" id="recent-posted-card">
-                      <ion-card-title id="recent-titles"> <strong>RM {{posts.price}}</strong><br> {{posts.postName}}</ion-card-title>
-                    <ion-img  class="recent-image" [src] = "posts.images[0]"></ion-img>
-                    </ion-card>
-                  </ion-slide>
-                  </ion-slides>
+                   <ion-row *ngIf="loading === false">
+                    <ion-col>
+                      <ion-card color="lightBlue">
+                          <ion-img  (click)="goToPost(2)" class="recent-image" [src]="recentposts[2].images[0]"></ion-img>
+                        <ion-card-content>
+                            <p class="postname"><strong>RM {{recentposts[2].price}}</strong> <br> {{recentposts[2].postName}}</p>
+                        </ion-card-content>
+                      </ion-card>
+                      </ion-col>
+                      <ion-col>
+                        <ion-card color="lightBlue">
+                            <ion-img  (click)="goToPost(3)" class="recent-image" [src]="recentposts[3].images[0]"></ion-img>
+                          <ion-card-content>
+                              <p class="postname"><strong>RM {{recentposts[3].price}}</strong> <br> {{recentposts[3].postName}}</p>
+                          </ion-card-content>
+                        </ion-card>
+                        </ion-col>
+                   </ion-row>
   
   </ion-content>
   
