@@ -17,7 +17,6 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class MyProductPage implements OnInit{
 
-  productList;
   products = [];
   array;
   now;
@@ -74,11 +73,11 @@ export class MyProductPage implements OnInit{
             this.array[row][col] = this.products[count][1];
             this.array[row][col].pid = this.products[count][0];
 
-            this.now = new Date();
-            let formatedFetchDate = new Date(this.array[row][col].dateTime );
-            let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
-            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            console.log(diffDays);
+            // this.now = new Date();
+            // let formatedFetchDate = new Date(this.array[row][col].dateTime );
+            // let diffTime = Math.abs(formatedFetchDate.getTime() - this.now.getTime());
+            // let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            // console.log(diffDays);
         
             count++;
           }
