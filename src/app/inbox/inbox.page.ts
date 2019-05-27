@@ -45,6 +45,7 @@ export class InboxPage implements OnInit {
     this.subs = firebase.database().ref('/messages');    
     this.subs.on("value",(snapshot)=>{
       this.showAllMsgs = [];
+      this.spinnerDialog.hide();
       snapshot.forEach((childSnapshot)=> {
         if(childSnapshot.val().reciever == this.currentUser.email){
             firebase.database().ref('users').orderByChild('email').equalTo(childSnapshot.val().sender).on('value', (userSnapshot : any) =>{
