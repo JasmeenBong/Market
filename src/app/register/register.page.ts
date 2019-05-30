@@ -56,6 +56,7 @@ export class RegisterPage implements OnInit {
     ]
   };
 
+  //check the matches between password and confirm password
   private checkMatch(group: FormGroup){
     let pass = group.controls.password.value;
     let reEnterPass = group.controls.reEnterPassword.value;

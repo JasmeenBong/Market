@@ -70,6 +70,7 @@ export class SellPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //initialize formGroup
       this.validatePost = this.formBuilder.group({
         title: new FormControl('', Validators.compose([
           Validators.required,
@@ -82,9 +83,6 @@ export class SellPage implements OnInit {
           Validators.required
         ])),
         category: new FormControl(),
-        // breed: new FormControl(),
-	      // age: new FormControl(),
-	      // weight: new FormControl(),
         selectedRegion: new FormControl(),
         selectedArea: new FormControl()
       }
@@ -95,6 +93,7 @@ export class SellPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    //ensure user is logged in
     this.checkUser();
     this.route.queryParams.subscribe(params=> {
       if(params && params.action){
@@ -106,6 +105,7 @@ export class SellPage implements OnInit {
       }
     });
 
+    //set the page title based on the action
     if(this.action == "edit"){
       this.title = "Edit My Ad";
       this.getProductDetails(this.productId);
@@ -115,6 +115,7 @@ export class SellPage implements OnInit {
     }
   }
 
+  //initialize validation messages
   ad_validation_messages = {
     'title': [
       {type: 'required', message: 'Ad title is required.'},
@@ -128,6 +129,7 @@ export class SellPage implements OnInit {
     ]
   };
 
+  //initialize the html element
   initializeElement(){
     this.postTitle = (<HTMLInputElement>document.getElementById("postTitle"));
     this.postCategory = (<HTMLSelectElement>document.getElementById("selectedCategory"));
@@ -139,6 +141,7 @@ export class SellPage implements OnInit {
     this.postRegion = (<HTMLSelectElement>document.getElementById("selectedRegion"));
   }
 
+  //get the malaysia area list from firebase
   async getMalaysiaAreaListFromFirebase(){
     await Promise.resolve(this.dbService.getMalaysiaAreaList()).then(value=> {
         this.MalaysiaAreaList = Object.values(value[0]);
@@ -148,6 +151,7 @@ export class SellPage implements OnInit {
     });
   }
 
+  //check user is logged in
   checkUser(){
     firebase.auth().onAuthStateChanged(user => {
       if (user){
@@ -159,6 +163,7 @@ export class SellPage implements OnInit {
     });
   }
 
+  //get the product details from database if it is edit product action
   getProductDetails(pid){
     Promise.resolve(this.dbService.getProductById(pid)).then(value=> {
        this.myAd = value[0];
@@ -172,6 +177,7 @@ export class SellPage implements OnInit {
      });
   }
 
+  //set the product details from database to the form
   setValue(){
     this.postTitle.value = this.myAd.postName;
     this.postCategory.value = this.myAd.postCategory;
@@ -183,8 +189,8 @@ export class SellPage implements OnInit {
     this.postRegion.value = this.myAd.region;
     this.getAreaList(this.myAd.region);
     this.selectedArea = this.myAd.area;
-    // console.log(this.selectedArea.value);
   }
+
 
   onCategoryChange(event: any){
     if(event.target.value != "none"){

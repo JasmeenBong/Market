@@ -26,6 +26,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //initialize formGroup
     this.validations_form = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -55,7 +56,7 @@ export class LoginPage implements OnInit {
         this.authService.sendVerificationMail();
       }
       else {
-        console.log(res);
+        // console.log(res);
         this.errorMessage = "";
         this.authService.isLoggedin = true;
         this.authService.user = firebase.auth().currentUser;
@@ -70,6 +71,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['forgot-password']);
   }
 
+  //add to database
   async addToDb(){
     var newUser = firebase.auth().currentUser;
 

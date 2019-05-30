@@ -17,6 +17,7 @@ export class SwipedTabPage implements OnInit {
   ngOnInit() {}
 
   changeTitle(action){
+    //set the page title
     if (action == 'signin'){
       (<HTMLScriptElement[]><any>document.getElementsByClassName("signIn"))[0].style.color = "darkblue";
       (<HTMLScriptElement[]><any>document.getElementsByClassName("signIn"))[0].style.fontWeight = "bolder";

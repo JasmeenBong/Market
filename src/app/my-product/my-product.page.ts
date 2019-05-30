@@ -117,7 +117,7 @@ export class MyProductPage implements OnInit{
   refreshPage(){
     this.ngOnInit();
     this.getMyPostedAds(this.uid);
-    console.log("refreshed");
+    // console.log("refreshed");
   }
 
   async deletePost(pid){
@@ -126,8 +126,8 @@ export class MyProductPage implements OnInit{
       snapshot.forEach(childSnapshot=>{
       if(childSnapshot.val().likedProduct != ""){
         this.likedProductarray = childSnapshot.val().likedProduct;
-        console.log(childSnapshot.val().likedProduct);
-        console.log(this.likedProductarray);
+        // console.log(childSnapshot.val().likedProduct);
+        // console.log(this.likedProductarray);
          childSnapshot.val().likedProduct.forEach(id=>{
            if(id == pid){
             this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
@@ -148,8 +148,8 @@ export class MyProductPage implements OnInit{
       snapshot.forEach(childSnapshot=>{
       if(childSnapshot.val().likedProduct != ""){
         this.likedProductarray = childSnapshot.val().likedProduct;
-        console.log(childSnapshot.val().likedProduct);
-        console.log(this.likedProductarray);
+        // console.log(childSnapshot.val().likedProduct);
+        // console.log(this.likedProductarray);
          childSnapshot.val().likedProduct.forEach(id=>{
            if(id == pid){
             this.likedProductarray.splice(this.likedProductarray.indexOf(pid), 1 );
@@ -159,7 +159,7 @@ export class MyProductPage implements OnInit{
          }
         });
       });
-      console.log("SOLD");
+      // console.log("SOLD");
       this.isDisabled = true;
       this.presentAlert("Your ad has been sold hence the system will delete the ad.");
       await this.dbService.deleteAd(pid);
