@@ -31,6 +31,9 @@ export class FavouritePage implements OnInit {
     this.ionViewDidEnter();
   }
 
+  //when the page is enter
+  //if user is not login, go to login page
+  //else get the likedproduct from firebase
   ionViewDidEnter() {
     if(!this.authService.user || this.authService.user == ""){
       this.navCtrl.navigateForward('swiped-tab/login');
@@ -40,7 +43,9 @@ export class FavouritePage implements OnInit {
         this.getLikedProduct();
     }
   }
+  
 
+  //get current user liked product id from firebase
   getLikedProduct(){
     Promise.resolve(this.dbService.getCurrentUser(this.uid)).then(value =>{
      this.likedProductIDarray = Object.values(value[0].likedProduct);
@@ -62,6 +67,7 @@ export class FavouritePage implements OnInit {
     }); 
   }
 
+  //get the details of the product
   getProductDetails(id){
     Promise.resolve(this.dbService.getProductById(id)).then(value => {
       const found = this.likedProductarray.some(el=> el.id === id);
@@ -87,6 +93,7 @@ export class FavouritePage implements OnInit {
     });
   }
 
+  //remove the product from user liked product
   async removeFromLikedProduct(pid){
     const alert = await this.alertController.create({
       header: 'Remove',
@@ -115,7 +122,7 @@ export class FavouritePage implements OnInit {
     return await alert.present();
   }
 
-
+  //go to product page when user click one of the product
   goToProductPage(pid)
   {
     let navigationExtras: NavigationExtras = {

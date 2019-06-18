@@ -11,6 +11,8 @@ export class DatabaseService{
 
   constructor(){}
 
+  //when user register
+  //add new user to user node
   addNewUser(id, email){
     var array = [];
     this.db.ref("users/").child(id).set({
@@ -43,6 +45,7 @@ export class DatabaseService{
     });
   }
 
+  //add a new ad to firebase
   addNewAd(images, title, category, breed, age, weight, details, price, region, area, dateTime, uid){
     this.db.ref("posts/").push().set({
                 age: age,
@@ -63,6 +66,7 @@ export class DatabaseService{
     });
   }
 
+  //update the ad info
   updateAd(images, title, category, breed, age, weight, details, price, region, area, pid){
     this.db.ref("posts/").child(pid).update({
                 age: age,
@@ -80,7 +84,7 @@ export class DatabaseService{
     });
   }
 
-
+ //add the product id to user liked product when user press the heart icon of one of the product
   addToCurrentUserLikedProduct(uid,likedProductarray){
     if(likedProductarray.length){
       this.db.ref("users/").child(uid).update({
@@ -97,51 +101,63 @@ export class DatabaseService{
     }
   }
 
+  //get current user info
   getCurrentUser(id){
     return this.db.ref("users/" + id).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  //get category info
   getCategory(){
       return this.db.ref("categories/").once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  //get product list by category
   getProductListforEachCategories(category){
     return this.db.ref("posts/").orderByChild('postCategory').equalTo(category).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  //get all the product
   getAllProducts(){
     return this.db.ref("posts/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
 
+  //get product details by id
   getProductById(pid){
     return this.db.ref("posts/" + pid).once('value').then(snapshot=>snapshot.val()).then(value=>[value]);
   }
 
+  //get product by seller
   getProductByOwner(uid){
     return this.db.ref("posts/").orderByChild('uid').equalTo(uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  //get the seller info of the product
   getSellerInformation(uid){
     return this.db.ref("users/" + uid).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
+  //get the image of carousel for the home page
   getCarouselImage(){
     return this.db.ref("carousel/").once('value').then(snapshot => snapshot.val()).then(value => [value]);
   }
 
+  //get the area list
   getMalaysiaAreaList(){
     return this.db.ref("location/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
 
+  //get the message
   getAllMessage(){
     return this.db.ref("messages/").once('value').then(snapshot => snapshot.val()).then(value=>[value]);
   }
 
+  //get user info for profile page
   getUserProfilebyEmail(email){
     return this.db.ref("users/").orderByChild('email').equalTo(email).once('value').then(snapshot => snapshot.val()).then(value =>[value]);
   }
 
 
+  //submit report to firebase
   addReporttoFirebase(report,owner,post,time){
     this.db.ref("reports/").push().set({
       timeStamp: time,
@@ -155,6 +171,7 @@ export class DatabaseService{
     });
   }
 
+  //delete an ad
   deleteAd(pid){
     this.db.ref("posts/").child(pid).remove()
     .catch(function(error){

@@ -36,6 +36,7 @@ export class HomePage implements OnInit {
 
   }
 
+  //get categories info from firebase
   async getCategoriesFromFireBase(){
   this.categories = [];
   this.spinnerDialog.show();
@@ -64,17 +65,22 @@ export class HomePage implements OnInit {
     this.loadingNotice = "Hang on";
  }
 
+ //go to product page
 goToProduct(takeMeToPost){
 console.log(takeMeToPost);
 }
 
+//go to my product page
  sell(){
    this.router.navigate(['tabs/tab2']);
  }
+
+ //go to about page
 moreInfo(){
   this.router.navigate(['about']);
 }
 
+//to get and show the recent posted product
 async recentPosted(){
   let db = firebase.database();
   this.posts = db.ref('/posts');
@@ -96,6 +102,7 @@ async recentPosted(){
 
 }
 
+//go to product page when one of the recent posted product is pressed
 async goToPost(index){
   let navigationExtras: NavigationExtras = {
     queryParams:{
@@ -104,6 +111,8 @@ async goToPost(index){
   }
   this.router.navigate(['product'],navigationExtras);
 }
+
+//go to categories page when search bar is pressed
   async getProductsBasedonSearchBar(){
     let navigationExtras: NavigationExtras = {
       queryParams:{
@@ -113,6 +122,7 @@ async goToPost(index){
     this.router.navigate(['categories'],navigationExtras);
   }
 
+  //to get and show the carousel image
   async showCarouselPhoto(){
     this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getCarouselImage()).then(value=> {
@@ -128,6 +138,7 @@ async goToPost(index){
   }
 
 
+  //go to categories page
   goCategoriesPage(categoryName) {
     let navigationExtras: NavigationExtras = {
       queryParams:{

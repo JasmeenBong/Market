@@ -72,6 +72,7 @@ export class ProductPage implements OnInit {
         this.getIdFromCategoriesPage()
     }
 
+    //get the product id from categories page
     getIdFromCategoriesPage() {
         this.route.queryParams.subscribe(params => {
             if (params && params.pid) {
@@ -82,6 +83,8 @@ export class ProductPage implements OnInit {
 
     }
 
+    //check if the current user is login or not
+    //if not ask the user to login
     async checkCurrentUser(){
         if(!this.authService.user || this.authService.user == ""){
           this.askusertoLogin();
@@ -94,6 +97,7 @@ export class ProductPage implements OnInit {
         }
       }
 
+      //show alert to the user asking the user to login
       async askusertoLogin(){
         const alert = await this.alertController.create({
           header: 'Fantastic, you found something you like',
@@ -117,6 +121,8 @@ export class ProductPage implements OnInit {
     }
     
 
+    //check if user is login or not
+    //if yes get the user liked product
     checkCurrentUserWithoutLogin(){
         let user = this.authService.user;
         if(user){
@@ -130,6 +136,7 @@ export class ProductPage implements OnInit {
       }
 
 
+    //get the product details from firebase by id
     async getProductDetailsById(pid) {
         this.checkCurrentUserWithoutLogin();
         this.spinnerDialog.show();
@@ -159,6 +166,9 @@ export class ProductPage implements OnInit {
 
     }
 
+    //get the seller info
+    //check if current user is the seller or not
+    //if yes, disable the chat button
     async getImagesforAvatar(uid) {
         await Promise.resolve(this.dbService.getSellerInformation(uid)).then(value => {
             this.seller = value[0];
@@ -192,34 +202,14 @@ export class ProductPage implements OnInit {
         });
     }
 
-    async shareFacebook() {
-        this.socialSharing.shareViaFacebookWithPasteMessageHint("shareViaFacebook", null, this.images[0]).then(() => {
-            console.log("shareViaFacebook: Success");
-        }).catch(() => {
-            console.error("shareViaFacebook: failed");
-        });
-    }
 
-    async shareWhatsApp() {
-        this.socialSharing.shareViaWhatsApp("shareViaWhatsApp", null, this.images[0]).then(() => {
-            console.log("shareViaWhatsApp: Success");
-        }).catch(() => {
-            console.error("shareViaWhatsApp: failed");
-        });
-    }
-
-    async shareInstagram() {
-        this.socialSharing.shareViaInstagram("shareViaInstagram", 'https://www.google.nl/images/srpr/logo4w.png').then(() => {
-            console.log("shareViaInstagram: Success");
-        }).catch(() => {
-            console.error("shareViaInstagram: failed");
-        });
-    }
-
+  //call the seller
     callSeller() {
         this.callNumber.callNumber(this.seller.phoneNumber, false);
     }
 
+    //when user click report button
+    //alert user to ask user whether they want to make a report or not
     async alertReport() {
         const alert = await this.alertController.create({
             header: 'Report',
@@ -237,6 +227,7 @@ export class ProductPage implements OnInit {
         await alert.present();
     }
 
+    //go to report page
     async gotoReportPage() {
         const modal = await this.modalController.create({
             component: ReportPage,
@@ -249,6 +240,7 @@ export class ProductPage implements OnInit {
         await modal.present();
     }
 
+    //sms the seller
     async smsSeller() {
         this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
           result => console.log('Has permission?'+result.hasPermission),
@@ -298,6 +290,7 @@ export class ProductPage implements OnInit {
         await alert.present();
     }
 
+    //if the message is sent, show an alert telling user that the message is sent
     async presentSentAlert(){
       const alert = await this.alertController.create({
         header: 'Message sent',
@@ -307,6 +300,7 @@ export class ProductPage implements OnInit {
       await alert.present();
     }
 
+    //send email to seller
     sendEmail() {
       console.log(this.seller.email);
         let email = {
@@ -318,15 +312,7 @@ export class ProductPage implements OnInit {
         this.emailComposer.open(email);
     }
 
-    backtoCategoriesPage() {
-        // let navigationExtras: NavigationExtras = {
-        //     queryParams:{
-        //       category : this.product.postCategory
-        //     }
-        //   }
-        this.router.navigate(['/categories']);
-    }
-
+    //add/delete the product id to user liked product when user press the heart icon
     addtoLikedProduct(id){
      this.checkCurrentUser();
      if(this.userInfo){
@@ -350,6 +336,7 @@ export class ProductPage implements OnInit {
      }
     }
 
+    //present toast telling the user the product id is add/remove from the liked product
     async presentToast(msg) {
         const toast = await this.toastController.create({
           message: msg,
@@ -363,6 +350,7 @@ export class ProductPage implements OnInit {
 
       }
 
+  //go to chat page when user click chat button    
   chat(){
 
   this.router.navigate(['/chatbox',{reciever:this.seller.email, sender:firebase.auth().currentUser.email}]);

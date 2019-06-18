@@ -32,6 +32,7 @@ export class ChatboxPage implements OnInit {
   this.showMessage();
   }
 
+  //show the message between the user and seller/buyer
   showMessage(){
   this.reciever = this.route.snapshot.paramMap.get('reciever');
   this.sender = this.route.snapshot.paramMap.get('sender');
@@ -53,6 +54,7 @@ export class ChatboxPage implements OnInit {
       });
   }
   
+  //to send the message to the seller/buyer
   send(){
     this.msg = firebase.database().ref('messages');
     this.msgRef = this.msg.child('/').push({

@@ -27,6 +27,9 @@ export class InboxPage implements OnInit {
     private spinnerDialog: SpinnerDialog, private dbService : DatabaseService, private CD: ChangeDetectorRef) {
   }
 
+  //check if user is login
+  //if not ask user to login
+  //if yes call the get message every 5 seconds
   ionViewWillEnter(){
     if(!this.authService.user || this.authService.user == ""){
       this.navCtrl.navigateForward('swiped-tab/login');
@@ -35,11 +38,12 @@ export class InboxPage implements OnInit {
       this.currentUser = firebase.auth().currentUser;
       this.getMessage();
       setInterval(() => { 
-        this.getMessage(); // Now the "this" still references the component
+        this.getMessage();
      }, 5000);
     }
   }
 
+  //get message from firebase which the sender/receiver is the user
    getMessage(){
     this.spinnerDialog.show();
     this.subs = firebase.database().ref('/messages');    
@@ -131,6 +135,7 @@ export class InboxPage implements OnInit {
     this.ionViewWillEnter();
   }
 
+  //go to the chate page
   getChat(chat){
     this.router.navigate(['/chatbox',{sender:firebase.auth().currentUser.email, reciever:chat}]);
 

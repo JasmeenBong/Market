@@ -13,10 +13,12 @@ export class FilterModalPage implements OnInit {
   
   constructor(private modalController: ModalController) { }
 
+  //close modal
   closeModal(){
     this.modalController.dismiss();
   }
 
+  //pass the price and time selected to the categories page
   passDataBack(price,postTime){
     this.modalController.dismiss({price: price, postTime: postTime});
   }

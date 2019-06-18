@@ -23,10 +23,12 @@ export class ModalPage implements OnInit {
     this.getMalaysiaAreaListFromFirebase();
 }
 
+ //close the modal
   closeModal(){
     this.modalController.dismiss();
   }
 
+  //get malaysia area list from firebase
   async getMalaysiaAreaListFromFirebase(){
     this.spinnerDialog.show();
     await Promise.resolve(this.dbService.getMalaysiaAreaList()).then(value=> {
@@ -38,6 +40,7 @@ export class ModalPage implements OnInit {
     });
   }
 
+  //get the area list when user select the region
   getAreaList(region){
     for(var i = 0; i < this.MalaysiaAreaList.length; i ++){
       if(this.MalaysiaAreaList[i].region == region){
@@ -46,6 +49,7 @@ export class ModalPage implements OnInit {
     }
   }
 
+  //pass the data back to the categories page
   passDataBack(area){
     this.modalController.dismiss({area: area});
   }

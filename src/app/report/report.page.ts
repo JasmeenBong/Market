@@ -24,6 +24,9 @@ export class ReportPage implements OnInit {
   private dbService : DatabaseService, private alertController: AlertController, private datePipe : DatePipe) {
     this.postName = this.navParams.get('postName');
     this.ownerEmail = this.navParams.get('ownerEmail');
+
+    //form builder
+    //validate the form to match the format and pattern
     this.reportForm = this.formBuilder.group({
       name: new FormControl('', Validators.compose([
         Validators.required,
@@ -43,15 +46,20 @@ export class ReportPage implements OnInit {
     this.initializeElement();
   }
 
+  //close the modal
   closeModal(){
       this.modalController.dismiss();
     }
 
+  //when the form is valid
+  //submit the form to the firebase
+  //alert user that the report is submitted
   logForm(){
      this.dbService.addReporttoFirebase(this.reportForm.value, this.ownerEmail, this.postName,this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss'));
      this.presentAlert("Your report is submitted!");
   }
 
+  //alert user that the report is submitted
   async presentAlert(msg) {
     const alert = await this.alertController.create({
       header: 'Success',
@@ -72,6 +80,7 @@ export class ReportPage implements OnInit {
 
   }
 
+  //error message when the form is not valid
   report_validation_messages = {
     'name': [
       {type: 'required', message: 'Name is required.'},
@@ -89,7 +98,7 @@ export class ReportPage implements OnInit {
     ]
   };
 
-
+  //to initialize the element by getElementById
   initializeElement(){
     this.name = (<HTMLInputElement>document.getElementById("name"));
     this.email = (<HTMLSelectElement>document.getElementById("email"));

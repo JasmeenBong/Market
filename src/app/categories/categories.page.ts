@@ -35,13 +35,17 @@ export class CategoriesPage implements OnInit {
     this.getCategoriesFromHomePage()
   }
 
+  //when the page is enter
+  //check if the user is login or not
+  //if the likedproduct of the user is different that the likedproductarray that is previous stored, then print the product list
   ionViewWillEnter(){
     this.checkCurrentUserWithoutLogin();
     if(Object.values(this.userInfo.likedProduct) != this.likedProductarray){
-    console.log('enter');
     this.printOutProductList();
     }
   }
+
+ //get category from the home page when user press one of the categories
   getCategoriesFromHomePage(){
      this.route.queryParams.subscribe(params=> {
        if(params && params.category){
@@ -50,7 +54,9 @@ export class CategoriesPage implements OnInit {
        }
      })
   }
-
+ 
+  //check if the user is login or not
+  //if yes, get the liked product array
   async checkCurrentUserWithoutLogin(){
     let user = this.authService.user;
     if(user){
@@ -63,6 +69,7 @@ export class CategoriesPage implements OnInit {
     }
   }
 
+  //print out the product list
   async printOutProductList(){
     this.array=[[],[]];
     await this.checkCurrentUserWithoutLogin();
@@ -100,6 +107,7 @@ export class CategoriesPage implements OnInit {
     }
   }
 
+  //sort the product list by time, location and price
   sortBy(time,location,price){
     if(this.location == "Malaysia")
     {
@@ -253,61 +261,7 @@ export class CategoriesPage implements OnInit {
     }
   }
 
-  // sortByTime(time){
-  //   if(time == "Oldest to Newest"){
-  //     this.products.sort(function(a,b){
-  //       var time1 : any = new Date(a[1].dateTime);
-  //       var time2 : any = new Date(b[1].dateTime)
-  //       return time1 - time2;
-  //     });
-  //   }else if(time == "Newest to Oldest"){
-  //     this.products.sort(function(a,b){
-  //       var time1 : any = new Date(a[1].dateTime);
-  //       var time2 : any = new Date(b[1].dateTime)
-  //       return time2 - time1;
-  //     });
-  //   }else{
-  //     this.products = this.products;
-  //   }
-  //   this.printOutProductList();
-  // }
-
-  // sortByPrice(price){
-  //   if(price == "Lowest to Highest"){
-  //     this.products.sort(function(a, b) {
-  //       return parseFloat(a[1].price) - parseFloat(b[1].price);
-  //     });
-  //   }else if(price == "Highest to Lowest"){
-  //     this.products.sort(function(a, b) {
-  //       return parseFloat(b[1].price) - parseFloat(a[1].price);
-  //     });
-  //   }else{
-  //     this.products = this.products;
-  //   }
-  //   this.printOutProductList();
-  // }
-
-  // sortByLocation(){
-  //   if(this.location == "Malaysia")
-  //   {
-  //     this.printOutProductList();
-  //   }
-  //   else{
-  //     var count = 0;
-  //     for(var row =0; row < (this.products.length/2); row++)
-  //     {
-  //       this.array[row] = [];
-  //       for(var col=0; col<2; col++){
-  //         if(this.products[count][1].area == this.location[0]){
-  //           this.array[row][col] = this.products[count][1];
-  //           this.array[row][col].pid = this.products[count][0];
-  //         }
-  //           count++;
-  //       }
-  //     }
-  //   }
-  // }
-
+  //get product list by category get from the home page from the firebase
   async getProductListFromFireBase(category){
     this.spinnerDialog.show();
     if(category == "All"){
@@ -341,6 +295,7 @@ export class CategoriesPage implements OnInit {
     }
   }
 
+  //go to the product page when user press one of the product by passing the product id
   goToProductPage(pid)
   {
     let navigationExtras: NavigationExtras = {
@@ -351,6 +306,8 @@ export class CategoriesPage implements OnInit {
     this.router.navigate(['product'],navigationExtras);
   }
 
+  //open location filter page as a modal
+  //get the option selected by the user and sort/filter the product list
   async openLocationModal() {
   const modal = await this.modalController.create({
     component: ModalPage,
@@ -363,6 +320,8 @@ export class CategoriesPage implements OnInit {
   await modal.present();
 }
 
+//open time and price filter page as a modal
+  //get the option selected by the user and sort/filter the product list
   async openFilterModal() {
     const modal = await this.modalController.create({
       component: FilterModalPage,
@@ -382,6 +341,8 @@ export class CategoriesPage implements OnInit {
     await modal.present();
   }
 
+//show alert when user click the categories tab
+//get the option selected by the user and change the product list
 async openAlert(){
     var inputs = [];
 
@@ -416,6 +377,8 @@ async openAlert(){
 
   }
 
+  //for the heart icon
+  //when user click the heart icon, if the user haven't login, ask user to login
   async checkCurrentUser(){
     if(!this.authService.user || this.authService.user == ""){
       this.askusertoLogin();
@@ -428,6 +391,7 @@ async openAlert(){
     }
   }
 
+  //when user click the heart icon, add or delete the product from the likedProduct 
   async addtoLikedProduct(pid,col){
     await this.checkCurrentUser();
     if(this.userInfo){
@@ -451,6 +415,7 @@ async openAlert(){
     }
   }
 
+  //filter function for search bar
   getProductsBasedonSearchBar(ev){
     this.val = ev.target.value;
     if(this.val && this.val.trim() !== ''){
@@ -461,11 +426,11 @@ async openAlert(){
     this.printOutProductList();
     }
     else{
-      // console.log(this.categories);
       this.getCategoriesFromHomePage();
     }
   }
 
+  //toast when user click the heart icon of the product
   async presentToast(msg) {
       const toast = await this.toastController.create({
         message: msg,
@@ -474,6 +439,7 @@ async openAlert(){
       toast.present();
     }
 
+  //alert asking user to login
   async askusertoLogin(){
       const alert = await this.alertController.create({
         header: 'Fantastic, you found something you like',
@@ -496,6 +462,7 @@ async openAlert(){
       return await alert.present();
   }
 
+  //go back to home page
   goToHomePage(){
     this.navCtrl.navigateBack('tabs/tab1');
   }
